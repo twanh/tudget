@@ -1,3 +1,14 @@
 from django.db import models
+from tudget.accounts.models import Account
 
-# Create your models here.
+
+class SavingsAccount(Account):
+    """
+    A savingsAccount is a special type of account that holds savings money, it is therefore deactivated.
+    Also it cotains a TextField for the user to give a reason to save this money.
+    """
+    active = models.BooleanField(default=False)
+    reason = models.TextField(blank=True)
+
+
+
