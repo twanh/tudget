@@ -13,8 +13,8 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     account = models.ForeignKey('accounts.Account', on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    category = models.ForeignKey('groupings.Category', on_delete=models.CASCADE, blank=True,)
-    tags = models.ManyToManyField('groupings.Tag', blank=True)
+    category = models.ForeignKey('groupings.Category', on_delete=models.CASCADE, blank=True,  null=True)
+    tags = models.ManyToManyField('groupings.Tag', blank=True, null=True)
     spendOn = models.DateField(auto_now_add=True)
     _createdOn = models.DateTimeField(auto_now=True)
 
