@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
+
 class Account(models.Model):
     """
     Account model, keep track of details of the account
