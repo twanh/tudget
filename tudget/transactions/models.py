@@ -1,5 +1,7 @@
 from django.db import models
+from django.db.models.signals import post_save
 
+from accounts.models import Account
 
 class Transaction(models.Model):
     """
@@ -20,7 +22,6 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f'Transaction: {self.amount}'
-# TODO: Create signals to update the balance!!!
 
 
 class Expense(Transaction):
@@ -36,4 +37,20 @@ class Income(Transaction):
     """
     type = models.CharField(default='income', editable=False, max_length=10)  # Auto add type
 
+# SIGNAL handling
+# We use signals to update the balance of the account after an expense or income has been created/updated, aka saved.
+
+
+def update_balance(sender, instance,  **kwargs):
+    if instance.type == 'expense':
+        new_accnt_balance = instance.account.balance - instance.amount
+        Account.objects.filter(pk=instance.account.pk).update(balance=new_accnt_balance)
+    elif instance.type == 'income':
+        new_accnt_balance = instance.account.balance + instance.amount
+        Account.ordering.filter(pk=instance.account.pk).update(balance=new_accnt_balance)
+    else:
+        raise Exception("[transactions] Non valid type")
+
+
+post_save.connect(update_balance, sender=Expense)
 
