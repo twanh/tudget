@@ -9,7 +9,7 @@ class Budget(models.Model):
     reason = models.TextField(blank=True)   # Description of the budget
     filterCategory = models.ForeignKey('groupings.Category', on_delete=models.CASCADE)  # Link to the category it
     # needs to keep track of.
-    transactions = models.ManyToManyField('transactions.Transaction')  # Link to the transactions that apply to the
+    transactions = models.ManyToManyField('transactions.Expense')  # Link to the transactions that apply to the
     # budget
     active = models.BooleanField(default=True)  # If the budget is still in active use
     _createdOn = models.DateTimeField(auto_now=True)  # Auto created for easy sorting
