@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 
 from accounts.models import Account
 
+
 class Transaction(models.Model):
     """
     Model for the users transactions.
@@ -42,15 +43,10 @@ class Income(Transaction):
 
 
 def update_balance(sender, instance,  **kwargs):
-    if instance.type == 'expense':
-        new_accnt_balance = instance.account.balance - instance.amount
-        Account.objects.filter(pk=instance.account.pk).update(balance=new_accnt_balance)
-    elif instance.type == 'income':
-        new_accnt_balance = instance.account.balance + instance.amount
-        Account.ordering.filter(pk=instance.account.pk).update(balance=new_accnt_balance)
-    else:
-        raise Exception("[transactions] Non valid type")
+    # Run the static method on the Account model that calculated the current account balance
+    Account.calculate_balance(instance.account.pk)
 
 
+# Connect both expense and income models to the post_save signal.
 post_save.connect(update_balance, sender=Expense)
-
+post_save.connect(update_balance, sender=Income)
