@@ -32,17 +32,11 @@ class Account(models.Model):
             # We need to check if there are expenses added
             if account.expense_set:
                 # Calculate the balance minus all the expenses
-                expenses = account.expense_set.all()
-                for expense in expenses:
-                    cur_balance -= expense.amount
-                    print(cur_balance, expense.amount)
+                cur_balance -= sum([exp.amount for exp in account.expense_set.all()])
             # Need to check if there are income transactions added
             if account.income_set:
                 # Calculate the balance w/ all the income added
-                income = account.income_set.all()
-                for inc in income:
-                    cur_balance += inc.amount
-                    print(cur_balance, inc.amount)
+                cur_balance += sum([exp.amount for exp in account.income_set.all()])
             # Update and save account
             account.balance = cur_balance
             account.save()
