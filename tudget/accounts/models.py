@@ -14,3 +14,5 @@ class Account(models.Model):
     # Note: Has a ManyToOne relation with transactions, although this is defined in the transaction model.
     #       One account has many transactions.
 
+    def __str__(self):
+        return f'Account: {self.name}, balance: {self.balance}'

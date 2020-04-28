@@ -18,6 +18,8 @@ class Transaction(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return f'Transaction: {self.amount}'
 # TODO: Create signals to update the balance!!!
 
 

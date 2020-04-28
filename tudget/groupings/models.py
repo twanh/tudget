@@ -7,12 +7,15 @@ class Category(models.Model):
     A category has many transitions related to it, but a transition can only have one category.
     """
     name = models.CharField(max_length=50)  # The name of the category
-    description = models.TextField(blank=True)   # The description of the category
+    description = models.TextField(blank=True)  # The description of the category
     color = models.CharField(max_length=6, blank=True)  # Represented as a hex-code #123456 (hex not counted in len)
     icon = models.CharField(max_length=50, blank=True)  # Allow there to be icons. Not implemented in any way
 
     # Note: Has a OneToMany relation with a Transactions (this is defined in the Transaction model)
     #       --> One Category has Many Transactions
+
+    def __str__(self):
+        return f'Category: {self.name}'
 
 
 class Tag(models.Model):
@@ -25,3 +28,6 @@ class Tag(models.Model):
 
     # Note: Has a ManyToMany relation w/ transactions (defined in transaction model)
     #       --> A Transaction can have many tags, and a tag can have many transactions.
+
+    def __str__(self):
+        return f'Tag: {self.name}'
