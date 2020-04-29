@@ -24,8 +24,6 @@ class Budget(models.Model):
     def __str__(self):
         return f'{self.name} - {self.filterCategory}'
 
-    # TODO: Create signal that checks if a transaction adds to a budget.
-
 
 class CurrencyBudget(Budget):
     """
@@ -39,8 +37,6 @@ class CurrencyBudget(Budget):
         Calculate the used budget based on all the expenses linked to the budget (the expenses in the filteredCategory).
         :return: int - The current amount of money spend in the budget.
         """
-        # TODO: Check using own transactions???
-        print('[debug]: in calc used budget')
         return sum([exp.amount for exp in self.filterCategory.expense_set.all()])
 
     def update_used_budget(self):
