@@ -13,3 +13,8 @@
 ### Frontend
 
 
+### General things to think about :)
+ - Should account balance be read only?
+    -> Would make it that it can only be updated w/ income/expense
+    
+   
