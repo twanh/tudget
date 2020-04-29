@@ -26,5 +26,6 @@ urlpatterns = [
     path(f'{API_URL_PREFIX}budgets/', include('budgets.urls')),
     # api/groupings/
     path(f'{API_URL_PREFIX}groupings/', include('groupings.urls')),
-
+    # api/savings/
+    path(f"{API_URL_PREFIX}savings/", include('savings.urls'))
 ]

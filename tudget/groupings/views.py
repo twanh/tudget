@@ -7,7 +7,7 @@ from .serializers import CategorySerializer, TagSerializer
 
 # Category Views
 
-class ListAllCategories(generics.ListCreateAPIView):
+class ListAllCategoriesView(generics.ListCreateAPIView):
     """
     Lists all the categories and add post method to create a new Category
     url: api/groupings/categories/
@@ -20,7 +20,7 @@ class ListAllCategories(generics.ListCreateAPIView):
     serializer_class = CategorySerializer
 
 
-class UpdateCategory(generics.UpdateAPIView):
+class UpdateCategoryView(generics.UpdateAPIView):
     """
         Update the category with specific primary key (<pk>)
         url: api/groupings/categories/<pk>/
@@ -33,7 +33,7 @@ class UpdateCategory(generics.UpdateAPIView):
     serializer_class = CategorySerializer
 
 
-class DeleteCategory(generics.RetrieveAPIView):
+class DeleteCategoryView(generics.RetrieveAPIView):
     """
         Delete the category with specified primary key (<pk>).
         url: api/groupings/categories/<pk>/delete/
@@ -55,7 +55,7 @@ class DeleteCategory(generics.RetrieveAPIView):
 # Tag views
 
 
-class ListAllTags(generics.ListCreateAPIView):
+class ListAllTagsView(generics.ListCreateAPIView):
     """
     Lists all the tags and add post method to create a new tag
     url: api/groupings/tags/
@@ -68,7 +68,7 @@ class ListAllTags(generics.ListCreateAPIView):
     serializer_class = TagSerializer
 
 
-class UpdateTag(generics.UpdateAPIView):
+class UpdateTagView(generics.UpdateAPIView):
     """
     Update the specified tag with primary key (pk)
     url: api/groupings/tags/<pk>/
@@ -81,7 +81,7 @@ class UpdateTag(generics.UpdateAPIView):
     serializer_class = TagSerializer
 
 
-class DeleteTag(generics.RetrieveAPIView):
+class DeleteTagView(generics.RetrieveAPIView):
     """
     Delete an  tag with primary key (pk), we use get method for consistency
     url: api/groupings/tags/<pk>/delete/

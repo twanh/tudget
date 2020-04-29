@@ -58,7 +58,7 @@ class DeleteCurrencyBudget(generics.RetrieveAPIView):
 
 # TransactionBudgets views
 
-class ListAllTransactionBudgets(generics.ListCreateAPIView):
+class ListAllTransactionBudgetsView(generics.ListCreateAPIView):
     """
     Lists all the transaction budgets and allows you to create a new one.
     url: api/budgets/transaction/
@@ -72,7 +72,7 @@ class ListAllTransactionBudgets(generics.ListCreateAPIView):
     serializer_class = TransactionBudgetSerializer
 
 
-class UpdateTransactionBudget(generics.UpdateAPIView):
+class UpdateTransactionBudgetView(generics.UpdateAPIView):
     """
     Update the budget with a specified primary key (pk).
     url: api/budgets/transaction/<pk>/
@@ -85,7 +85,7 @@ class UpdateTransactionBudget(generics.UpdateAPIView):
     serializer_class = TransactionBudgetSerializer
 
 
-class DeleteTransactionBudget(generics.RetrieveAPIView):
+class DeleteTransactionBudgetView(generics.RetrieveAPIView):
     """
     Deletes an budget by setting its active property to false.
     url: api/budgets/transaction/<pk>/delete
