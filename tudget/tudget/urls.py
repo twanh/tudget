@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # api/accounts/list/
     path(f'{API_URL_PREFIX}accounts/', include('accounts.urls')),
+    path(f'{API_URL_PREFIX}budgets/', include('budgets.urls')),
+
 ]
