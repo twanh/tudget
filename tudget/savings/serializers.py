@@ -8,5 +8,5 @@ class SavingsAccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SavingsAccount
-        fields = ['name', 'description', 'balance', 'active', 'reason']
-        read_only_fields = ['_createdOn']
+        fields = ['pk', 'name', 'description', 'balance', 'active', 'reason']
+        read_only_fields = ['pk', '_createdOn']
