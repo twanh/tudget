@@ -47,7 +47,7 @@ class CurrencyBudget(Budget):
         :return: None
         """
         try:
-            budget = Budget.objects.get(pk=pk)
+            budget = CurrencyBudget.objects.get(pk=pk)
             used = budget.calc_used_budget()
             budget.current = used
             budget.save()
@@ -62,3 +62,20 @@ class TransactionBudget(Budget):
     maxTransactions = models.IntegerField()  # Based on number of transactions
     current = models.IntegerField(default=0)  # Current amount of transactions
 
+    def calc_used_budget(self):
+        """
+        Calculate the amount of transactions done.
+        :return: int - The amount of expenses in the filteredCategory
+        """
+        return len(self.filterCategory.expense_set.all())
+
+    @staticmethod
+    def update_used_budget(pk):
+        try:
+            budget = TransactionBudget.objects.get(pk=pk)
+            n_transactions = budget.calc_used_budget()
+            budget.current = n_transactions
+            budget.save()
+
+        except ObjectDoesNotExist:
+            print(f'[BUDGET] Budget with pk={pk} does not exist! Could not update current field.')
