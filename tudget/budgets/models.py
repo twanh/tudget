@@ -38,6 +38,7 @@ class CurrencyBudget(Budget):
         Calculate the used budget based on all the expenses linked to the budget (the expenses in the filteredCategory).
         :return: int - The current amount of money spend in the budget.
         """
+        # TODO: Check using own transactions???
         return sum([exp.amount for exp in self.filterCategory.expense_set.all()])
 
     @staticmethod
