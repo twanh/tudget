@@ -20,8 +20,11 @@ API_URL_PREFIX = 'api/'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # api/accounts/list/
+    # api/accounts/
     path(f'{API_URL_PREFIX}accounts/', include('accounts.urls')),
+    # api/budgets/
     path(f'{API_URL_PREFIX}budgets/', include('budgets.urls')),
+    # api/groupings/
+    path(f'{API_URL_PREFIX}groupings/', include('groupings.urls')),
 
 ]
