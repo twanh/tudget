@@ -1,7 +1,7 @@
 # TODO
 
 ### Backend server
-- [ ] Create api
+- [x] Create api
 - [x] Budget calculation (also transaction budget)
 - [ ] Warning system when exceeding budget?
 - [ ] Savings updater / add money to saving --> subtract from main accnt
