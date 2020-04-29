@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 
@@ -33,8 +34,25 @@ class CurrencyBudget(Budget):
     current = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)  # Current amount
 
     def calc_used_budget(self):
+        """
+        Calculate the used budget based on all the expenses linked to the budget (the expenses in the filteredCategory).
+        :return: int - The current amount of money spend in the budget.
+        """
         return sum([exp.amount for exp in self.filterCategory.expense_set.all()])
 
+    @staticmethod
+    def update_used_budget(pk):
+        """
+        :arg pk: int - The primary key of the account to update the used (current) budget.
+        :return: None
+        """
+        try:
+            budget = Budget.objects.get(pk=pk)
+            used = budget.calc_used_budget()
+            budget.current = used
+            budget.save()
+        except ObjectDoesNotExist:
+            print(f"[BUDGET] Budget with pk={pk} does not exist! Could not update current field.")
 
 
 class TransactionBudget(Budget):
