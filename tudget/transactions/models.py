@@ -49,12 +49,16 @@ def update_balance(sender, instance,  **kwargs):
 
 
 def check_and_update_budget(sender, instance, **kwargs):
-    # Check if used category is part of a budget
+    # Check if the expense has an category attached, otherwise it cannot be part of a budget
     if instance.category:
+        # Check if there are budgets attached (should not assume so)
         budgets_attached = instance.category.has_budget_attached()
+        # Has budgets attached returns Bool[1], the first item (0) is true if there are currency budgets
+        # Therefore we check it
         if budgets_attached[0]:
             for budget in instance.category.currencybudget_set.all():
                 budget.update_used_budget()
+        # The second item [1], is related to the transactionbuget_set
         if budgets_attached[1]:
             for budget in instance.category.transactionbudget_set.all():
                 budget.update_used_budget()

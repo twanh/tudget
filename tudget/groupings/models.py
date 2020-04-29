@@ -19,9 +19,8 @@ class Category(models.Model):
 
     def has_budget_attached(self):
         """
-        Check if a category with pk=pk has budgets attached
-        :param pk: int - The primary key of the category to check
-        :return: bool, bool
+        Check if a category has budgets attached
+        :return: Bool[1]
         """
         cur = False
         trans = False
@@ -32,6 +31,7 @@ class Category(models.Model):
         if self.transactionbudget_set and len(self.transactionbudget_set.all()) >= 1:
             trans = True
 
+        # Cur is True if there are currency budgets attached, and trans is True if there is a transaction budget attached.
         return [cur, trans]
 
 
