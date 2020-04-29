@@ -3,7 +3,7 @@ from rest_framework import serializers
 from transactions.models import Expense, Income
 
 
-class ExpenseSerializer(serializers):
+class ExpenseSerializer(serializers.ModelSerializer):
     """" Serializer for the Expense model """
 
     class Meta:
@@ -12,7 +12,7 @@ class ExpenseSerializer(serializers):
         read_only_fields = ['createdOn', 'type']
 
 
-class IncomeSerializer(serializers):
+class IncomeSerializer(serializers.ModelSerializer):
     """" Income for the Expense model """
 
     class Meta:
