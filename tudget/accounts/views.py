@@ -23,7 +23,7 @@ class UpdateAccountView(generics.UpdateAPIView):
     Updates the account
     url: api/accounts/<pk>
     methods:
-        - path
+        - patch
         - put
     """
     queryset = Account.objects.all()
