@@ -1,14 +1,14 @@
 from rest_framework import serializers
 from accounts.models import Account
 
-from transactions.serializers import ExpenseSerializer, IncomeSerializer
+from transactions.serializers import BasicExpenseSerializer, BasicIncomeSerializer
 
 
 class AccountSerializer(serializers.ModelSerializer):
     """ Serializer for the Account model. """
     # Set the relation w/ the transaction model
-    expense_set = ExpenseSerializer(many=True)
-    income_set = IncomeSerializer(many=True)
+    expense_set = BasicExpenseSerializer(many=True)
+    income_set = BasicIncomeSerializer(many=True)
 
     class Meta:
         model = Account

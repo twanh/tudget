@@ -20,3 +20,20 @@ class IncomeSerializer(serializers.ModelSerializer):
         fields = ['name', 'amount', 'account', 'description', 'category', 'tags', 'spendOn']
         read_only_fields = ['createdOn', 'type']
 
+
+class BasicExpenseSerializer(serializers.ModelSerializer):
+    """" Serializer for the Expense model """
+
+    class Meta:
+        model = Expense
+        fields = ['pk', 'name', 'amount']
+        read_only_fields = ['createdOn', 'type']
+
+
+class BasicIncomeSerializer(serializers.ModelSerializer):
+    """" Income for the Expense model """
+
+    class Meta:
+        model = Income
+        fields = ['pk', 'name', 'amount']
+
