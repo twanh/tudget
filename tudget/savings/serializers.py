@@ -5,8 +5,6 @@ from savings.models import SavingsAccount
 
 class SavingsAccountSerializer(serializers.ModelSerializer):
     """ Serializer for the SavingsAccount model. """
-    # Set the relation w/ the transaction model
-    transactions = serializers.RelatedField(source='transactions.Transaction', many=True, read_only=True)
 
     class Meta:
         model = SavingsAccount
