@@ -46,6 +46,7 @@ def update_balance(sender, instance,  **kwargs):
     # Run the static method on the Account model that calculated the current account balance
     Account.calculate_balance(instance.account.pk)
 
+# TODO: Update connected budgets?
 
 # Connect both expense and income models to the post_save signal.
 post_save.connect(update_balance, sender=Expense)

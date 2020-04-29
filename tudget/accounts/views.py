@@ -33,6 +33,8 @@ class UpdateAccountView(generics.UpdateAPIView):
 class DeleteAccountView(generics.RetrieveAPIView):
     """
     Deletes an accounts, accounts do not get deleted, so we just put active=false
+    url: api/accounts/<pk>/delete
+    methods: get
     """
 
     queryset = Account.objects.filter(active=True)
