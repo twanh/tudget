@@ -2,7 +2,8 @@ from django.db import models
 from django.db.models.signals import post_save
 
 from accounts.models import Account
-
+from groupings.models import Category
+from budgets.models import CurrencyBudget, TransactionBudget
 
 class Transaction(models.Model):
     """
@@ -46,8 +47,21 @@ def update_balance(sender, instance,  **kwargs):
     # Run the static method on the Account model that calculated the current account balance
     Account.calculate_balance(instance.account.pk)
 
-# TODO: Update connected budgets?
+
+def check_and_update_budget(sender, instance, **kwargs):
+    # Check if used category is part of a budget
+    if instance.category:
+        budgets_attached = instance.category.has_budget_attached()
+        if budgets_attached[0]:
+            for budget in instance.category.currencybudget_set.all():
+                budget.update_used_budget()
+        if budgets_attached[1]:
+            for budget in instance.category.transactionbudget_set.all():
+                budget.update_used_budget()
+
 
 # Connect both expense and income models to the post_save signal.
 post_save.connect(update_balance, sender=Expense)
+post_save.connect(check_and_update_budget, sender=Expense)
+
 post_save.connect(update_balance, sender=Income)

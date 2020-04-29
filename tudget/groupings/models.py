@@ -17,23 +17,22 @@ class Category(models.Model):
     def __str__(self):
         return f'Category: {self.name}'
 
-    @staticmethod
-    def has_budget_attached(pk):
+    def has_budget_attached(self):
         """
         Check if a category with pk=pk has budgets attached
         :param pk: int - The primary key of the category to check
         :return: bool, bool
         """
-        cat = Category.objects.get(pk=pk)
-        cur, trans = False
+        cur = False
+        trans = False
 
-        if len(cat.currencybudget_set.all()) >= 1:
+        if self.currencybudget_set and len(self.currencybudget_set.all()) >= 1:
             cur = True
 
-        if len(cat.transactionsbudget_set.all()) >= 1:
+        if self.transactionbudget_set and len(self.transactionbudget_set.all()) >= 1:
             trans = True
 
-        return cur, trans
+        return [cur, trans]
 
 
 class Tag(models.Model):

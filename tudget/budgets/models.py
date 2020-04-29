@@ -10,6 +10,7 @@ class Budget(models.Model):
     reason = models.TextField(blank=True)   # Description of the budget
     filterCategory = models.ForeignKey('groupings.Category', on_delete=models.CASCADE)  # Link to the category it
     # needs to keep track of.
+    # Transactions are not really nessesary anymore, because we calculate using the category.
     transactions = models.ManyToManyField('transactions.Expense', blank=True)  # Link to the transactions that apply to the
     # budget
     active = models.BooleanField(default=True)  # If the budget is still in active use
@@ -39,21 +40,16 @@ class CurrencyBudget(Budget):
         :return: int - The current amount of money spend in the budget.
         """
         # TODO: Check using own transactions???
+        print('[debug]: in calc used budget')
         return sum([exp.amount for exp in self.filterCategory.expense_set.all()])
 
-    @staticmethod
-    def update_used_budget(pk):
+    def update_used_budget(self):
         """
-        :arg pk: int - The primary key of the account to update the used (current) budget.
+        Updates it's current property based on how much has been spend.
         :return: None
         """
-        try:
-            budget = CurrencyBudget.objects.get(pk=pk)
-            used = budget.calc_used_budget()
-            budget.current = used
-            budget.save()
-        except ObjectDoesNotExist:
-            print(f"[BUDGET] Budget with pk={pk} does not exist! Could not update current field.")
+        self.current = self.calc_used_budget()
+        self.save()
 
 
 class TransactionBudget(Budget):
@@ -70,13 +66,11 @@ class TransactionBudget(Budget):
         """
         return len(self.filterCategory.expense_set.all())
 
-    @staticmethod
-    def update_used_budget(pk):
-        try:
-            budget = TransactionBudget.objects.get(pk=pk)
-            n_transactions = budget.calc_used_budget()
-            budget.current = n_transactions
-            budget.save()
+    def update_used_budget(self):
+        """
+        Updates it's current property based on how much has been spend.
+        :return: None
+        """
+        self.current = self.calc_used_budget()
+        self.save()
 
-        except ObjectDoesNotExist:
-            print(f'[BUDGET] Budget with pk={pk} does not exist! Could not update current field.')
