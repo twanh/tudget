@@ -7,20 +7,23 @@ from transactions.serializers import ExpenseSerializer, IncomeSerializer
 class CategorySerializer(serializers.ModelSerializer):
     """Serializer for the category model"""
 
-    expense_set = ExpenseSerializer(many=true)
+    expense_set = ExpenseSerializer(many=True)
     income_set = IncomeSerializer(many=True)
 
     class Meta:
         model = Category
-        fields = ['name', 'description', 'color', 'icon', 'expense_set', 'income_set']
-        read_only_fields =['expense_set', 'income_set']
+        fields = ['pk', 'name', 'description', 'color', 'icon', 'expense_set', 'income_set']
+        read_only_fields =['pk', 'expense_set', 'income_set']
+
 
 class TagSerializer(serializers.ModelSerializer):
     """Serializer for the Tag model."""
 
-    transactions = serializers.RelatedField(source="transactions.Transaction", many=True)
+    expense_set = ExpenseSerializer(many=True)
+    income_set = IncomeSerializer(many=True)
 
     class Meta:
         model = Tag
-        fields = ['name', 'color']
+        fields = ['pk', 'name', 'color',  'expense_set', 'income_set']
+        read_only_fields = ['pk', 'expense_set', 'income_set']
 
