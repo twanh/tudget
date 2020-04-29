@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'groupings',  # Manage tags and categories
     'savings',  # Manage the savings
     'transactions',  # Manage transactions aka, income and expenses
+    # Api app
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
