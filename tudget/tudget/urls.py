@@ -27,5 +27,7 @@ urlpatterns = [
     # api/groupings/
     path(f'{API_URL_PREFIX}groupings/', include('groupings.urls')),
     # api/savings/
-    path(f"{API_URL_PREFIX}savings/", include('savings.urls'))
+    path(f"{API_URL_PREFIX}savings/", include('savings.urls')),
+    # api/transactions/
+    path(f"{API_URL_PREFIX}transactions/", include('transactions.urls'))
 ]
