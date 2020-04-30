@@ -5,6 +5,7 @@
 - [x] Budget calculation (also transaction budget)
 - [ ] Warning system when exceeding budget?
 - [ ] Savings updater / add money to saving --> subtract from main accnt
+    - May need to implement a new type of transaction for this (perhaps transfer).
 - [ ] Finish testing
   
  
