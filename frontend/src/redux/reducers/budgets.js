@@ -29,6 +29,8 @@ export function budgetsReducer(state = initalState, action) {
         pending: false,
         error: action.error
       }
+    default:
+      return state
   }
 }
 
