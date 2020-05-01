@@ -22,7 +22,9 @@ darkTheme.colors = {
   secondary: '#E4B363',
   muted: '#f6f6f9',
   gray: '#CAC9C0',
-  highlight: 'hsla(205, 100%, 40%, 0.125)'
+  highlight: 'hsla(205, 100%, 40%, 0.125)',
+  positive: '#27ae60',
+  negative: '#e74c3c'
 }
 darkTheme.fonts = {
   body: 'Roboto',

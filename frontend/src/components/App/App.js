@@ -17,28 +17,7 @@ export default function Home() {
 
   const [allAccounts, setallAccounts] = useState([])
   const [display, setDisplay] = useState(<Dashboard />)
-
-  // async function fetchAccountData() {
-  //   const data = await getAllAccounts()
-  //   setallAccounts(data)
-  // }
-
-
-  function handleSideNavClick(name) {
-    console.log('handeling')
-    const newDisplay = navItems.filter((display) => {
-      return display.name === name
-    })[0]
-    setDisplay(newDisplay.component)
-  }
-
-  // useEffect(() => {
-  //   fetchAccountData()
-  // })
-
-  if (!allAccounts) return <p>Loading...</p>
-
-  const navItems = [
+  const [items, setItems] = useState([
     {
       name: 'Dasboard',
       selected: true,
@@ -59,13 +38,43 @@ export default function Home() {
       selected: false,
       component: <Heading>Budgets</Heading>
     }
+  ])
+
+  // async function fetchAccountData() {
+  //   const data = await getAllAccounts()
+  //   setallAccounts(data)
+  // }
+
+
+  function handleSideNavClick(name) {
+    let newItems = items
+    const current = newItems.filter((disp) => {
+      return disp.selected
+    })[0]
+    current.selected = false
+    const newDisplay = newItems.filter((display) => {
+      return display.name === name
+    })[0]
+    newDisplay.selected = true
+    setItems(newItems)
+    setDisplay(newDisplay.component)
+  }
+
+  // useEffect(() => {
+  //   fetchAccountData()
+  // })
+
+  if (!allAccounts) return <p>Loading...</p>
+
+  const navItems = [
+
   ]
 
   return (
     <Theme dark={true}>
       <Flex alignItems={'stretch'}>
-        <SideNav navItems={navItems} linkClicked={e => handleSideNavClick(e)}></SideNav>
-        <Box pt={20} color='text'>
+        <SideNav navItems={items} linkClicked={e => handleSideNavClick(e)}></SideNav>
+        <Box pt={20} color='text' width={['100%', "80%", '80%']}>
           {display}
         </Box>
       </Flex>
