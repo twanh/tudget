@@ -23,7 +23,7 @@ export function accountsReducer(state = initalState, action) {
       return {
         ...state,
         pending: false,
-        accounts: action.payload
+        accounts: action.accounts
       }
     case FETCH_ALL_ACCOUNTS_ERROR:
       return {

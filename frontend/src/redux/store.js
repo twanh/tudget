@@ -7,4 +7,4 @@ intialState = {} //TODO: Create intial state?
 
 const middlewares = [thunk]
 
-export default createStore(rootReducer, intialState, applyMiddleware(...middlewares))
+export default createStore(rootReducer, {}, applyMiddleware(...middlewares))
