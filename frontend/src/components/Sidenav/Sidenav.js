@@ -1,16 +1,11 @@
 import React from 'react'
 
 import Sidepane from 'sidepane'
-import { Flex, Box, Link, Heading } from "rebass";
+import { Box, Link, Heading } from "rebass";
 
-import { NavLink as RouteLink, useLocation } from 'react-router-dom'
+import { NavLink as RouteLink } from 'react-router-dom'
 
 function SideNav(props) {
-
-  // function isActiveLink(link) {
-  //   return useLocation().pathname === link ? 'primary' : 'text'
-  // }
-
   return (
     <Sidepane>
       <Box width={[256]} py={10} px={3} bg='background' color='text' css={{
@@ -46,7 +41,6 @@ function SideNav(props) {
               }}
             >
               {navItem.name}
-
             </Link>
           </RouteLink>
         ))}

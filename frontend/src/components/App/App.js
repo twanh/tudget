@@ -22,8 +22,8 @@ import Dashboard from '../Dashboard/Dashboard'
 export default function Home() {
 
   const [allAccounts, setallAccounts] = useState([])
-  // const [display, setDisplay] = useState(<Dashboard />
-  const [items, setItems] = useState([
+
+  const navItems = [
     {
       name: 'Dasboard',
       selected: true,
@@ -44,46 +44,16 @@ export default function Home() {
       selected: false,
       link: '/budgets'
     }
-  ])
-
-  // async function fetchAccountData() {
-  //   const data = await getAllAccounts()
-  //   setallAccounts(data)
-  // }
-
-
-  function handleSideNavClick(name) {
-    let newItems = items
-    const current = newItems.filter((disp) => {
-      return disp.selected
-    })[0]
-    current.selected = false
-    const newDisplay = newItems.filter((display) => {
-      return display.name === name
-    })[0]
-    newDisplay.selected = true
-    setItems(newItems)
-    // setDisplay(newDisplay.component)
-  }
-
-  // useEffect(() => {
-  //   fetchAccountData()
-  // })
+  ]
 
   if (!allAccounts) return <p>Loading...</p>
-
-  const navItems = [
-
-  ]
 
   return (
     <Router>
       <Theme dark={true}>
         <Flex alignItems={'stretch'}>
-          <SideNav navItems={items} linkClicked={e => handleSideNavClick(e)}></SideNav>
+          <SideNav navItems={navItems} ></SideNav>
           <Box pt={20} color='text' width={['100%', "80%", '80%']}>
-            {/* {display} */}
-
             <Switch>
               <Route path='/accounts'>
                 <Heading>Accounts!</Heading>
