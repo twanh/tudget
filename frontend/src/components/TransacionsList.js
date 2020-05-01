@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Heading, Box, Flex, Text, Button } from 'rebass'
 
-function TransactionsList({ transactions, accounts, ...rest }) {
+function TransactionsList({ transactions, accounts, transactionsPending, accountsPending, ...rest }) {
 
   return (
     <Box
@@ -12,7 +12,7 @@ function TransactionsList({ transactions, accounts, ...rest }) {
     >
       <Heading fontSize={3}>Recent transactions:</Heading>
       <Flex flexDirection='column'>
-        {transactions.reverse().slice(0, 10).map(transaction => (
+        {transactions.map(transaction => (
           <Box
             py={1}
             my={2}

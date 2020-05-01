@@ -3,15 +3,7 @@ import React from 'react'
 import { Text, Flex, } from 'rebass'
 import { AccountBox } from './Elements'
 
-function AccountList({ error, accounts, pending, fetchAllAccounts }) {
-
-  const shouldComponentRender = () => {
-    if (pending) return false
-    if (!accounts) return false
-    return true
-  }
-
-  if (!shouldComponentRender()) return <p>Loading...</p>
+function AccountList({ accounts }) {
 
   return (
     <React.Fragment>

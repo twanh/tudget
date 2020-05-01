@@ -9,7 +9,7 @@ import { fetchAllTransactions as allTransactionsFetcher } from '../../utils/api/
 export function fetchAllTransactions() {
   return dispatch => {
     dispatch(fetchAllTransactionsPending)
-    allTransactionsFetcher
+    allTransactionsFetcher()
       .then(arr => {
         dispatch(fetchAllTransactionsSuccess(arr))
       })

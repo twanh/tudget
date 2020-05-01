@@ -35,7 +35,7 @@ export function transactionsReducer(state = initalState, action) {
 }
 
 
-export const getAllTransactionsPending = state => state.pending
-export const getAllTransactions = state => state.transactions
-export const getAllTransactionsError = state => state.error
+export const getAllTransactionsPending = state => state.transactionsReducer.pending
+export const getAllTransactions = state => state.transactionsReducer.transactions
+export const getAllTransactionsError = state => state.transactionsReducer.error
 

@@ -1,11 +1,6 @@
 import React from 'react'
-import { useEffect } from 'react'
-
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import { fetchAllBudgets } from '../redux/fetchers/budgets'
-import { getAllBudgets, getAllBudgetsPending, getAllBudgetsError, } from '../redux/reducers'
 
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -13,19 +8,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { Box, Heading, Flex, Text } from 'rebass'
 
 
-function BudgetOverview({ error, budgets, pending, fetchAllBudgets }) {
-
-  const shouldComponentRender = () => {
-    if (pending) return false
-    return true
-  }
-
-  useEffect(() => {
-    console.log('fab')
-    fetchAllBudgets()
-  }, [])
-
-  if (!shouldComponentRender) return <p>Loading...</p>
+function BudgetOverview({ budgets, pending }) {
 
   return (
 
@@ -89,18 +72,4 @@ function BudgetOverview({ error, budgets, pending, fetchAllBudgets }) {
 
 }
 
-
-const mapStateToProps = state => ({
-  error: getAllBudgetsError(state),
-  budgets: getAllBudgets(state),
-  pending: getAllBudgetsPending(state)
-})
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchAllBudgets: fetchAllBudgets
-}, dispatch)
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BudgetOverview)
+export default BudgetOverview
