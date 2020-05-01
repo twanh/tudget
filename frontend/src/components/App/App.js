@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom'
+
 import { useEffect, useState } from 'react'
 
 // Style components
@@ -16,27 +22,27 @@ import Dashboard from '../Dashboard/Dashboard'
 export default function Home() {
 
   const [allAccounts, setallAccounts] = useState([])
-  const [display, setDisplay] = useState(<Dashboard />)
+  // const [display, setDisplay] = useState(<Dashboard />
   const [items, setItems] = useState([
     {
       name: 'Dasboard',
       selected: true,
-      component: <Dashboard />
+      link: '/'
     },
     {
       name: 'Accounts',
       selected: false,
-      component: <Heading>Accounts</Heading>
+      link: '/accounts'
     },
     {
       name: 'Savings',
       selected: false,
-      component: <Heading>Savings</Heading>
+      link: '/savings'
     },
     {
       name: 'Budgets',
       selected: false,
-      component: <Heading>Budgets</Heading>
+      link: '/budgets'
     }
   ])
 
@@ -57,7 +63,7 @@ export default function Home() {
     })[0]
     newDisplay.selected = true
     setItems(newItems)
-    setDisplay(newDisplay.component)
+    // setDisplay(newDisplay.component)
   }
 
   // useEffect(() => {
@@ -71,13 +77,30 @@ export default function Home() {
   ]
 
   return (
-    <Theme dark={true}>
-      <Flex alignItems={'stretch'}>
-        <SideNav navItems={items} linkClicked={e => handleSideNavClick(e)}></SideNav>
-        <Box pt={20} color='text' width={['100%', "80%", '80%']}>
-          {display}
-        </Box>
-      </Flex>
-    </Theme>
+    <Router>
+      <Theme dark={true}>
+        <Flex alignItems={'stretch'}>
+          <SideNav navItems={items} linkClicked={e => handleSideNavClick(e)}></SideNav>
+          <Box pt={20} color='text' width={['100%', "80%", '80%']}>
+            {/* {display} */}
+
+            <Switch>
+              <Route path='/accounts'>
+                <Heading>Accounts!</Heading>
+              </Route>
+              <Route path='/savings'>
+                <Heading>Savings!</Heading>
+              </Route>
+              <Route path='/budgets'>
+                <Heading>Budgets</Heading>
+              </Route>
+              <Route path='/'>
+                <Dashboard />
+              </Route>
+            </Switch>
+          </Box>
+        </Flex>
+      </Theme>
+    </Router>
   )
 }

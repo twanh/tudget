@@ -2,7 +2,15 @@ import React from 'react'
 
 import Sidepane from 'sidepane'
 import { Flex, Box, Link, Heading } from "rebass";
+
+import { NavLink as RouteLink, useLocation } from 'react-router-dom'
+
 function SideNav(props) {
+
+  // function isActiveLink(link) {
+  //   return useLocation().pathname === link ? 'primary' : 'text'
+  // }
+
   return (
     <Sidepane>
       <Box width={[256]} py={10} px={3} bg='background' color='text' css={{
@@ -13,23 +21,34 @@ function SideNav(props) {
         </Heading>
 
         {props.navItems.map(navItem => (
-          <Link
-            pt={2}
-            color={navItem.selected ? 'secondary' : 'text'}
-            variant='nav'
-            sx={{
-              fontFamily: 'heading',
-              ':hover': {
-                textDecoration: 'underline',
-                'color': 'text',
-                cursor: 'pointer',
-              }
+          <RouteLink
+            exact
+            to={navItem.link}
+            style={{
+              textDecoration: 'none',
+              display: 'block',
+              color: '#e9e9eb',
             }}
-            onClick={e => props.linkClicked(navItem.name)} css={{
-              display: 'block'
-            }}>
-            {navItem.name}
-          </Link>
+            activeStyle={{
+              color: '#E4B363'
+            }}
+          >
+            <Link
+              pt={2}
+              variant='nav'
+              sx={{
+                fontFamily: 'heading',
+                ':hover': {
+                  textDecoration: 'underline',
+                  'color': 'text',
+                  cursor: 'pointer',
+                }
+              }}
+            >
+              {navItem.name}
+
+            </Link>
+          </RouteLink>
         ))}
       </Box>
 
