@@ -1,6 +1,6 @@
 import {
   fetchAllTransactionsPending,
-  fetchALlTransactionsSuccess,
+  fetchAllTransactionsSuccess,
   fetchAllTransactionsError
 } from '../actions/transactions'
 
@@ -11,7 +11,7 @@ export function fetchAllTransactions() {
     dispatch(fetchAllTransactionsPending)
     allTransactionsFetcher
       .then(arr => {
-        dispatch(fetchALlTransactionsSuccess(arr))
+        dispatch(fetchAllTransactionsSuccess(arr))
       })
       .catch(err => {
         dispatch(fetchAllTransactionsError(err))

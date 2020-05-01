@@ -1,12 +1,11 @@
 import {
   FETCH_ALL_ACCOUNTS_ERROR,
   FETCH_ALL_ACCOUNTS_SUCCESS,
-  FETCH_ALL_ACCOUNTS_ERROR,
   FETCH_ALL_ACCOUNTS_PENDING
 } from "../actionTypes";
 
 
-const initalState = {
+export const initalState = {
   pending: false,
   accounts: [],
   error: null
@@ -37,7 +36,7 @@ export function accountsReducer(state = initalState, action) {
 }
 
 
-export const getAllAccounts = state => state.accounts
-export const getAllAccountsPending = state => state.pending
-export const getAllAccountsError = state => state.error
+export const getAllAccounts = state => state.accountsReducer.accounts
+export const getAllAccountsPending = state => state.accountsReducer.pending
+export const getAllAccountsError = state => state.accountsReducer.error
 

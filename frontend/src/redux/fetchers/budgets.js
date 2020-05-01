@@ -7,9 +7,10 @@ import {
 import { fetchAllBudgets as allBudgetsFetcher } from '../../utils/api/budgets'
 
 export function fetchAllBudgets() {
+  console.log('fab2')
   return dispatch => {
     dispatch(fetchAllBudgetsPending)
-    allBudgetsFetcher
+    allBudgetsFetcher()
       .then(arr => {
         dispatch(fetchAllBudgetsSuccess(arr))
       })

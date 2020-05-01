@@ -5,7 +5,7 @@ import {
 } from "../actionTypes";
 
 
-const initalState = {
+export const initalState = {
   pending: false,
   transactions: [],
   error: null
@@ -33,3 +33,9 @@ export function transactionsReducer(state = initalState, action) {
       return state
   }
 }
+
+
+export const getAllTransactionsPending = state => state.pending
+export const getAllTransactions = state => state.transactions
+export const getAllTransactionsError = state => state.error
+

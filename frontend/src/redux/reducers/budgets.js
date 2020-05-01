@@ -4,7 +4,7 @@ import {
   FETCH_ALL_BUDGETS_SUCCESS
 } from '../actionTypes'
 
-const initalState = {
+export const initalState = {
   pending: false,
   budgets: [],
   error: null
@@ -34,7 +34,7 @@ export function budgetsReducer(state = initalState, action) {
   }
 }
 
-export const getAllBudgetsPending = state => state.pending
-export const getAllBudgets = state => state.budgets
-export const getAllBudgetsError = state => state.error
+export const getAllBudgetsPending = state => state.budgetsReducer.pending
+export const getAllBudgets = state => state.budgetsReducer.budgets
+export const getAllBudgetsError = state => state.budgetsReducer.error
 
