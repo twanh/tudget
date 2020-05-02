@@ -1,6 +1,9 @@
 import React from 'react'
 import { Heading, Box, Text, Flex } from 'rebass'
+
 import TransactionsList from './TransacionsList'
+
+import { sortTransactionsByDate } from "../utils/helpers/sorting";
 
 const StyledBox = ({ children }) => (
   <Box sx={{
@@ -44,10 +47,10 @@ function AccountDetails({ account }) {
           </Heading>
         </StyledBox>
         <StyledBox>
-          <TransactionsList transactions={account.expense_set} titleType='expenses' accounts={[account, {}]} />
+          <TransactionsList transactions={sortTransactionsByDate(account.expense_set)} titleType='expenses' accounts={[account, {}]} />
         </StyledBox>
         <StyledBox>
-          <TransactionsList transactions={account.income_set} titleType='income' accounts={[account, {}]} />
+          <TransactionsList transactions={sortTransactionsByDate(account.income_set)} titleType='income' accounts={[account, {}]} />
         </StyledBox>
       </Flex>
     </Box >
