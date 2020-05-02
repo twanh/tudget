@@ -18,7 +18,10 @@ import Theme from './Theme'
 
 // App components
 import Dashboard from '../pages/Dashboard'
+import Accounts from '../pages/Accounts'
+
 import BudgetOverview from './BudgetOverview';
+
 
 export default function Home() {
 
@@ -54,7 +57,7 @@ export default function Home() {
             <Box pt={20} color='text' width={['100%', "80%", '80%']}>
               <Switch>
                 <Route path='/accounts'>
-                  <Heading>Accounts!</Heading>
+                  <Accounts />
                 </Route>
                 <Route path='/savings'>
                   <Heading>Savings!</Heading>

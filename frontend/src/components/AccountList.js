@@ -3,13 +3,13 @@ import React from 'react'
 import { Text, Flex, } from 'rebass'
 import { AccountBox } from './Elements'
 
-function AccountList({ accounts }) {
+function AccountList({ accounts, highlightIndx, handleClick }) {
 
   return (
     <React.Fragment>
       <Flex flexWrap='wrap'>
-        {accounts.map(accnt => (
-          <AccountBox>
+        {accounts.map((accnt) => (
+          <AccountBox key={accnt.pk} bg={highlightIndx === accnt.pk ? 'red' : 'backgroundHighlight'} onClick={e => handleClick(accnt.pk)}>
             <Text fontWeight='bold' fontFamily='heading' fontSize={2}>{accnt.name}</Text>
             <Text fontFamily='monospace' fontWeight='light' fontSize={0}>&euro;{accnt.balance}</Text>
           </AccountBox>

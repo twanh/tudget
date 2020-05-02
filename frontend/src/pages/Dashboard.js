@@ -7,6 +7,8 @@ import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { useHistory, useLocation } from "react-router";
+
 import {
   getAllAccounts, getAllAccountsPending, getAllAccountsError,
   getAllBudgets, getAllBudgetsPending, getAllBudgetsError,
@@ -28,6 +30,8 @@ function Dashboard({ accounts, fetchAllAccounts, budgets, fetchAllBudgets, trans
     fetchAllTransactions()
   }, [])
 
+  let history = useHistory()
+
   const shouldPageRender = () => {
     if (accounts.pending) return false
     if (budgets.pending) return false
@@ -41,7 +45,7 @@ function Dashboard({ accounts, fetchAllAccounts, budgets, fetchAllBudgets, trans
   return (
     <React.Fragment>
       <Heading>Dashboard</Heading>
-      <AccountList accounts={accounts.accounts} />
+      <AccountList accounts={accounts.accounts} handleClick={p => history.push(`accounts/${p}`)} />
       <Flex flexWrap='wrap' mt={4} width='100%'>
         <Box sx={{
           order: 2,
