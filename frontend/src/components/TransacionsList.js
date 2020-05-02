@@ -2,15 +2,13 @@ import React from 'react';
 
 import { Heading, Box, Flex, Text, Button } from 'rebass'
 
-function TransactionsList({ transactions, accounts, transactionsPending, accountsPending, ...rest }) {
+function TransactionsList({ transactions, accounts, titleType }) {
 
   return (
     <Box
-      // bg='primary'
-      // px={[0, 0, 2]}
       height='500px'
     >
-      <Heading fontSize={3}>Recent transactions:</Heading>
+      <Heading fontSize={3}>Recent {titleType ? titleType : 'transactions'}:</Heading>
       <Flex flexDirection='column'>
         {transactions.map(transaction => (
           <Box
@@ -19,12 +17,7 @@ function TransactionsList({ transactions, accounts, transactionsPending, account
             sx={{
               borderBottom: `1px solid`,
               borderColor: 'backgroundHighlight'
-              // borderColor: (transaction.type === 'expense' ? 'negative' : 'positive'),
-              // borderRadius: '100px'
-              // borderTopRightRadius: '50px',
-              // borderBottomRightRadius: '50px'
             }}
-          // bg={transaction.type === 'expense' ? 'negative' : 'positive'}
           >
 
             <Box

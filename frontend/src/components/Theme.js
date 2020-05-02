@@ -9,7 +9,7 @@ import WebFont from 'webfontloader'
 
 WebFont.load({
   google: {
-    families: ['Lato:400,900', 'Roboto:300,400:700', 'Roboto Condensed:400,700', 'Roboto Slab: 400, 200, 700']
+    families: ['Lato:400,900', 'Roboto:300,400:700', 'Roboto Condensed:400,700', 'Roboto Slab:200,400,700,900']
   }
 })
 

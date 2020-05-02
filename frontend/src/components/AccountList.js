@@ -9,7 +9,7 @@ function AccountList({ accounts, highlightIndx, handleClick }) {
     <React.Fragment>
       <Flex flexWrap='wrap'>
         {accounts.map((accnt) => (
-          <AccountBox key={accnt.pk} bg={highlightIndx === accnt.pk ? 'red' : 'backgroundHighlight'} onClick={e => handleClick(accnt.pk)}>
+          <AccountBox key={accnt.pk} bg={highlightIndx === accnt.pk ? 'secondary' : 'backgroundHighlight'} color={highlightIndx === accnt.pk ? 'background' : 'text'} onClick={e => handleClick(accnt.pk)}>
             <Text fontWeight='bold' fontFamily='heading' fontSize={2}>{accnt.name}</Text>
             <Text fontFamily='monospace' fontWeight='light' fontSize={0}>&euro;{accnt.balance}</Text>
           </AccountBox>

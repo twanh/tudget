@@ -13,7 +13,7 @@ import { useParams, Route, Switch, useRouteMatch, useHistory } from "react-route
 import AccountList from '../components/AccountList'
 import AccountDetails from '../components/AccountDetails'
 
-function AccountDetailSwitch({ accounts }) {
+function AccountDetailSwitch({ accounts, returnAccountId }) {
 
   let { accountId } = useParams()
 
@@ -28,6 +28,8 @@ function AccountDetailSwitch({ accounts }) {
   const account = accounts.filter(accnt => {
     return accnt.pk == parseInt(accountId)
   })[0]
+
+  returnAccountId(parseInt(accountId))
 
   return <AccountDetails account={account} />
 
@@ -66,7 +68,7 @@ function Accounts({ accounts, error, pending, fetchAllAccounts }) {
           Main page :0
         </Route>
         <Route path={`${path}/:accountId`}>
-          <AccountDetailSwitch accounts={accounts} />
+          <AccountDetailSwitch accounts={accounts} returnAccountId={id => setCurrentAccount(id)} />
         </Route>
       </Switch>
     </React.Fragment>
