@@ -52,6 +52,13 @@ function Theme({ children, dark }) {
             background-color: ${usedTheme.colors.background};
             font-family: 'Roboto';
           }
+          .switch-wrapper {
+            position: relative;
+          }
+           
+          .switch-wrapper > div {
+            position: absolute;
+          }
         `
       } />
 

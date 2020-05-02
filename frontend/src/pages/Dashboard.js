@@ -21,6 +21,7 @@ import { fetchAllAccounts, fetchAllBudgets, fetchAllTransactions } from '../redu
 import TransactionsList from '../components/TransacionsList'
 import BudgetOverview from '../components/BudgetOverview'
 import AccountList from '../components/AccountList'
+import { sortTransactionsByDate } from '../utils/helpers/sorting'
 
 function Dashboard({ accounts, fetchAllAccounts, budgets, fetchAllBudgets, transactions, fetchAllTransactions }) {
 
@@ -77,7 +78,7 @@ function Dashboard({ accounts, fetchAllAccounts, budgets, fetchAllBudgets, trans
 
         >
 
-          <TransactionsList transactions={transactions.transactions.reverse().slice(0, 7)} accounts={accounts.accounts} />
+          <TransactionsList transactions={sortTransactionsByDate(transactions.transactions).slice(0, 7)} accounts={accounts.accounts} />
 
         </Box>
 
