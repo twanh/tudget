@@ -21,7 +21,7 @@ export default function Routes() {
         <Accounts />
       </Route>
       <Route path='/savings'>
-        savings.. :0
+        <h1>Savings!</h1>
       </Route>
       <Route path='/budgets'>
         <BudgetOverview></BudgetOverview>
