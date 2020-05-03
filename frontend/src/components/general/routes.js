@@ -18,6 +18,9 @@ export default function Routes() {
 
   return (
     <Switch location={location}>
+      <Route exact path='/'>
+        <Dashboard />
+      </Route>
       <Route path='/accounts'>
         <Accounts />
       </Route>
@@ -30,9 +33,7 @@ export default function Routes() {
       <Route path='/transactions'>
         <Transactions />
       </Route>
-      <Route path='/'>
-        <Dashboard />
-      </Route>
+
     </Switch>
   )
 }

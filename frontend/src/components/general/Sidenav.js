@@ -31,6 +31,7 @@ function SideNav(props) {
             <Link
               pt={2}
               variant='nav'
+              as='p'
               sx={{
                 fontFamily: 'heading',
                 ':hover': {
