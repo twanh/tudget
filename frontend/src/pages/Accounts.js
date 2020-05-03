@@ -12,8 +12,8 @@ import { fetchAllAccounts } from '../redux/fetchers'
 import { WindMillLoading } from 'react-loadingg';
 
 import { useParams, Route, Switch, useRouteMatch, useHistory } from "react-router";
-import AccountList from '../components/AccountList'
-import AccountDetails from '../components/AccountDetails'
+import AccountList from '../components/Account/AccountList'
+import AccountDetails from '../components/Account/AccountDetails'
 
 function AccountDetailSwitch({ accounts, returnAccountId }) {
 

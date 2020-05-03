@@ -1,8 +1,5 @@
 import React from 'react'
 
-import { fetchAllBudgets } from '../redux/fetchers/budgets'
-
-
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { Box, Heading, Flex, Text } from 'rebass'

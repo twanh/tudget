@@ -18,9 +18,9 @@ import {
 import { fetchAllAccounts, fetchAllBudgets, fetchAllTransactions } from '../redux/fetchers'
 
 
-import TransactionsList from '../components/TransacionsList'
-import BudgetOverview from '../components/BudgetOverview'
-import AccountList from '../components/AccountList'
+import TransactionsList from '../components/Transaction/TransacionsList'
+import BudgetOverview from '../components/Budget/BudgetOverview'
+import AccountList from '../components/Account/AccountList'
 import { sortTransactionsByDate } from '../utils/helpers/sorting'
 import { WindMillLoading } from 'react-loadingg'
 

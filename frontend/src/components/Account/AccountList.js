@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Text, Flex, } from 'rebass'
-import { AccountBox } from './Elements'
+import { AccountBox } from '../Elements'
 
 function AccountList({ accounts, highlightIndx, handleClick }) {
 

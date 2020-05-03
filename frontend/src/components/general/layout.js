@@ -1,5 +1,4 @@
 import React from 'react';
-import { useEffect, useState } from 'react'
 
 import {
   BrowserRouter as Router,
@@ -9,7 +8,7 @@ import { Provider } from "react-redux";
 import store from '../../redux/store'
 
 // Style components
-import { Flex, Box, Heading } from 'rebass'
+import { Flex, Box } from 'rebass'
 import SideNav from "./Sidenav";
 import Theme from './Theme'
 

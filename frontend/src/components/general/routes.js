@@ -6,7 +6,8 @@ import { Switch, Route, useLocation } from 'react-router-dom'
 import Dashboard from '../../pages/Dashboard'
 import Accounts from '../../pages/Accounts'
 
-import BudgetOverview from '../BudgetOverview';
+import BudgetOverview from '../Budget/BudgetOverview';
+import Transactions from '../../pages/Transactions';
 
 
 
@@ -25,6 +26,9 @@ export default function Routes() {
       </Route>
       <Route path='/budgets'>
         <BudgetOverview></BudgetOverview>
+      </Route>
+      <Route path='/transactions'>
+        <Transactions />
       </Route>
       <Route path='/'>
         <Dashboard />

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Heading, Box, Text, Flex } from 'rebass'
 
-import TransactionsList from './TransacionsList'
+import TransactionsList from '../Transaction/TransacionsList'
 
-import { sortTransactionsByDate } from "../utils/helpers/sorting";
+import { sortTransactionsByDate } from "../../utils/helpers/sorting"
 
 const StyledBox = ({ children }) => (
   <Box sx={{
