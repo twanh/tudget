@@ -9,6 +9,8 @@ import { bindActionCreators } from 'redux'
 import { getAllAccounts, getAllAccountsPending, getAllAccountsError } from '../redux/reducers'
 import { fetchAllAccounts } from '../redux/fetchers'
 
+import { WindMillLoading } from 'react-loadingg';
+
 import { useParams, Route, Switch, useRouteMatch, useHistory } from "react-router";
 import AccountList from '../components/AccountList'
 import AccountDetails from '../components/AccountDetails'
@@ -23,7 +25,7 @@ function AccountDetailSwitch({ accounts, returnAccountId }) {
     return true
   }
 
-  if (!shouldComponentRender()) return <p>Loading...</p>
+  if (!shouldComponentRender()) return <WindMillLoading />
 
   const account = accounts.filter(accnt => {
     return accnt.pk == parseInt(accountId)

@@ -22,6 +22,7 @@ import TransactionsList from '../components/TransacionsList'
 import BudgetOverview from '../components/BudgetOverview'
 import AccountList from '../components/AccountList'
 import { sortTransactionsByDate } from '../utils/helpers/sorting'
+import { WindMillLoading } from 'react-loadingg'
 
 function Dashboard({ accounts, fetchAllAccounts, budgets, fetchAllBudgets, transactions, fetchAllTransactions }) {
 
@@ -41,7 +42,7 @@ function Dashboard({ accounts, fetchAllAccounts, budgets, fetchAllBudgets, trans
     return true
   }
 
-  if (!shouldPageRender()) return <p>Loading</p>
+  if (!shouldPageRender()) return <WindMillLoading />
 
   return (
     <React.Fragment>
