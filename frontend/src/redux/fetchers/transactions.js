@@ -2,13 +2,19 @@ import {
   fetchAllTransactionsPending,
   fetchAllTransactionsSuccess,
   fetchAllTransactionsError,
-
   updateExpenseError,
   updateExpensePending,
   updateExpenseSuccess,
+  updateIncomePending,
+  updateIncomeSuccess,
+  updateIncomeError,
 } from '../actions/transactions'
 
-import { fetchAllTransactions as allTransactionsFetcher, updateExpense as expenseUpdater } from '../../utils/api/transactions'
+import {
+  fetchAllTransactions as allTransactionsFetcher,
+  updateExpense as expenseUpdater,
+  updateIncome as incomeUpdater
+} from '../../utils/api/transactions'
 
 export function fetchAllTransactions() {
   return dispatch => {
@@ -33,6 +39,20 @@ export function updateExpense(pk, data) {
       })
       .catch(err => {
         dispatch(updateExpenseError(err))
+      })
+  }
+}
+
+export function updateIncome(pk, data) {
+  return dispatch => {
+    dispatch(updateIncomePending())
+    incomeUpdater(pk, data)
+      .then(res => res.json())
+      .then(inc => {
+        dispatch(updateIncomeSuccess(inc))
+      })
+      .catch(err => {
+        dispatch(updateIncomeError(err))
       })
   }
 }

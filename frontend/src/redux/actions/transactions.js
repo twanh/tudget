@@ -5,7 +5,11 @@ import {
 
   UPDATE_EXPENSE_ERROR,
   UPDATE_EXPENSE_PENDING,
-  UPDATE_EXPENSE_SUCCESS
+  UPDATE_EXPENSE_SUCCESS,
+
+  UPDATE_INCOME_ERROR,
+  UPDATE_INCOME_PENDING,
+  UPDATE_INCOME_SUCCESS
 } from "../actionTypes";
 
 export function fetchAllTransactionsPending() {
@@ -48,3 +52,26 @@ export function updateExpenseError(error) {
     error,
   }
 }
+
+
+export function updateIncomePending() {
+  return {
+    type: UPDATE_INCOME_PENDING
+  }
+}
+
+export function updateIncomeSuccess(income) {
+  return {
+    type: UPDATE_INCOME_SUCCESS,
+    income
+  }
+
+}
+
+export function updateIncomeError(error) {
+  return {
+    type: UPDATE_INCOME_ERROR,
+    error,
+  }
+}
+

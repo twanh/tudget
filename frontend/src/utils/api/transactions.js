@@ -29,7 +29,24 @@ async function updateExpense(pk, data) {
   return fetch(url, settings)
 }
 
+async function updateIncome(pk, data) {
+  console.log({ data })
+  const url = `${INCOME_URl}${pk}/`
+  const reqHeaders = new Headers()
+  reqHeaders.append('Content-Type', 'application/json')
+  const settings = {
+    method: 'PATCH',
+    mode: 'cors',
+    headers: reqHeaders,
+    body: JSON.stringify(data),
+    redirect: 'follow'
+  }
+  return fetch(url, settings)
+}
+
+
 export {
   fetchAllTransactions,
   updateExpense,
+  updateIncome
 }

@@ -10,7 +10,7 @@ import {
   getAllTags, getAllTagsError, getAllTagsPending
 } from "../redux/reducers";
 
-import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags, updateExpense } from "../redux/fetchers";
+import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags, updateExpense, updateIncome } from "../redux/fetchers";
 
 import { Switch, Route, useLocation, useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -66,7 +66,11 @@ function IncomeDetailSwitch({ income: allincome }) {
 }
 
 
-function Transactions({ transactions, error, pending, fetchAllTransactions, accounts, fetchAllAccounts, categories, fetchAllCategories, tags, fetchAllTags, updateExpense }) {
+function Transactions({
+  transactions, error, pending,
+  fetchAllTransactions, accounts, fetchAllAccounts,
+  categories, fetchAllCategories, tags, fetchAllTags,
+  updateExpense, updateIncome }) {
 
   let location = useLocation()
   let { path } = useRouteMatch()
@@ -97,9 +101,13 @@ function Transactions({ transactions, error, pending, fetchAllTransactions, acco
 
   const handleExpenseEdit = (pk, expense) => {
     // TODO put req. to server via redux
-    console.log({ pk, expense })
     updateExpense(pk, expense)
     history.push(`/transactions/expense/${pk}`)
+  }
+
+  const handleIncomeEdit = (pk, income) => {
+    updateIncome(pk, income)
+    history.push(`/transactions/income/${pk}`)
   }
 
   return (
@@ -132,6 +140,7 @@ function Transactions({ transactions, error, pending, fetchAllTransactions, acco
             accounts={accounts.accounts}
             categories={categories.categories}
             tags={tags.tags}
+            onEdit={(pk, income) => handleIncomeEdit(pk, income)}
           />
         </Route>
         <Route path={`${path}/income/:pk`}>
@@ -171,7 +180,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchAllAccounts: fetchAllAccounts,
   fetchAllCategories: fetchAllCategories,
   fetchAllTags: fetchAllTags,
-  updateExpense: updateExpense
+  updateExpense: updateExpense,
+  updateIncome: updateIncome,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions)
