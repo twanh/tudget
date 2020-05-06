@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import { getAllTransactions, getAllTransactionsPending, getAllTransactionsError } from "../redux/reducers";
 import { fetchAllTransactions } from "../redux/fetchers";
 
-import { Switch, Route, useLocation, useRouteMatch, useParams } from 'react-router-dom'
+import { Switch, Route, useLocation, useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
 import { WindMillLoading } from 'react-loadingg'
 import TransactionDetail from '../components/Transaction/TransactionDetail';
@@ -15,6 +15,8 @@ import TransactionDetail from '../components/Transaction/TransactionDetail';
 function ExpenseDetailSwitch({ expenses }) {
 
   let { pk } = useParams()
+  let { path } = useLocation()
+  let history = useHistory()
 
   const shouldComponentRender = () => {
     if (!pk) return false
@@ -35,19 +37,29 @@ function ExpenseDetailSwitch({ expenses }) {
   )
 }
 
-function IncomeDetailSwitch({ income }) {
+function IncomeDetailSwitch({ income: allincome }) {
 
   let { pk } = useParams()
 
   const shouldComponentRender = () => {
     if (!pk) return false
-    if (!income.length > 0) return false
+    if (!allincome.length > 0) return false
     return true
   }
 
   if (!shouldComponentRender()) return <WindMillLoading />
 
+  const income = allincome.filter(exp => {
+    return exp.pk === parseInt(pk)
+  })[0]
+
+  if (!income) return <WindMillLoading /> //TODO: Shoudl 404
+
+  return (
+    <TransactionDetail transaction={income} />
+  )
 }
+
 
 function Transactions({ transactions, error, pending, fetchAllTransactions }) {
 
@@ -81,10 +93,12 @@ function Transactions({ transactions, error, pending, fetchAllTransactions }) {
           })} />
         </Route>
         <Route path={`${path}/income/:pk/edit`}>
-          income edit
+          Edit income
         </Route>
         <Route path={`${path}/income/:pk`}>
-          Income detail
+          <IncomeDetailSwitch income={transactions.filter(trans => {
+            return trans.type === 'income'
+          })} />
         </Route>
       </Switch>
     </React.Fragment >

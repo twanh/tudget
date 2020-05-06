@@ -1,8 +1,12 @@
 import React from 'react'
 
 import { Box, Heading, Flex, Text, Button, } from 'rebass'
+import { useHistory, useLocation } from 'react-router-dom'
 
 function TransactionDetail({ transaction, handleEdit }) {
+
+  let history = useHistory()
+  let { path } = useLocation()
 
   return (
     <Box >
@@ -23,7 +27,7 @@ function TransactionDetail({ transaction, handleEdit }) {
             }
           }}
           px={3} fontWeight="bold" fontSize={1}
-          onClick={e => handleEdit(e)}
+          onClick={e => history.push(`/transactions/${transaction.type}/${transaction.pk}/edit`)}
         >Edit</Button>
         <Button variant='primary'
           ml={3}
@@ -69,6 +73,7 @@ function TransactionDetail({ transaction, handleEdit }) {
         <>
           Tags:&nbsp;
           {transaction.tags.map(tag => (
+            //TODO: Should me made a tag component... :)
             <Box mt={3} mr={1}
               sx={{
                 display: 'inline-block',
