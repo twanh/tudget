@@ -39,6 +39,6 @@ export function tagsReducer(state = initialState, action) {
 
 
 export const getAllTagsPending = state => state.tagsReducer.pending
-export const getAllTags = state => state.tagsReducer.categories
+export const getAllTags = state => state.tagsReducer.tags
 export const getAllTagsError = state => state.tagsReducer.error
 
