@@ -6,10 +6,11 @@ import { bindActionCreators } from "redux";
 import {
   getAllTransactions, getAllTransactionsPending, getAllTransactionsError,
   getAllAccounts, getAllAccountsError, getAllAccountsPending,
-  getAllCategories, getAllCategoriesError, getAllCategoriesPending
+  getAllCategories, getAllCategoriesError, getAllCategoriesPending,
+  getAllTags, getAllTagsError, getAllTagsPending
 } from "../redux/reducers";
 
-import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories } from "../redux/fetchers";
+import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags } from "../redux/fetchers";
 
 import { Switch, Route, useLocation, useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -65,7 +66,7 @@ function IncomeDetailSwitch({ income: allincome }) {
 }
 
 
-function Transactions({ transactions, error, pending, fetchAllTransactions, accounts, fetchAllAccounts, categories, fetchAllCategories }) {
+function Transactions({ transactions, error, pending, fetchAllTransactions, accounts, fetchAllAccounts, categories, fetchAllCategories, tags, fetchAllTags }) {
 
   let location = useLocation()
   let { path } = useRouteMatch()
@@ -74,6 +75,7 @@ function Transactions({ transactions, error, pending, fetchAllTransactions, acco
     fetchAllTransactions()
     fetchAllAccounts()
     fetchAllCategories()
+    fetchAllTags()
   }, [])
 
   const shouldPageRender = () => {
@@ -83,6 +85,9 @@ function Transactions({ transactions, error, pending, fetchAllTransactions, acco
     if (accounts.error) return false
     if (categories.pending) return false
     if (categories.error) return false
+    if (tags.pending) return false
+    if (tags.error) return false
+
     return true
   }
 
@@ -101,6 +106,7 @@ function Transactions({ transactions, error, pending, fetchAllTransactions, acco
             })}
             accounts={accounts.accounts}
             categories={categories.categories}
+            tags={tags.tags}
           />
         </Route>
         <Route path={`${path}/expense/:pk`}>
@@ -115,6 +121,7 @@ function Transactions({ transactions, error, pending, fetchAllTransactions, acco
             })}
             accounts={accounts.accounts}
             categories={categories.categories}
+            tags={tags.tags}
           />
         </Route>
         <Route path={`${path}/income/:pk`}>
@@ -141,13 +148,19 @@ const mapStateToProps = state => ({
     categories: getAllCategories(state),
     error: getAllCategoriesError(state),
     pending: getAllCategoriesPending(state),
-  }
+  },
+  tags: {
+    tags: getAllTags(state),
+    error: getAllTagsError(state),
+    pending: getAllTagsPending(state)
+  },
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchAllTransactions: fetchAllTransactions,
   fetchAllAccounts: fetchAllAccounts,
   fetchAllCategories: fetchAllCategories,
+  fetchAllTags: fetchAllTags,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions)

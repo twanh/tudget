@@ -6,7 +6,7 @@ import 'formol/lib/default.css'
 import { useParams } from "react-router-dom";
 import { WindMillLoading } from 'react-loadingg';
 
-function TransactionEdit({ transactions, accounts, categories }) {
+function TransactionEdit({ transactions, accounts, categories, tags }) {
 
   let { pk } = useParams()
 
@@ -18,6 +18,7 @@ function TransactionEdit({ transactions, accounts, categories }) {
     if (!currentTransaction) return false
     if (!accounts) return false
     if (!categories) return false
+    if (!tags) return false
     return true
   }
 
@@ -25,10 +26,14 @@ function TransactionEdit({ transactions, accounts, categories }) {
 
   let defaultValues = currentTransaction
 
-  // fill in all the data for the current transactions account/category 
+  // fill in all the data for the current transactions account/category & tags
   // we select the data using the primary key (pk)
   defaultValues.account = accounts.filter(accnt => (accnt.pk === currentTransaction.account))[0]
   defaultValues.category = categories.filter(cat => (cat.pk === currentTransaction.category))[0]
+  defaultValues.tags = defaultValues.tags.map(tag => {
+    return tags.find(t => t.pk === tag)
+  })
+  defaultValues.tags = defaultValues.tags.map(tag => tag.name)
 
   function handleEdit(item) {
     // Convert the selected name of the account to the corresponding pk...
@@ -42,6 +47,13 @@ function TransactionEdit({ transactions, accounts, categories }) {
     // because the api uses pk's to refrence categories
     let catPk = categories.filter(cat => (cat.name === sumbmittedItem.category.name))[0].pk
     sumbmittedItem.category = catPk
+
+    let tagsPks = sumbmittedItem.tags.map(tag => {
+      return tags.find(t => t.name === tag).pk
+    })
+
+    sumbmittedItem.tags = tagsPks
+
     // TODO: Path request to update
     console.log(sumbmittedItem)
 
@@ -55,7 +67,7 @@ function TransactionEdit({ transactions, accounts, categories }) {
       <Field name='amount' type='number'>Amount (&euro;):</Field>
       <Field name='account.name' type='select-menu' choices={accounts.map(accnt => accnt.name)}>Account</Field>
       <Field name='category.name' type='select-menu' choices={categories.map(cat => cat.name)}>Category:</Field>
-      <Field name='tags' type='checkbox-set' choices={[1, 2, 3, 4, 5, 6, 7]}>Tags:</Field>
+      <Field name='tags' type='checkbox-set' choices={tags.map(tag => tag.name)}>Tags:</Field>
       <Field name='spendOn' type='date'>Spend on:</Field>
     </Formol >
 
