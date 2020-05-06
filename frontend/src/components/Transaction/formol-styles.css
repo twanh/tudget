@@ -1,0 +1,17 @@
+.Formol_Formol__submit {
+  background-color: rgba(0, 0, 0, 0);
+  border-bottom: 1px solid;
+  border-color: rgb(239, 100, 97);
+  color: rgb(233, 233, 235);;
+  border-radius: 7px;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  outline-color:rgb(239, 100, 97);
+  padding: 8px 16px;
+  text-align: center;
+  display: inline-block;
+
+}

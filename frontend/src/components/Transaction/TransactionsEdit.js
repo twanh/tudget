@@ -6,6 +6,8 @@ import 'formol/lib/default.css'
 import { useParams } from "react-router-dom";
 import { WindMillLoading } from 'react-loadingg';
 
+import './formol-styles.css'
+
 function TransactionEdit({ transactions, accounts, categories, tags }) {
 
   let { pk } = useParams()
