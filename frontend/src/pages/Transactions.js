@@ -19,7 +19,7 @@ import TransactionDetail from '../components/Transaction/TransactionDetail';
 import TransactionEdit from '../components/Transaction/TransactionsEdit';
 
 
-function ExpenseDetailSwitch({ expenses }) {
+function ExpenseDetailSwitch({ expenses, ...props }) {
 
   let { pk } = useParams()
 
@@ -38,11 +38,11 @@ function ExpenseDetailSwitch({ expenses }) {
   if (!expense) return <WindMillLoading /> //TODO: Shoudl 404
 
   return (
-    <TransactionDetail transaction={expense} />
+    <TransactionDetail transaction={expense} {...props} />
   )
 }
 
-function IncomeDetailSwitch({ income: allincome }) {
+function IncomeDetailSwitch({ income: allincome, ...props }) {
 
   let { pk } = useParams()
 
@@ -61,7 +61,7 @@ function IncomeDetailSwitch({ income: allincome }) {
   if (!income) return <WindMillLoading /> //TODO: Shoudl 404
 
   return (
-    <TransactionDetail transaction={income} />
+    <TransactionDetail transaction={income} {...props} />
   )
 }
 
@@ -130,7 +130,7 @@ function Transactions({
         <Route path={`${path}/expense/:pk`}>
           <ExpenseDetailSwitch expenses={transactions.filter(trans => {
             return trans.type === 'expense'
-          })} />
+          })} tags={tags.tags} categories={categories.categories} />
         </Route>
         <Route path={`${path}/income/:pk/edit`}>
           <TransactionEdit
@@ -146,7 +146,7 @@ function Transactions({
         <Route path={`${path}/income/:pk`}>
           <IncomeDetailSwitch income={transactions.filter(trans => {
             return trans.type === 'income'
-          })} />
+          })} tags={tags.tags} categories={categories.categories} />
         </Route>
       </Switch>
     </React.Fragment >

@@ -3,10 +3,9 @@ import React from 'react'
 import { Box, Heading, Flex, Text, Button, } from 'rebass'
 import { useHistory, useLocation } from 'react-router-dom'
 
-function TransactionDetail({ transaction, handleEdit }) {
+function TransactionDetail({ transaction, categories, tags }) {
 
   let history = useHistory()
-  let { path } = useLocation()
 
   return (
     <Box >
@@ -63,8 +62,7 @@ function TransactionDetail({ transaction, handleEdit }) {
               py: 1,
               borderRadius: 9999,
             }}>
-            {/* TODO: Fetch category name */}
-            {transaction.category && 'Uit eten'}
+            {categories.find(cat => cat.pk === transaction.category).name}
           </Box>
           &nbsp;|&nbsp;
         </>
@@ -83,9 +81,7 @@ function TransactionDetail({ transaction, handleEdit }) {
                 py: 1,
                 borderRadius: 9999,
               }}>
-              {/* TODO: Fetch tag names */}
-              {/* {tag} */}
-          Eten
+              {tags.find(t => t.pk === tag).name}
             </Box>
 
           ))}
