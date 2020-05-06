@@ -4,20 +4,20 @@ import {
   FETCH_ALL_CATEGORIES_PENDING
 } from "../actionTypes";
 
-export function FetchAllCategoriesPending() {
+export function fetchAllCategoriesPending() {
   return {
     type: FETCH_ALL_CATEGORIES_PENDING
   }
 }
 
-export function FetchAllCategoriesSuccess(categories) {
+export function fetchAllCategoriesSuccess(categories) {
   return {
     type: FETCH_ALL_CATEGORIES_SUCCESS,
     categories: categories
   }
 }
 
-export function FetchAllCategoriesError(error) {
+export function fetchAllCategoriesError(error) {
   return {
     type: FETCH_ALL_CATEGORIES_ERROR,
     error: error
