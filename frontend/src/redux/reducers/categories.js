@@ -11,7 +11,7 @@ export const initialState = {
 }
 
 export function categoriesReducer(state = initialState, action) {
-  switch (actio.type) {
+  switch (action.type) {
     case FETCH_ALL_CATEGORIES_PENDING:
       return {
         ...state,
