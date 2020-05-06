@@ -4,7 +4,7 @@ import {
   FETCH_ALL_TAGS_PENDING
 } from "../actionTypes";
 
-export const initalState = {
+export const initialState = {
   pending: false,
   tags: [],
   error: null
