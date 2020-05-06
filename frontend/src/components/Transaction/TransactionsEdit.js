@@ -62,7 +62,7 @@ function TransactionEdit({ transactions, accounts, categories, tags, onEdit }) {
   }
 
   return (
-
+    // TODO: should this be its own component?
     <Formol item={defaultValues} submitText='Update' onSubmit={item => handleEdit(item)} >
       <Field name='name' required>Name:</Field>
       <Field name='description' type='area'>Description:</Field>

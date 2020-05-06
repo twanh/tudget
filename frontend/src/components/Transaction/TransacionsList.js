@@ -1,8 +1,11 @@
 import React from 'react';
 
 import { Heading, Box, Flex, Text, Button } from 'rebass'
+import { useHistory } from 'react-router-dom';
 
 function TransactionsList({ transactions, accounts, titleType }) {
+
+  let history = useHistory()
 
   return (
     <Box
@@ -12,11 +15,17 @@ function TransactionsList({ transactions, accounts, titleType }) {
       <Flex flexDirection='column'>
         {transactions.map(transaction => (
           <Box
+            onClick={e => history.push(`/transactions/${transaction.type}/${transaction.pk}`)}
             py={1}
             my={2}
             sx={{
               borderBottom: `1px solid`,
-              borderColor: 'backgroundHighlight'
+              borderColor: 'backgroundHighlight',
+              cursor: 'pointer',
+              ':hover': {
+                boxShadow: 'inset 0px -5px 0px 0px #5e35b17a',
+                padding: 2
+              }
             }}
           >
 
