@@ -3,20 +3,19 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 
-import { getAllTransactions, getAllTransactionsPending, getAllTransactionsError } from "../redux/reducers";
-import { fetchAllTransactions } from "../redux/fetchers";
+import { getAllTransactions, getAllTransactionsPending, getAllTransactionsError, getAllAccounts, getAllAccountsError, getAllAccountsPending } from "../redux/reducers";
+import { fetchAllTransactions, fetchAllAccounts } from "../redux/fetchers";
 
 import { Switch, Route, useLocation, useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
 import { WindMillLoading } from 'react-loadingg'
 import TransactionDetail from '../components/Transaction/TransactionDetail';
+import TransactionEdit from '../components/Transaction/TransactionsEdit';
 
 
 function ExpenseDetailSwitch({ expenses }) {
 
   let { pk } = useParams()
-  let { path } = useLocation()
-  let history = useHistory()
 
   const shouldComponentRender = () => {
     if (!pk) return false
@@ -61,18 +60,21 @@ function IncomeDetailSwitch({ income: allincome }) {
 }
 
 
-function Transactions({ transactions, error, pending, fetchAllTransactions }) {
+function Transactions({ transactions, error, pending, fetchAllTransactions, accounts, fetchAllAccounts }) {
 
   let location = useLocation()
   let { path } = useRouteMatch()
 
   useEffect(() => {
     fetchAllTransactions()
+    fetchAllAccounts()
   }, [])
 
   const shouldPageRender = () => {
     if (pending) return false
     if (error) return false
+    if (accounts.pending) return false
+    if (accounts.error) return false
     return true
   }
 
@@ -85,7 +87,12 @@ function Transactions({ transactions, error, pending, fetchAllTransactions }) {
           Add trans...
         </Route>
         <Route path={`${path}/expense/:pk/edit`}>
-          EXpense edit
+          <TransactionEdit
+            transactions={transactions.filter(trans => {
+              return trans.type === 'expense'
+            })}
+            accounts={accounts.accounts}
+          />
         </Route>
         <Route path={`${path}/expense/:pk`}>
           <ExpenseDetailSwitch expenses={transactions.filter(trans => {
@@ -93,7 +100,12 @@ function Transactions({ transactions, error, pending, fetchAllTransactions }) {
           })} />
         </Route>
         <Route path={`${path}/income/:pk/edit`}>
-          Edit income
+          <TransactionEdit
+            transactions={transactions.filter(trans => {
+              return trans.type === 'income'
+            })}
+            accounts={accounts.accounts}
+          />
         </Route>
         <Route path={`${path}/income/:pk`}>
           <IncomeDetailSwitch income={transactions.filter(trans => {
@@ -109,11 +121,17 @@ function Transactions({ transactions, error, pending, fetchAllTransactions }) {
 const mapStateToProps = state => ({
   transactions: getAllTransactions(state),
   error: getAllTransactionsError(state),
-  pending: getAllTransactionsPending(state)
+  pending: getAllTransactionsPending(state),
+  accounts: {
+    accounts: getAllAccounts(state),
+    error: getAllAccountsError(state),
+    pending: getAllAccountsPending(state)
+  },
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchAllTransactions: fetchAllTransactions
+  fetchAllTransactions: fetchAllTransactions,
+  fetchAllAccounts: fetchAllAccounts,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions)
