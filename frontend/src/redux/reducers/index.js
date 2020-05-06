@@ -5,6 +5,8 @@ import { accountsReducer, getAllAccounts, getAllAccountsPending, getAllAccountsE
 import { budgetsReducer, getAllBudgets, getAllBudgetsError, getAllBudgetsPending, initalState as budgetsState } from './budgets'
 import { transactionsReducer, getAllTransactions, getAllTransactionsPending, getAllTransactionsError, initalState as transactionsState } from "./transactions";
 import { categoriesReducer, getAllCategories, getAllCategoriesPending, getAllCategoriesError, initialState as categoriesInitalState } from "./categories";
+import { tagsReducer, getAllTags, getAllTagsPending, getAllTagsError, initialState as tagsState } from "./tags";
+
 
 export let intialState = {
   accountsReducer: {
@@ -18,7 +20,11 @@ export let intialState = {
   },
   categoriesReducer: {
     ...categoriesInitalState
+  },
+  tagsReducer: {
+    ...tagsState
   }
+
 } //TODO: Create intial state?
 
 export {
@@ -26,7 +32,8 @@ export {
   getAllBudgets, getAllBudgetsPending, getAllBudgetsError,
   getAllTransactions, getAllTransactionsPending, getAllTransactionsError,
   getAllCategories, getAllCategoriesPending, getAllCategoriesError,
+  getAllTags, getAllTagsPending, getAllTagsError,
 }
 
 
-export default combineReducers({ accountsReducer, budgetsReducer, transactionsReducer, categoriesReducer })
+export default combineReducers({ accountsReducer, budgetsReducer, transactionsReducer, categoriesReducer, tagsReducer })
