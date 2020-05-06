@@ -5,7 +5,7 @@ import { fetchAllCategories as allCategoriesFetcher } from "../../utils/api/cate
 export function fetchAllCategories() {
   return dispatch => {
     dispatch(fetchAllCategoriesPending)
-    allCategoriesFetcher
+    allCategoriesFetcher()
       .then(resp => resp.json())
       .then(jsn => {
         dispatch(fetchAllCategoriesSuccess(jsn))
