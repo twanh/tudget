@@ -10,6 +10,7 @@ function TransactionEdit({ transactions, accounts, categories }) {
 
   let { pk } = useParams()
 
+  //TODO Could be find() but filter works for now 
   const currentTransaction = transactions.filter(trans => trans.pk === parseInt(pk))[0]
 
   const shouldComponentRender = () => {
@@ -23,19 +24,26 @@ function TransactionEdit({ transactions, accounts, categories }) {
   if (!shouldComponentRender()) return <WindMillLoading />
 
   let defaultValues = currentTransaction
-  //FIXME: Not the correct way of getting the corresponding account/Category
-  // --> should use primary key and filter for it.
-  defaultValues.account = accounts[currentTransaction.account]
-  defaultValues.category = categories[currentTransaction.category]
+
+  // fill in all the data for the current transactions account/category 
+  // we select the data using the primary key (pk)
+  defaultValues.account = accounts.filter(accnt => (accnt.pk === currentTransaction.account))[0]
+  defaultValues.category = categories.filter(cat => (cat.pk === currentTransaction.category))[0]
 
   function handleEdit(item) {
     // Convert the selected name of the account to the corresponding pk...
     let sumbmittedItem = item
+
+    // Get the primary key of the selected account and set the sumbmittedItem.account to it
+    // because the api uses pk's to refrence accounts
     let accountPk = accounts.filter(accnt => (accnt.name === sumbmittedItem.account.name))[0].pk
     sumbmittedItem.account = accountPk
-
+    // Get the primary key of the selected category and set the sumbmittedItem.category to it
+    // because the api uses pk's to refrence categories
+    let catPk = categories.filter(cat => (cat.name === sumbmittedItem.category.name))[0].pk
+    sumbmittedItem.category = catPk
     // TODO: Path request to update
-
+    console.log(sumbmittedItem)
 
   }
 
