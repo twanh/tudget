@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Switch, Route, useLocation } from 'react-router-dom'
+import { Switch, Route, useLocation, Redirect } from 'react-router-dom'
 
 // App components
 import Dashboard from '../../pages/Dashboard'
@@ -17,10 +17,7 @@ export default function Routes() {
   let location = useLocation()
 
   return (
-    <Switch location={location}>
-      <Route exact path='/'>
-        <Dashboard />
-      </Route>
+    <Switch>
       <Route path='/accounts'>
         <Accounts />
       </Route>
@@ -33,7 +30,12 @@ export default function Routes() {
       <Route path='/transactions'>
         <Transactions />
       </Route>
-
+      <Route path='/dashboard'>
+        <Dashboard />
+      </Route>
+      <Route path='/'>
+        <Redirect to='/dashboard' />
+      </Route>
     </Switch>
   )
 }

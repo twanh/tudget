@@ -87,7 +87,7 @@ function Transactions({ transactions, error, pending, fetchAllTransactions }) {
           Income detail
         </Route>
       </Switch>
-    </React.Fragment>
+    </React.Fragment >
   )
 }
 

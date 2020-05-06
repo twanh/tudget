@@ -17,7 +17,7 @@ function SideNav(props) {
 
         {props.navItems.map(navItem => (
           <RouteLink
-            exact
+            // exact
             to={navItem.link}
             style={{
               textDecoration: 'none',

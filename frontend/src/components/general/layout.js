@@ -19,7 +19,7 @@ export default function Layout({ children }) {
     {
       name: 'Dasboard',
       selected: true,
-      link: '/'
+      link: '/dashboard'
     },
     {
       name: 'Accounts',
