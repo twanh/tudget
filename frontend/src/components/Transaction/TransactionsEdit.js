@@ -8,7 +8,7 @@ import { WindMillLoading } from 'react-loadingg';
 
 import './formol-styles.css'
 
-function TransactionEdit({ transactions, accounts, categories, tags }) {
+function TransactionEdit({ transactions, accounts, categories, tags, onEdit }) {
 
   let { pk } = useParams()
 
@@ -39,25 +39,25 @@ function TransactionEdit({ transactions, accounts, categories, tags }) {
 
   function handleEdit(item) {
     // Convert the selected name of the account to the corresponding pk...
-    let sumbmittedItem = item
-
+    let submittedItem = item
+    submittedItem.pk = pk
     // Get the primary key of the selected account and set the sumbmittedItem.account to it
     // because the api uses pk's to refrence accounts
-    let accountPk = accounts.filter(accnt => (accnt.name === sumbmittedItem.account.name))[0].pk
-    sumbmittedItem.account = accountPk
+    let accountPk = accounts.filter(accnt => (accnt.name === submittedItem.account.name))[0].pk
+    submittedItem.account = accountPk
     // Get the primary key of the selected category and set the sumbmittedItem.category to it
     // because the api uses pk's to refrence categories
-    let catPk = categories.filter(cat => (cat.name === sumbmittedItem.category.name))[0].pk
-    sumbmittedItem.category = catPk
+    let catPk = categories.filter(cat => (cat.name === submittedItem.category.name))[0].pk
+    submittedItem.category = catPk
 
-    let tagsPks = sumbmittedItem.tags.map(tag => {
+    let tagsPks = submittedItem.tags.map(tag => {
       return tags.find(t => t.name === tag).pk
     })
 
-    sumbmittedItem.tags = tagsPks
-
+    submittedItem.tags = tagsPks
+    console.log({ item, submittedItem })
     // TODO: Path request to update
-    console.log(sumbmittedItem)
+    onEdit(pk, submittedItem)
 
   }
 

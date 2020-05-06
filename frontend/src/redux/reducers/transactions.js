@@ -1,7 +1,11 @@
 import {
   FETCH_ALL_TRANSACTIONS_PENDING,
   FETCH_ALL_TRANSACTIONS_ERROR,
-  FETCH_ALL_TRANSACTIONS_SUCCESS
+  FETCH_ALL_TRANSACTIONS_SUCCESS,
+
+  UPDATE_EXPENSE_ERROR,
+  UPDATE_EXPENSE_PENDING,
+  UPDATE_EXPENSE_SUCCESS
 } from "../actionTypes";
 
 
@@ -9,6 +13,19 @@ export const initalState = {
   pending: false,
   transactions: [],
   error: null
+}
+
+function updateExpense(state, data) {
+  // Get the index of the item we want to update
+  // We need to check for the same primary key (pk) and the expense type, becuase the transactions array
+  // can contain items with the same pk becuase it contains expenses & income
+  const indx = state.transactions.findIndex(item => (item.pk === data.pk && item.type === 'expense'))
+  return [
+    ...state.transactions.slice(0, indx),
+    data,
+    ...state.transactions.slice(indx + 1)
+  ]
+
 }
 
 export function transactionsReducer(state = initalState, action) {
@@ -29,6 +46,27 @@ export function transactionsReducer(state = initalState, action) {
         ...state,
         error: action.error
       }
+
+    case UPDATE_EXPENSE_PENDING:
+      return {
+        ...state,
+        pending: true,
+      }
+
+    case UPDATE_EXPENSE_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        transactions: updateExpense(state, action.expense)
+      }
+
+    case UPDATE_EXPENSE_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: action.error
+      }
+
     default:
       return state
   }

@@ -10,7 +10,7 @@ import {
   getAllTags, getAllTagsError, getAllTagsPending
 } from "../redux/reducers";
 
-import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags } from "../redux/fetchers";
+import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags, updateExpense } from "../redux/fetchers";
 
 import { Switch, Route, useLocation, useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -66,10 +66,12 @@ function IncomeDetailSwitch({ income: allincome }) {
 }
 
 
-function Transactions({ transactions, error, pending, fetchAllTransactions, accounts, fetchAllAccounts, categories, fetchAllCategories, tags, fetchAllTags }) {
+function Transactions({ transactions, error, pending, fetchAllTransactions, accounts, fetchAllAccounts, categories, fetchAllCategories, tags, fetchAllTags, updateExpense }) {
 
   let location = useLocation()
   let { path } = useRouteMatch()
+  let history = useHistory()
+
 
   useEffect(() => {
     fetchAllTransactions()
@@ -93,6 +95,13 @@ function Transactions({ transactions, error, pending, fetchAllTransactions, acco
 
   if (!shouldPageRender()) return <WindMillLoading />
 
+  const handleExpenseEdit = (pk, expense) => {
+    // TODO put req. to server via redux
+    console.log({ pk, expense })
+    updateExpense(pk, expense)
+    history.push(`/transactions/expense/${pk}`)
+  }
+
   return (
     <React.Fragment>
       <Switch location={location}>
@@ -107,6 +116,7 @@ function Transactions({ transactions, error, pending, fetchAllTransactions, acco
             accounts={accounts.accounts}
             categories={categories.categories}
             tags={tags.tags}
+            onEdit={(pk, expense) => handleExpenseEdit(pk, expense)}
           />
         </Route>
         <Route path={`${path}/expense/:pk`}>
@@ -161,6 +171,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchAllAccounts: fetchAllAccounts,
   fetchAllCategories: fetchAllCategories,
   fetchAllTags: fetchAllTags,
+  updateExpense: updateExpense
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions)
