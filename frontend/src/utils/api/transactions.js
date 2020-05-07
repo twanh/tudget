@@ -47,7 +47,6 @@ async function updateIncome(pk, data) {
 async function addTransaction(data) {
   // We need to dubble check this, because it is not only required by default
   // it also dictates the url we need to POST request to
-  console.log({ data })
   if (!data.type) throw 'No transaction type specified'
   let headers = new Headers()
   headers.append('Content-Type', 'application/json')
@@ -64,11 +63,17 @@ async function addTransaction(data) {
   // if not expense, it should be income...
   return fetch(INCOME_URl, settings)
 
+}
 
-
-
-
-
+async function deleteTransaction(data) {
+  // We need to dubble check this, because it is not only required by default
+  // it also dictates the url we need to POST request to
+  if (!data.type || !data.pk) throw 'No transaction type or pk specified'
+  if (data.type === 'expense') {
+    return fetch(`${EXPENSES_URl}/${data.pk}/delete/`)
+  }
+  // if not expense, it should be income...
+  return fetch(`${INCOME_URl}/${data.pk}/delete/`)
 }
 
 export {
@@ -76,5 +81,6 @@ export {
   updateExpense,
   updateIncome,
   addTransaction,
+  deleteTransaction,
 }
 
