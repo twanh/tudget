@@ -56,7 +56,7 @@ function updateIncome(state, data) {
 function deleteTransaction(state, transaction) {
   // Get the indx in the state.transactions array which we need to remove
   // We need to check for primary key and type because they might be duplicate between expenses and incoem
-  const ind = state.transactions.findIndex(trans => (trans.pk === transaction.pk && trans.type === transaction.type))
+  const indx = state.transactions.findIndex(trans => (trans.pk === transaction.pk && trans.type === transaction.type))
   return [
     ...state.transactions.slice(0, indx),
     ...state.transactions.slice(indx + 1)

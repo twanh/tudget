@@ -129,6 +129,9 @@ function Transactions({
             onEdit={(pk, expense) => handleExpenseEdit(pk, expense)}
           />
         </Route>
+        <Route path={`${path}/expense/:pk/delete`}>
+          <div>u sure?</div>
+        </Route>
         <Route path={`${path}/expense/:pk`}>
           <ExpenseDetailSwitch expenses={transactions.filter(trans => {
             return trans.type === 'expense'
