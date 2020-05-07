@@ -43,7 +43,7 @@ function TransactionsList({ transactions, accounts, titleType }) {
           </Box>
 
         ))}
-        <Button mt={3} bg='backgroundHighlight' color='text'>Add transaction</Button>
+        <Button mt={3} bg='backgroundHighlight' color='text' onClick={_ => history.push('/transactions/add')}>Add transaction</Button>
       </Flex>
     </Box >
   )
