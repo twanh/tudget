@@ -5,9 +5,12 @@ import 'formol/lib/default.css'
 import './formol-styles.css'
 
 import { WindMillLoading } from 'react-loadingg'
+import { useHistory } from 'react-router-dom'
 
 
 function TransactionsAdd({ addTransaction, accounts, categories, tags }) {
+
+  let history = useHistory()
 
   const shouldComponentRender = () => {
     if (!accounts) return false
@@ -29,6 +32,7 @@ function TransactionsAdd({ addTransaction, accounts, categories, tags }) {
     }
 
     addTransaction(newTransaction)
+    history.goBack()
 
   }
 
