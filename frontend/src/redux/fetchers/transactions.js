@@ -63,14 +63,14 @@ export function updateIncome(pk, data) {
 
 export function addTransaction(data) {
   return dispatch => {
-    dispatch(addTransactionPending()),
-      transactionAdder(data)
-        .then(res => res.json())
-        .then(newT => {
-          dispatch(addTransactionSuccess(newT))
-        })
-        .error(err => {
-          dispatch(addTransactionError(err))
-        })
+    dispatch(addTransactionPending())
+    transactionAdder(data)
+      .then(res => res.json())
+      .then(newT => {
+        dispatch(addTransactionSuccess(newT))
+      })
+      .error(err => {
+        dispatch(addTransactionError(err))
+      })
   }
 }
