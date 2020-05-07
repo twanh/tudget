@@ -17,6 +17,7 @@ import { Switch, Route, useLocation, useRouteMatch, useParams, useHistory } from
 import { WindMillLoading } from 'react-loadingg'
 import TransactionDetail from '../components/Transaction/TransactionDetail';
 import TransactionEdit from '../components/Transaction/TransactionsEdit';
+import TransactionsAdd from '../components/Transaction/TransactionsAdd';
 
 
 function ExpenseDetailSwitch({ expenses, ...props }) {
@@ -114,7 +115,7 @@ function Transactions({
     <React.Fragment>
       <Switch location={location}>
         <Route path={`${path}/add`}>
-          Add trans...
+          <TransactionsAdd categories={categories.categories} tags={tags.tags} accounts={accounts.accounts} />
         </Route>
         <Route path={`${path}/expense/:pk/edit`}>
           <TransactionEdit
