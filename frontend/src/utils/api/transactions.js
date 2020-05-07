@@ -47,8 +47,9 @@ async function updateIncome(pk, data) {
 async function addTransaction(data) {
   // We need to dubble check this, because it is not only required by default
   // it also dictates the url we need to POST request to
+  console.log({ data })
   if (!data.type) throw 'No transaction type specified'
-  if (data.type === 'expenses') {
+  if (data.type === 'expense') {
     let headers = new Headers()
     headers.append('Content-Type', 'application/json')
     const transaction = JSON.stringify(data)
