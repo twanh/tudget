@@ -67,8 +67,8 @@ function TransactionEdit({ transactions, accounts, categories, tags, onEdit }) {
       <Field name='name' required>Name:</Field>
       <Field name='description' type='area'>Description:</Field>
       <Field name='amount' type='number'>Amount (&euro;):</Field>
-      <Field name='account.name' type='select-menu' choices={accounts.map(accnt => accnt.name)}>Account</Field>
-      <Field name='category.name' type='select-menu' choices={categories.map(cat => cat.name)}>Category:</Field>
+      <Field name='account.name' type='select' choices={accounts.map(accnt => accnt.name)}>Account</Field>
+      <Field name='category.name' type='select' choices={categories.map(cat => cat.name)}>Category:</Field>
       <Field name='tags' type='checkbox-set' choices={tags.map(tag => tag.name)}>Tags:</Field>
       <Field name='spendOn' type='date'>Spend on:</Field>
     </Formol >
