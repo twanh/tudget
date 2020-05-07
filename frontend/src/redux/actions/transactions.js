@@ -14,8 +14,10 @@ import {
   ADD_TRANSACTION_ERROR,
   ADD_TRANSACTION_PENDING,
   ADD_TRANSACTION_SUCCESS,
+
   DELETE_TRANSACTION_PENDING,
-  DELETE_TRANSACTION_SUCCESS
+  DELETE_TRANSACTION_SUCCESS,
+  DELETE_TRANSACTION_ERROR
 } from "../actionTypes";
 
 // FETCHING (getting)
@@ -124,7 +126,7 @@ export function deleteTransactionSuccess(transaction) {
 
 export function deleteTransactionError(error) {
   return {
-    type: DELETE_TRANSACTION_SUCCESS,
+    type: DELETE_TRANSACTION_ERROR,
     pending: false,
     error,
   }
