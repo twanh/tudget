@@ -9,9 +9,14 @@ import {
 
   UPDATE_INCOME_ERROR,
   UPDATE_INCOME_PENDING,
-  UPDATE_INCOME_SUCCESS
+  UPDATE_INCOME_SUCCESS,
+
+  ADD_TRANSACTION_ERROR,
+  ADD_TRANSACTION_PENDING,
+  ADD_TRANSACTION_SUCCESS
 } from "../actionTypes";
 
+// FETCHING (getting)
 export function fetchAllTransactionsPending() {
   return {
     type: FETCH_ALL_TRANSACTIONS_PENDING
@@ -31,6 +36,8 @@ export function fetchAllTransactionsError(error) {
     error,
   }
 }
+
+// UPDATING 
 
 export function updateExpensePending() {
   return {
@@ -74,4 +81,34 @@ export function updateIncomeError(error) {
     error,
   }
 }
+
+// CREATING
+
+export function addTransactionPending() {
+  return {
+    type: ADD_TRANSACTION_PENDING
+  }
+}
+
+export function addTransactionSuccess(transaction) {
+  return {
+    type: ADD_TRANSACTION_SUCCESS,
+    transaction,
+  }
+}
+
+export function addTransactionError(error) {
+  return {
+    type: ADD_TRANSACTION_ERROR,
+    error,
+  }
+}
+
+
+
+
+
+
+
+
 
