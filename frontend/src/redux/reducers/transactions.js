@@ -9,7 +9,11 @@ import {
 
   UPDATE_INCOME_ERROR,
   UPDATE_INCOME_PENDING,
-  UPDATE_INCOME_SUCCESS
+  UPDATE_INCOME_SUCCESS,
+
+  ADD_TRANSACTION_PENDING,
+  ADD_TRANSACTION_SUCCESS,
+  ADD_TRANSACTION_ERROR
 } from "../actionTypes";
 
 
@@ -98,6 +102,25 @@ export function transactionsReducer(state = initalState, action) {
       }
 
     case UPDATE_INCOME_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: action.error
+      }
+
+    case ADD_TRANSACTION_PENDING:
+      return {
+        ...state,
+        pending: true
+      }
+
+    case ADD_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        transactions: [...state.transactions, action.transaction]
+      }
+    case ADD_TRANSACTION_ERROR:
       return {
         ...state,
         pending: false,
