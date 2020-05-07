@@ -42,7 +42,7 @@ function TransactionDetail({ transaction, categories, tags }) {
             }
           }}
           px={3} fontWeight="bold" fontSize={1}
-        //TODO: Add delete handler.
+          onClick={_ => history.push(`/transactions/${transaction.type}/${transaction.pk}/delete`)}
         >Delete</Button>
       </Flex>
       <Text as='h4' fontSize={2} fontWeight='light'>
