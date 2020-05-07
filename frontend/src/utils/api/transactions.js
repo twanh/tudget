@@ -49,18 +49,26 @@ async function addTransaction(data) {
   // it also dictates the url we need to POST request to
   console.log({ data })
   if (!data.type) throw 'No transaction type specified'
+  let headers = new Headers()
+  headers.append('Content-Type', 'application/json')
+  const transaction = JSON.stringify(data)
+  const settings = {
+    method: 'POST',
+    headers,
+    body: transaction,
+    redirect: 'follow'
+  }
   if (data.type === 'expense') {
-    let headers = new Headers()
-    headers.append('Content-Type', 'application/json')
-    const transaction = JSON.stringify(data)
-    const settings = {
-      method: 'POST',
-      headers,
-      body: transaction,
-      redirect: 'follow'
-    }
     return fetch(EXPENSES_URl, settings)
   }
+  // if not expense, it should be income...
+  return fetch(INCOME_URl, settings)
+
+
+
+
+
+
 }
 
 export {
