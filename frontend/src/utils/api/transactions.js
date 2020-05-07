@@ -44,9 +44,28 @@ async function updateIncome(pk, data) {
   return fetch(url, settings)
 }
 
+async function addTransaction(data) {
+  // We need to dubble check this, because it is not only required by default
+  // it also dictates the url we need to POST request to
+  if (!data.type) throw 'No transaction type specified'
+  if (data.type === 'expenses') {
+    let headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    const transaction = JSON.stringify(data)
+    const settings = {
+      method: 'POST',
+      headers,
+      body: transaction,
+      redirect: 'follow'
+    }
+    return fetch(EXPENSES_URl, settings)
+  }
+}
 
 export {
   fetchAllTransactions,
   updateExpense,
-  updateIncome
+  updateIncome,
+  addTransaction,
 }
+
