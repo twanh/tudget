@@ -10,7 +10,7 @@ import {
   getAllTags, getAllTagsError, getAllTagsPending
 } from "../redux/reducers";
 
-import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags, updateExpense, updateIncome } from "../redux/fetchers";
+import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags, updateExpense, updateIncome, addTransaction } from "../redux/fetchers";
 
 import { Switch, Route, useLocation, useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -71,7 +71,8 @@ function Transactions({
   transactions, error, pending,
   fetchAllTransactions, accounts, fetchAllAccounts,
   categories, fetchAllCategories, tags, fetchAllTags,
-  updateExpense, updateIncome }) {
+  updateExpense, updateIncome, addTransaction
+}) {
 
   let location = useLocation()
   let { path } = useRouteMatch()
@@ -115,7 +116,7 @@ function Transactions({
     <React.Fragment>
       <Switch location={location}>
         <Route path={`${path}/add`}>
-          <TransactionsAdd categories={categories.categories} tags={tags.tags} accounts={accounts.accounts} />
+          <TransactionsAdd categories={categories.categories} tags={tags.tags} accounts={accounts.accounts} addTransaction={addTransaction} />
         </Route>
         <Route path={`${path}/expense/:pk/edit`}>
           <TransactionEdit
@@ -183,6 +184,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchAllTags: fetchAllTags,
   updateExpense: updateExpense,
   updateIncome: updateIncome,
+  addTransaction: addTransaction
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions)

@@ -69,7 +69,7 @@ export function addTransaction(data) {
       .then(newT => {
         dispatch(addTransactionSuccess(newT))
       })
-      .error(err => {
+      .catch(err => {
         dispatch(addTransactionError(err))
       })
   }

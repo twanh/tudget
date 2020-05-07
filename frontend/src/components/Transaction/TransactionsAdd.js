@@ -19,7 +19,17 @@ function TransactionsAdd({ addTransaction, accounts, categories, tags }) {
   if (!shouldComponentRender()) return <WindMillLoading />
 
   const handeSubmit = (item) => {
-    console.log(item)
+    let newTransaction = item
+    newTransaction.account = accounts.find(accnt => accnt.name === newTransaction.account.name).pk
+    if (newTransaction.tags) {
+      newTransaction.tags = newTransaction.tags.map(t => tags.find(tag => tag.name === t).pk)
+    }
+    if (newTransaction.category) {
+      newTransaction.category = categories.find(cat => cat.name === newTransaction.category.name).pk
+    }
+
+    addTransaction(newTransaction)
+
   }
 
   return (
