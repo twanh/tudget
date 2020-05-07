@@ -152,7 +152,7 @@ export function transactionsReducer(state = initalState, action) {
       return {
         ...state,
         pending: false,
-        transactions: deleteTransaction(state, transaction)
+        transactions: deleteTransaction(state, action.transaction)
       }
 
     case DELETE_TRANSACTION_ERROR:

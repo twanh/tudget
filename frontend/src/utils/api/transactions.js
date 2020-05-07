@@ -70,10 +70,10 @@ async function deleteTransaction(data) {
   // it also dictates the url we need to POST request to
   if (!data.type || !data.pk) throw 'No transaction type or pk specified'
   if (data.type === 'expense') {
-    return fetch(`${EXPENSES_URl}/${data.pk}/delete/`)
+    return fetch(`${EXPENSES_URl}${data.pk}/delete/`)
   }
   // if not expense, it should be income...
-  return fetch(`${INCOME_URl}/${data.pk}/delete/`)
+  return fetch(`${INCOME_URl}${data.pk}/delete/`)
 }
 
 export {

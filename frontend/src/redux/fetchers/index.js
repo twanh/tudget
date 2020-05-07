@@ -1,6 +1,6 @@
 import { fetchAllAccounts } from "./accounts";
 import { fetchAllBudgets } from "./budgets";
-import { fetchAllTransactions, updateExpense, updateIncome, addTransaction } from "./transactions";
+import { fetchAllTransactions, updateExpense, updateIncome, addTransaction, deleteTransaction } from "./transactions";
 import { fetchAllCategories } from './categories'
 import { fetchAllTags } from './tags'
 export {
@@ -11,5 +11,6 @@ export {
   fetchAllTags,
   updateExpense,
   updateIncome,
-  addTransaction
+  addTransaction,
+  deleteTransaction
 }

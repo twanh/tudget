@@ -10,7 +10,7 @@ import {
   getAllTags, getAllTagsError, getAllTagsPending
 } from "../redux/reducers";
 
-import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags, updateExpense, updateIncome, addTransaction } from "../redux/fetchers";
+import { fetchAllTransactions, fetchAllAccounts, fetchAllCategories, fetchAllTags, updateExpense, updateIncome, addTransaction, deleteTransaction } from "../redux/fetchers";
 
 import { Switch, Route, useLocation, useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -18,6 +18,7 @@ import { WindMillLoading } from 'react-loadingg'
 import TransactionDetail from '../components/Transaction/TransactionDetail';
 import TransactionEdit from '../components/Transaction/TransactionsEdit';
 import TransactionsAdd from '../components/Transaction/TransactionsAdd';
+import TransactionDelete from '../components/Transaction/TransactionDelete';
 
 
 function ExpenseDetailSwitch({ expenses, ...props }) {
@@ -71,7 +72,7 @@ function Transactions({
   transactions, error, pending,
   fetchAllTransactions, accounts, fetchAllAccounts,
   categories, fetchAllCategories, tags, fetchAllTags,
-  updateExpense, updateIncome, addTransaction
+  updateExpense, updateIncome, addTransaction, deleteTransaction
 }) {
 
   let location = useLocation()
@@ -130,7 +131,7 @@ function Transactions({
           />
         </Route>
         <Route path={`${path}/expense/:pk/delete`}>
-          <div>u sure?</div>
+          <TransactionDelete transactions={transactions} type={'expense'} deleteTransaction={deleteTransaction} />
         </Route>
         <Route path={`${path}/expense/:pk`}>
           <ExpenseDetailSwitch expenses={transactions.filter(trans => {
@@ -147,6 +148,9 @@ function Transactions({
             tags={tags.tags}
             onEdit={(pk, income) => handleIncomeEdit(pk, income)}
           />
+        </Route>
+        <Route path={`${path}/income/:pk/delete`}>
+          <TransactionDelete transactions={transactions} type={'income'} deleteTransaction={deleteTransaction} />
         </Route>
         <Route path={`${path}/income/:pk`}>
           <IncomeDetailSwitch income={transactions.filter(trans => {
@@ -187,7 +191,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   fetchAllTags: fetchAllTags,
   updateExpense: updateExpense,
   updateIncome: updateIncome,
-  addTransaction: addTransaction
+  addTransaction: addTransaction,
+  deleteTransaction: deleteTransaction
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Transactions)
