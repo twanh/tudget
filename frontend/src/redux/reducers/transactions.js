@@ -13,7 +13,11 @@ import {
 
   ADD_TRANSACTION_PENDING,
   ADD_TRANSACTION_SUCCESS,
-  ADD_TRANSACTION_ERROR
+  ADD_TRANSACTION_ERROR,
+
+  DELETE_TRANSACTION_PENDING,
+  DELETE_TRANSACTION_SUCCESS,
+  DELETE_TRANSACTION_ERROR
 } from "../actionTypes";
 
 
@@ -44,6 +48,17 @@ function updateIncome(state, data) {
   return [
     ...state.transactions.slice(0, indx),
     data,
+    ...state.transactions.slice(indx + 1)
+  ]
+
+}
+
+function deleteTransaction(state, transaction) {
+  // Get the indx in the state.transactions array which we need to remove
+  // We need to check for primary key and type because they might be duplicate between expenses and incoem
+  const ind = state.transactions.findIndex(trans => (trans.pk === transaction.pk && trans.type === transaction.type))
+  return [
+    ...state.transactions.slice(0, indx),
     ...state.transactions.slice(indx + 1)
   ]
 
@@ -121,6 +136,26 @@ export function transactionsReducer(state = initalState, action) {
         transactions: [...state.transactions, action.transaction]
       }
     case ADD_TRANSACTION_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: action.error
+      }
+
+    case DELETE_TRANSACTION_PENDING:
+      return {
+        ...state,
+        pending: true
+      }
+
+    case DELETE_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        transactions: deleteTransaction(state, transaction)
+      }
+
+    case DELETE_TRANSACTION_ERROR:
       return {
         ...state,
         pending: false,
