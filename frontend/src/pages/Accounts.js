@@ -1,106 +1,148 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
+import React from "react";
+import { useEffect, useState } from "react";
 
-import { Text, Heading, Flex, Box } from 'rebass'
+import { Text, Heading, Flex, Box } from "rebass";
 
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import { getAllAccounts, getAllAccountsPending, getAllAccountsError } from '../redux/reducers'
-import { fetchAllAccounts, updateAccount } from '../redux/fetchers'
+import {
+  getAllAccounts,
+  getAllAccountsPending,
+  getAllAccountsError,
+} from "../redux/reducers";
+import { fetchAllAccounts, updateAccount } from "../redux/fetchers";
 
-import { WindMillLoading } from 'react-loadingg';
+import { WindMillLoading } from "react-loadingg";
 
-import { useParams, Route, Switch, useRouteMatch, useHistory } from "react-router";
-import AccountList from '../components/Account/AccountList'
-import AccountDetails from '../components/Account/AccountDetails'
-import AccountEdit from '../components/Account/AccountEdit'
+import {
+  useParams,
+  Route,
+  Switch,
+  useRouteMatch,
+  useHistory,
+} from "react-router";
+import AccountList from "../components/Account/AccountList";
+import AccountDetails from "../components/Account/AccountDetails";
+import AccountEdit from "../components/Account/AccountEdit";
 
 function AccountDetailSwitch({ accounts, returnAccountId }) {
-
-  let { accountId } = useParams()
+  let { accountId } = useParams();
 
   const shouldComponentRender = () => {
-    if (!accountId) return false
-    if (!accounts.length > 0) return false
-    return true
-  }
+    if (!accountId) return false;
+    if (!accounts.length > 0) return false;
+    return true;
+  };
 
-  if (!shouldComponentRender()) return <WindMillLoading />
+  // const handleAccoountEdit = (e) => {
+  //   console.log("hist", history);
+  //   // history.push(`/accounts/${accountId}/edit`);
+  // };
 
-  const account = accounts.filter(accnt => {
-    return accnt.pk == parseInt(accountId)
-  })[0]
+  if (!shouldComponentRender()) return <WindMillLoading />;
 
-  returnAccountId(parseInt(accountId))
+  const account = accounts.filter((accnt) => {
+    return accnt.pk == parseInt(accountId);
+  })[0];
 
-  return <AccountDetails account={account} />
+  returnAccountId(parseInt(accountId));
 
+  return (
+    <AccountDetails
+      account={account}
+      // handleEdit={(e) => handleAccoountEdit(e)}
+    />
+  );
 }
 
-function Accounts({ accounts, error, pending, fetchAllAccounts, updateaAccount }) {
+function Accounts({
+  accounts,
+  error,
+  pending,
+  fetchAllAccounts,
+  updateaAccount,
+}) {
+  const [currentAccount, setCurrentAccount] = useState(0);
 
-  const [currentAccount, setCurrentAccount] = useState(0)
-
-  let { path } = useRouteMatch()
-  let history = useHistory()
+  let { path } = useRouteMatch();
+  let history = useHistory();
 
   useEffect(() => {
-    fetchAllAccounts()
-  }, [])
+    fetchAllAccounts();
+  }, []);
 
   const shouldPageRender = () => {
-    if (pending) return false
-    return true
-  }
+    if (pending) return false;
+    return true;
+  };
 
-  if (!shouldPageRender()) return <p>Loading...</p>
+  if (!shouldPageRender()) return <p>Loading...</p>;
 
   const handleAccountListClick = (pk) => {
-    setCurrentAccount(pk)
-    history.push(`${path}/${pk}`)
-  }
+    setCurrentAccount(pk);
+    history.push(`${path}/${pk}`);
+  };
 
   const handleEdit = (pk, item) => {
-    console.log({ pk, item })
-    debugger
-    updateaAccount(pk, item)
-    history.push(`/accounts/${pk}`)
-  }
+    console.log({ pk, item });
+    debugger;
+    updateaAccount(pk, item);
+    history.push(`/accounts/${pk}`);
+  };
 
   const updateHighlighedId = (id) => {
     // move this logic to the account list comp...
-    setCurrentAccount(id)
-  }
+    setCurrentAccount(id);
+  };
 
   return (
     <React.Fragment>
       <Switch>
         <Route exact path={path}>
-          <AccountList accounts={accounts} highlightIndx={currentAccount != 0 && currentAccount} handleClick={p => handleAccountListClick(p)}></AccountList>
+          <AccountList
+            accounts={accounts}
+            highlightIndx={currentAccount != 0 && currentAccount}
+            handleClick={(p) => handleAccountListClick(p)}
+          ></AccountList>
           Main page :0
         </Route>
         <Route path={`${path}/:accountId/edit`}>
-          <AccountEdit accounts={accounts} returnAccountId={id => updateHighlighedId(id)} onEdit={(pk, item) => handleEdit(pk, item)} />
+          <AccountEdit
+            accounts={accounts}
+            returnAccountId={(id) => updateHighlighedId(id)}
+            onEdit={(pk, item) => handleEdit(pk, item)}
+          />
         </Route>
         <Route path={`${path}/:accountId`}>
-          <AccountList accounts={accounts} highlightIndx={currentAccount != 0 && currentAccount} handleClick={p => handleAccountListClick(p)}></AccountList>
-          <AccountDetailSwitch accounts={accounts} returnAccountId={id => updateHighlighedId(id)} />
+          <AccountList
+            accounts={accounts}
+            highlightIndx={currentAccount != 0 && currentAccount}
+            handleClick={(p) => handleAccountListClick(p)}
+          ></AccountList>
+          <AccountDetailSwitch
+            accounts={accounts}
+            returnAccountId={(id) => updateHighlighedId(id)}
+          />
         </Route>
       </Switch>
     </React.Fragment>
-  )
+  );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   accounts: getAllAccounts(state),
   error: getAllAccountsError(state),
-  pending: getAllAccountsPending(state)
-})
+  pending: getAllAccountsPending(state),
+});
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchAllAccounts: fetchAllAccounts,
-  updateaAccount: updateAccount,
-}, dispatch)
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchAllAccounts: fetchAllAccounts,
+      updateaAccount: updateAccount,
+    },
+    dispatch
+  );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Accounts)
+export default connect(mapStateToProps, mapDispatchToProps)(Accounts);
