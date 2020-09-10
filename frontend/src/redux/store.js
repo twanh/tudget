@@ -9,4 +9,8 @@ import rootReducer, { intialState } from './reducers'
 
 const middlewares = [thunk]
 
-export default createStore(rootReducer, intialState, composeWithDevTools(applyMiddleware(...middlewares)))
+const composeEnhancers = composeWithDevTools({
+  trace: true,
+})
+
+export default createStore(rootReducer, intialState, composeEnhancers(applyMiddleware(...middlewares)))

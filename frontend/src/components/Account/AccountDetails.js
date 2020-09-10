@@ -33,10 +33,14 @@ function AccountDetails({ account }) {
             }
           }}>
             <Heading color='secondary' mb={1}>{account.name}</Heading>
-            <Text as='h4' fontSize={1} fontWeight='light'>
+            <Text fontSize={1} fontWeight='light'>
               <Text color={account.balance[0] === '-' ? 'negative' : 'positive'} display='inline-block'>&euro;{account.balance}</Text>
               <Text fontFamily='body' display='inline-block'>&nbsp;-&nbsp;</Text>
               <Text fontFamily='body' display='inline-block'>{account.description}</Text>
+              <Text
+                fontFamily='body' mt='-18px' display='inline-blow'
+                textAlign='right' color='gray'
+                sx={{ ':hover': { textDecoration: 'underline', cursor: 'pointer' } }} >Edit account</Text>
             </Text>
           </Box>
           <Heading fontSize={3}>

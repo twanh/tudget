@@ -7,13 +7,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { getAllAccounts, getAllAccountsPending, getAllAccountsError } from '../redux/reducers'
-import { fetchAllAccounts } from '../redux/fetchers'
+import { fetchAllAccounts, updateAccount } from '../redux/fetchers'
 
 import { WindMillLoading } from 'react-loadingg';
 
 import { useParams, Route, Switch, useRouteMatch, useHistory } from "react-router";
 import AccountList from '../components/Account/AccountList'
 import AccountDetails from '../components/Account/AccountDetails'
+import AccountEdit from '../components/Account/AccountEdit'
 
 function AccountDetailSwitch({ accounts, returnAccountId }) {
 
@@ -37,15 +38,13 @@ function AccountDetailSwitch({ accounts, returnAccountId }) {
 
 }
 
-function Accounts({ accounts, error, pending, fetchAllAccounts }) {
+function Accounts({ accounts, error, pending, fetchAllAccounts, updateaAccount }) {
 
   const [currentAccount, setCurrentAccount] = useState(0)
 
   let { path } = useRouteMatch()
-  let { accountId } = useParams()
   let history = useHistory()
 
-  console.log('od', accountId)
   useEffect(() => {
     fetchAllAccounts()
   }, [])
@@ -62,15 +61,31 @@ function Accounts({ accounts, error, pending, fetchAllAccounts }) {
     history.push(`${path}/${pk}`)
   }
 
+  const handleEdit = (pk, item) => {
+    console.log({ pk, item })
+    debugger
+    updateaAccount(pk, item)
+    history.push(`/accounts/${pk}`)
+  }
+
+  const updateHighlighedId = (id) => {
+    // move this logic to the account list comp...
+    setCurrentAccount(id)
+  }
+
   return (
     <React.Fragment>
-      <AccountList accounts={accounts} highlightIndx={currentAccount != 0 && currentAccount} handleClick={p => handleAccountListClick(p)}></AccountList>
       <Switch>
         <Route exact path={path}>
+          <AccountList accounts={accounts} highlightIndx={currentAccount != 0 && currentAccount} handleClick={p => handleAccountListClick(p)}></AccountList>
           Main page :0
         </Route>
+        <Route path={`${path}/:accountId/edit`}>
+          <AccountEdit accounts={accounts} returnAccountId={id => updateHighlighedId(id)} onEdit={(pk, item) => handleEdit(pk, item)} />
+        </Route>
         <Route path={`${path}/:accountId`}>
-          <AccountDetailSwitch accounts={accounts} returnAccountId={id => setCurrentAccount(id)} />
+          <AccountList accounts={accounts} highlightIndx={currentAccount != 0 && currentAccount} handleClick={p => handleAccountListClick(p)}></AccountList>
+          <AccountDetailSwitch accounts={accounts} returnAccountId={id => updateHighlighedId(id)} />
         </Route>
       </Switch>
     </React.Fragment>
@@ -85,6 +100,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchAllAccounts: fetchAllAccounts,
+  updateaAccount: updateAccount,
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Accounts)

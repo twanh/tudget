@@ -1,6 +1,9 @@
-import { fetchAllAccountsPending, fetchAllAccountsSuccess, fetchAllAccountsError } from '../actions/accounts'
+import {
+  fetchAllAccountsPending, fetchAllAccountsSuccess, fetchAllAccountsError,
+  updateAccountPending, updateAccountSuccess, updateAccountError
+} from '../actions/accounts'
 
-import { fetchAllAccounts as allAccountFetcher } from '../../utils/api/accounts'
+import { fetchAllAccounts as allAccountFetcher, updateAccount as accountUpdater } from '../../utils/api/accounts'
 
 export function fetchAllAccounts() {
   return dispatch => {
@@ -11,5 +14,18 @@ export function fetchAllAccounts() {
         dispatch(fetchAllAccountsSuccess(jsn))
       })
       .catch(err => dispatch(fetchAllAccountsError(err)))
+  }
+}
+
+export function updateAccount(pk, account) {
+  return dispatch => {
+    dispatch(updateAccountPending())
+    accountUpdater(pk, account)
+      .then(resp => resp.json())
+      .then(jsn => {
+        debugger
+        dispatch(updateAccountSuccess(jsn))
+      })
+      .catch(err => dispatch(updateAccountPending(err)))
   }
 }
