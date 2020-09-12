@@ -1,7 +1,9 @@
 <template>
   <div>
     <h5 class="subtitle has-text-weight-light is-size-6 has-text-weight-bold">Recent {{this.title}}:</h5>
-
+    <div v-if="transactions.length < 1">
+      <span class="is-size-7">Nothing here yet! Add {{this.title}} to get started!</span>
+    </div>
     <div
       v-for="transaction in transactions"
       class="transaction-box mr-5"
@@ -21,8 +23,8 @@
       </div>
 
       <div class="level pb-1">
-        <div class="level-left is-size-7">{{transaction.account}}</div>
-        <div class="level-right is-size-7">Amount</div>
+        <div class="level-left is-size-7">{{getTransactionAccount.name}}</div>
+        <div class="level-right is-size-7">{{transaction.spendOn}}</div>
       </div>
     </div>
     <div class="buttons mr-5 mt-3">
@@ -40,7 +42,7 @@
 export default {
   name: "TransactionsList",
   // Type: income/exenese/all
-  props: ["type", "transactions"],
+  props: ["type", "transactions", "accounts"],
   methods: {
     handleTransactionClick(type, pk) {
       //! This route does not exist yet !
@@ -60,6 +62,13 @@ export default {
       } else {
         return "transactions";
       }
+    },
+    getTransactionAccount() {
+      if (this.accounts.length === 1) {
+        return this.accounts[0];
+      }
+      //! Else filter all accounts
+      return { name: "404" };
     }
   }
 };

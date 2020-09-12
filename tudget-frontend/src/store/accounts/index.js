@@ -20,6 +20,11 @@ const mutations = {
 const getters = {
   allAccounts: (state) => state.accounts,
   isPending: (state) => state.pending,
+  getAccountByPk: (state) => (pk) => {
+    return state.accounts.find((account) => {
+      return account.pk === parseInt(pk);
+    });
+  },
 };
 const actions = {
   async getAllAccounts({ commit }) {
