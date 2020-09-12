@@ -1,3 +1,10 @@
 <template>
-  <h1>This is an about page</h1>
+  <h1>All Accounts</h1>
 </template>
+
+
+<script>
+export default {
+  name: "Accounts"
+};
+</script>

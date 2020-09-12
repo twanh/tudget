@@ -1,10 +1,10 @@
 <template>
   <div>
     <h2 class="subtitle has-text-weight-light is-size-4 is-family-secondary">Dashboard</h2>
-    <h5 class="subtitle has-text-weight-light is-size-6 has-text-weight-bold">All your accounts:</h5>
-    <accounts-bar
-      :accounts="[{pk: 0, name: 'Account #1', balance: '500'},{pk: 1,name: 'Account #2', balance: '60'},{pk: 2,name: 'Account #3', balance: '10000'},{pk: 3,name: 'Account #4', balance: '-200'}]"
-    />
+    <div v-if="!accountsPending">
+      <h5 class="subtitle has-text-weight-light is-size-6 has-text-weight-bold">All your accounts:</h5>
+      <accounts-bar :accounts="allAccounts" />
+    </div>
     <div class="columns mt-4">
       <div class="column">
         <h5 class="subtitle has-text-weight-light is-size-6 has-text-weight-bold">All your Savings</h5>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import AccountsBar from "@/components/AccountsBar";
 import TransactionsList from "@/components/TransactionsList";
 
@@ -52,6 +54,21 @@ export default {
   components: {
     "accounts-bar": AccountsBar,
     "transactions-list": TransactionsList
+  },
+  mounted() {
+    let cnt = 0;
+    if (this.allAccounts.length === 0) {
+      this.$store.dispatch("accounts/getAllAccounts");
+      console.log("Loading shit");
+      cnt++;
+      console.log(cnt);
+    }
+  },
+  computed: {
+    ...mapGetters({
+      allAccounts: "accounts/allAccounts",
+      accountsPending: "accounts/isPending"
+    })
   }
 };
 </script>
