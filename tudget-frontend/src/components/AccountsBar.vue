@@ -8,9 +8,12 @@
         :key="account.pk"
         @click.prevent="handleClick(account.pk)"
       >
-        <span class="title is-6">{{account.name}}</span>
+        <span class="title is-6 has-text-white">{{account.name | truncate}}</span>
         <br />
-        <span class="subtitle is-6">&euro;{{account.balance}}</span>
+        <span
+          class="subtitle is-6"
+          :class="account.balance < 0 ? 'has-text-danger' : 'has-text-success'"
+        >&euro;{{account.balance}}</span>
       </div>
     </div>
   </div>
@@ -20,6 +23,14 @@
 export default {
   name: "AccountsBar",
   props: ["accounts"],
+  filters: {
+    truncate(value) {
+      if (value.length > 10) {
+        return value.split("", 11).join("") + "...";
+      }
+      return value;
+    }
+  },
   methods: {
     handleClick(pk) {
       this.$router.history.push(`/account/${pk}`);
