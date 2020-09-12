@@ -25,10 +25,7 @@ export default {
       this.$router.history.push(`/account/${pk}`);
     },
     isActive(pk) {
-      console.log(pk, this.$route);
-      console.log(this.$route.params.pk);
       if (this.$route.params.pk == pk) {
-        console.log("rtue");
         return true;
       }
       return false;
