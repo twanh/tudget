@@ -2,7 +2,7 @@
   <div class="sidebar-page pl-2" id="sidebar">
     <section class="sidebar-layout">
       <b-sidebar position="static" mobile="fullwidth" open :fullheight="true" id="sidebar-elem">
-        <div class="pt-1">
+        <div class="mt-4">
           <div class="block">
             <h3 class="title">Tudget</h3>
           </div>

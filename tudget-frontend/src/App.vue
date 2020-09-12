@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="columns main-column">
-      <div class="column mt-4 is-one-fifth">
+      <div class="column is-one-fifth">
         <sidebar />
       </div>
       <div class="column mt-5">
