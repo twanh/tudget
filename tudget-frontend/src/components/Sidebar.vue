@@ -8,7 +8,7 @@
           </div>
           <b-menu class="is-custom-mobile">
             <b-menu-list label="Overview">
-              <b-menu-item icon="logout" label="Balance"></b-menu-item>
+              <b-menu-item icon="cash-multiple" label="Balance: $500"></b-menu-item>
             </b-menu-list>
             <b-menu-list label="Navigation">
               <b-menu-item
