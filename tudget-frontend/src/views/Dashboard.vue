@@ -56,12 +56,8 @@ export default {
     "transactions-list": TransactionsList
   },
   mounted() {
-    let cnt = 0;
     if (this.allAccounts.length === 0) {
       this.$store.dispatch("accounts/getAllAccounts");
-      console.log("Loading shit");
-      cnt++;
-      console.log(cnt);
     }
   },
   computed: {
