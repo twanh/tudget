@@ -29,6 +29,7 @@ const actions = {
     if (r.ok && accounts.length > 0 && !error) {
       commit("setAccountsSuccess", accounts);
     } else {
+      console.error("Error when fetching all accounts: ", error);
       commit("setAccountsError", error);
     }
   },
