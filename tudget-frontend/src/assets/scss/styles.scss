@@ -13,7 +13,7 @@ $success: #27ae60;
 $danger: #e74c3c;
 $background: #19202c;
 $backgroundHighlight: #5e35b17a;
-$backgroundHighlight-invert: fincColorInvert(#5e35b17a);
+$background-invert: $backgroundHighlight;
 $light: $gray;
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
@@ -70,12 +70,11 @@ $link: $text;
 $link-hover: $secondary;
 $link-active: $secondary;
 
-body {
-  // width: 100%;
-  height: 100vh;
-  background-color: $background;
-}
+// body
+$body-background-color: $background;
 
-// Import Bulma and Buefy styles
+// Menu
+$menu-item-active-background-color: $backgroundHighlight;
+
 @import "~bulma";
 @import "~buefy/src/scss/buefy";

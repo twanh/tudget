@@ -1,26 +1,28 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <div class="columns">
-        <div class="column mt-6 pl-6 is-one-fifth">
-          <h3 class="title is-primary">Tudget</h3>
-          <ul>
-            <li>
-              <router-link to="/" class="has-text-weight-semibold"
-                >Home</router-link
-              >
-            </li>
-            <li>
-              <router-link to="/about" class="has-text-weight-semibold"
-                >About</router-link
-              >
-            </li>
-          </ul>
-        </div>
-        <div class="column mt-6">
-          <router-view />
-        </div>
+    <div class="columns main-column">
+      <div class="column mt-4 is-one-fifth">
+        <sidebar />
+      </div>
+      <div class="column mt-5">
+        <router-view />
       </div>
     </div>
+    <!-- </div> -->
   </div>
 </template>
+
+<script>
+import Sidebar from "@/components/Sidebar";
+
+export default {
+  name: "App",
+  components: { Sidebar }
+};
+</script>
+
+<style lang="scss">
+.main-column {
+  height: 100vh;
+}
+</style>
