@@ -17,6 +17,12 @@ export const routes = [
       import(/* webpackChunkName: "accounts" */ "../views/Accounts.vue"),
   },
   {
+    path: "/account/:pk",
+    name: "Account",
+    component: () =>
+      import(/* webpackChunkName: "account" */ "../views/Account.vue"),
+  },
+  {
     path: "/budgets",
     name: "Budgets",
     // route level code-splitting
