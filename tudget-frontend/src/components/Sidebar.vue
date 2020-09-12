@@ -14,25 +14,25 @@
               <b-menu-item
                 icon="alpha-d-box"
                 label="Dashboard"
-                href="/"
+                @click.prevent="$router.history.push('/')"
                 :active="isActive('Dashboard')"
               ></b-menu-item>
               <b-menu-item
                 icon="account-box-multiple"
                 label="Accounts"
-                href="/accounts"
+                @click.prevent="$router.history.push('/accounts')"
                 :active="isActive('Accounts')"
               ></b-menu-item>
               <b-menu-item
                 icon="notebook"
                 label="Budgets"
-                href="/budgets"
+                @click.prevent="$router.history.push('/budgets')"
                 :active="isActive('Budgets')"
               ></b-menu-item>
               <b-menu-item
                 icon="cash-100"
                 label="Savings"
-                href="/savings"
+                @click.prevent="$router.history.push('/savings')"
                 :active="isActive('Savings')"
               ></b-menu-item>
             </b-menu-list>
