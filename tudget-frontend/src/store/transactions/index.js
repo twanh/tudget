@@ -19,6 +19,15 @@ const mutations = {
     state.pending = false;
     state.error = error;
   },
+  deleteTransaction(state, transaction) {
+    const indx = state.transactions.findIndex(
+      (item) => item.pk === transaction.pk && item.type === transaction.type
+    );
+    this.state = [
+      ...state.transactions.slice(0, indx),
+      ...state.transactions.slice(indx + 1),
+    ];
+  },
   updateExpense(state, expense) {
     // Get the index of the item we want to update
     // We need to check for the same primary key (pk) and the expense type, becuase the transactions array
@@ -151,6 +160,30 @@ const actions = {
 
     console.log("Updating....");
     console.log(transaction);
+  },
+  async deleteTransaction({ commit }, transaction) {
+    if (transaction.type === "expense ") {
+      let error;
+      const url = `${EXPENSES_URl}${transaction.pk}/delete/`;
+      const r = await fetch(url).catch((err) => (error = err));
+      if (r.ok && !error) {
+        commit("deleteTransaction", transaction);
+      } else {
+        console.error(
+          "Something went wrong when trying to delete the transaction",
+          { error, r, transaction }
+        );
+      }
+    } else if (transaction.type === "income") {
+      let error;
+      const url = `${INCOME_URl}${transaction.pk}/delete/`;
+      const r = await fetch(url).catch((err) => (error = err));
+      if (r.ok && !error) {
+        commit("deleteTransaction", transaction);
+      }
+    } else {
+      console.error("Transaction type is not correctly set", transaction);
+    }
   },
 };
 
