@@ -19,12 +19,48 @@ const mutations = {
     state.pending = false;
     state.error = error;
   },
+  updateExpense(state, expense) {
+    // Get the index of the item we want to update
+    // We need to check for the same primary key (pk) and the expense type, becuase the transactions array
+    // can contain items with the same pk becuase it contains expenses & income
+    const toUpdateInx = state.transactions.findIndex(
+      (item) => item.pk === expense.pk && item.type === "expense"
+    );
+    console.log("updating expense in the mutations!");
+    const newTransactions = [
+      ...state.transactions.slice(0, toUpdateInx),
+      expense,
+      ...state.transactions.slice(toUpdateInx + 1),
+    ];
+    state.transactions = newTransactions;
+  },
+  updateIncome(state, income) {
+    // Get the index of the item we want to update
+    // We need to check for the same primary key (pk) and the expense type, becuase the transactions array
+    // can contain items with the same pk becuase it contains expenses & income
+    console.log("updating income in the mutations!");
+    const toUpdateInx = state.transactions.findIndex(
+      (item) => item.pk === income.pk && item.type === "income"
+    );
+    const newTransactions = [
+      ...state.transactions.slice(0, toUpdateInx),
+      income,
+      ...state.transactions.slice(toUpdateInx + 1),
+    ];
+    state.transactions = newTransactions;
+  },
 };
 const getters = {
   allTransactions: (state) => {
     return state.transactions;
   },
   isPending: (state) => state.pending,
+  getTransaction: (state) => (pk, type) => {
+    return state.transactions.find(
+      (transaction) =>
+        transaction.pk === parseInt(pk) && transaction.type === type
+    );
+  },
 };
 const actions = {
   async getAllTransactions({ commit }) {
@@ -41,6 +77,63 @@ const actions = {
       console.error("Error when fetching all transactions: ", error);
       commit("setTransactionsError", error);
     }
+  },
+  async updateTransaction({ commit }, transaction) {
+    if (transaction.type === "expense") {
+      let error;
+      const url = `${EXPENSES_URl}${transaction.pk}/`;
+      const rHeaders = new Headers();
+      rHeaders.append("Content-Type", "application/json");
+      const settings = {
+        method: "PATCH",
+        mode: "cors",
+        headers: rHeaders,
+        body: JSON.stringify(transaction),
+        redirect: "follow",
+      };
+      const r = await fetch(url, settings).catch((err) => (error = err));
+      const data = await r.json();
+      if (r.ok && data && !error) {
+        console.log("commiting expense", data);
+        commit("updateExpense", data);
+      } else {
+        console.error(
+          "Something went wrong when trying to update an expense",
+          error
+        );
+      }
+      console.log(r);
+    } else if (transaction.type === "income") {
+      let error;
+      const url = `${INCOME_URl}${transaction.pk}/`;
+      const rHeaders = new Headers();
+      rHeaders.append("Content-Type", "application/json");
+      const settings = {
+        method: "PATCH",
+        mode: "cors",
+        headers: rHeaders,
+        body: JSON.stringify(transaction),
+        redirect: "follow",
+      };
+      const r = await fetch(url, settings);
+      const data = await r.json();
+      if (r.ok && data && !error) {
+        console.log("commiting income", data);
+        commit("updateIncome", data);
+      } else {
+        console.error("Something went wrong when trying to update an income", {
+          error,
+          data,
+          r,
+        });
+      }
+      console.log(r);
+    } else {
+      console.error("Transaction type is not correctly set!!!");
+    }
+
+    console.log("Updating....");
+    console.log(transaction);
   },
 };
 

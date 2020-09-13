@@ -5,14 +5,22 @@
       <div class="columns">
         <div class="column is-one-third">
           <div v-if="account" class="account-info-box">
-            <h2 class="has-text-secondary has-text-weight-bold is-size-4">{{account.name}}</h2>
+            <h2 class="has-text-secondary has-text-weight-bold is-size-4">
+              {{ account.name }}
+            </h2>
 
             <div class="small-info">
               <span
                 class="has-text-left"
-                :class="account.balance > 0 ? 'has-text-success' : 'has-text-danger' "
-              >&euro;{{account.balance}}</span> |
-              <span class="has-text-grey-lighter has-text-left">{{account.description}}</span>
+                :class="
+                  account.balance > 0 ? 'has-text-success' : 'has-text-danger'
+                "
+                >&euro;{{ account.balance }}</span
+              >
+              |
+              <span class="has-text-grey-lighter has-text-left">{{
+                account.description
+              }}</span>
               <!-- TODO: Add link to account edit page  (perhaps replace with router-link -->
               <a href="#" class="has-text-right is-size-7">Edit Account</a>
             </div>
@@ -48,7 +56,7 @@ export default {
   name: "Account",
   components: {
     "accounts-bar": AccountsBar,
-    "transactions-list": TransactionsList
+    "transactions-list": TransactionsList,
   },
   mounted() {
     if (this.allAccounts.length === 0) {
@@ -58,14 +66,14 @@ export default {
   computed: {
     ...mapGetters({
       allAccounts: "accounts/allAccounts",
-      accountsPending: "accounts/isPending"
+      accountsPending: "accounts/isPending",
     }),
     account() {
       return this.$store.getters["accounts/getAccountByPk"](
         this.$route.params.pk
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

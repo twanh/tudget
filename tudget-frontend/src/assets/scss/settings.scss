@@ -65,6 +65,10 @@ $colors: (
     $backgroundHighlight,
     backgroundHighlight,
   ),
+  "background": (
+    $background,
+    $backgroundHighlight,
+  ),
 );
 
 // Text
@@ -82,3 +86,30 @@ $body-background-color: $background;
 
 // Menu
 $menu-item-active-background-color: $backgroundHighlight;
+
+// Cards
+
+$card-background-color: $backgroundHighlight;
+$card-header-color: $secondary;
+$card-header-shadow: 0 0.125em 0.25em rgba($background, 0.2);
+$card-footer-border-top: 1.2px solid rgba($gray, 0.2);
+
+// INput
+$input-background-color: $backgroundAccent;
+$input-color: $text;
+$input-border-color: $backgroundAccent;
+$input-hover-border-color: $secondary;
+$input-focus-border-color: $secondary;
+$input-focus-box-shadow-color: $backgroundHighlight;
+$input-icon-active-color: $secondary;
+$label-color: $white;
+
+// Datepicker
+
+.datepicker-cell.is-selectable {
+  background-color: #fff;
+
+  &:hover {
+    background-color: $white !important;
+  }
+}
