@@ -23,10 +23,7 @@ const mutations = {
     const indx = state.transactions.findIndex(
       (item) => item.pk === transaction.pk && item.type === transaction.type
     );
-    this.state = [
-      ...state.transactions.slice(0, indx),
-      ...state.transactions.slice(indx + 1),
-    ];
+    state.transactions.splice(indx, 1);
   },
   updateExpense(state, expense) {
     // Get the index of the item we want to update
@@ -162,7 +159,7 @@ const actions = {
     console.log(transaction);
   },
   async deleteTransaction({ commit }, transaction) {
-    if (transaction.type === "expense ") {
+    if (transaction.type === "expense") {
       let error;
       const url = `${EXPENSES_URl}${transaction.pk}/delete/`;
       const r = await fetch(url).catch((err) => (error = err));

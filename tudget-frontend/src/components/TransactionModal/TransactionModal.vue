@@ -36,7 +36,34 @@
             <span v-if="isEditing">Save</span>
             <span v-else>Edit</span>
           </a>
-          <a href="#" class="card-footer-item">Delete</a>
+          <div class="card-footer-item ">
+            <span
+              v-if="!isDeleting"
+              class="transaction-modal-delete-btn"
+              @click="deleteTransaction"
+              >Delete
+            </span>
+            <div v-else class="has-text-centered">
+              <span> Are you sure?</span>
+              <br />
+              <div class="buttons">
+                <b-button
+                  size="is-small"
+                  type="is-danger"
+                  icon-left="delete"
+                  @click="confirmDelete"
+                  >Yes</b-button
+                >
+                <b-button
+                  size="is-small"
+                  type="is-success"
+                  icon-left="undo"
+                  @click="cancelDelete"
+                  >No</b-button
+                >
+              </div>
+            </div>
+          </div>
         </footer>
       </div>
     </b-modal>
@@ -70,6 +97,7 @@ export default {
   data() {
     return {
       isEditing: false,
+      isDeleting: false,
       saveClicked: false,
       modalOpen: this.open,
     };
@@ -84,10 +112,28 @@ export default {
     },
   },
   methods: {
+    deleteTransaction() {
+      this.isDeleting = true;
+    },
+    confirmDelete() {
+      this.isDeleting = false;
+      this.$store.dispatch("transactions/deleteTransaction", this.transaction);
+      this.closeTheModal();
+      this.$buefy.snackbar.open({
+        duration: 5000,
+        message: "Transaction deleted",
+        type: "is-danger",
+        actionText: "OK",
+      });
+    },
+    cancelDelete() {
+      this.isDeleting = false;
+    },
     closeTheModal() {
       // Reset the state (for the next time opening)
       this.isEditing = false;
       this.saveClicked = false;
+      this.isDeleting = false;
       // Close the modal
       this.close();
     },
@@ -101,3 +147,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import "../../assets/scss/settings.scss";
+.transaction-modal-delete-btn {
+  cursor: pointer;
+  &:hover {
+    color: $primary;
+  }
+}
+</style>
