@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal v-model="open" scroll="keep">
+    <b-modal v-model="open" scroll="keep" v-if="transaction">
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">
@@ -49,6 +49,11 @@ export default {
   components: {
     ModalInfo,
     ModalEdit,
+  },
+  mounted() {
+    if (!this.$store.state.transactions.transactions.length > 0) {
+      this.$store.dispatch("transactions/getAllTransactions");
+    }
   },
   computed: {
     transaction() {
