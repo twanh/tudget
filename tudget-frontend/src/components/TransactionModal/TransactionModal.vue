@@ -1,16 +1,20 @@
 <template>
   <div>
-    <b-modal v-model="open" scroll="keep" v-if="transaction">
+    <b-modal
+      v-model="modalOpen"
+      scroll="keep"
+      v-if="transaction"
+      :on-cancel="closeTheModal"
+    >
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">
             {{ transaction.name }}
           </p>
-          <!-- TODO: Not update the prop -->
           <a
-            @click.prevent="open = false"
+            @click.prevent="close"
             class="card-header-icon"
-            aria-label="close"
+            aria-label="closeTheModal"
           >
             <b-icon icon="close" size="is-small" />
           </a>
@@ -45,7 +49,7 @@ import ModalEdit from "./ModalEdit";
 
 export default {
   name: "TransactionModal",
-  props: ["transactionPk", "transactionType", "open", "accountName"],
+  props: ["transactionPk", "transactionType", "open", "close", "accountName"],
   components: {
     ModalInfo,
     ModalEdit,
@@ -67,9 +71,26 @@ export default {
     return {
       isEditing: false,
       saveClicked: false,
+      modalOpen: this.open,
     };
   },
+  watch: {
+    open(newVal) {
+      if (newVal) {
+        this.modalOpen = true;
+      } else {
+        this.modalOpen = false;
+      }
+    },
+  },
   methods: {
+    closeTheModal() {
+      // Reset the state (for the next time opening)
+      this.isEditing = false;
+      this.saveClicked = false;
+      // Close the modal
+      this.close();
+    },
     save() {
       if (this.isEditing) {
         this.$refs.editModal.save();

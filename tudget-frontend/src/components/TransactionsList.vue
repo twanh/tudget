@@ -47,6 +47,7 @@
         :transactionPk="modalTransaction.pk"
         :transactionType="modalTransaction.type"
         :open="openModal"
+        :close="handleModalClose"
         :accountName="getTransactionAccountName(modalTransaction.account)"
       />
     </div>
@@ -79,6 +80,9 @@ export default {
     };
   },
   methods: {
+    handleModalClose() {
+      this.openModal = false;
+    },
     handleTransactionClick(type, pk) {
       //! This route does not exist yet !
       this.modalTransaction = this.transactions.find(
