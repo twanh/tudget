@@ -61,6 +61,23 @@ const getters = {
         transaction.pk === parseInt(pk) && transaction.type === type
     );
   },
+  getTransactionsFromAccount: (state) => (accountPk) => {
+    return state.transactions.filter(
+      (trans) => trans.account === parseInt(accountPk)
+    );
+  },
+  getExpensesFromAccount: (state) => (accountPk) => {
+    return state.transactions.filter(
+      (trans) =>
+        trans.account === parseInt(accountPk) && trans.type === "expense"
+    );
+  },
+  getIncomeFromAccount: (state) => (accountPk) => {
+    return state.transactions.filter(
+      (trans) =>
+        trans.account === parseInt(accountPk) && trans.type === "income"
+    );
+  },
 };
 const actions = {
   async getAllTransactions({ commit }) {

@@ -29,14 +29,14 @@
         <div class="column is-one-third">
           <transactions-list
             type="income"
-            :transactions="account.income_set"
+            :transactions="accountIncome"
             :accounts="[account]"
           />
         </div>
         <div class="column is-one-third">
           <transactions-list
             type="expense"
-            :transactions="account.expense_set"
+            :transactions="accountExpenses"
             :accounts="[account]"
           />
         </div>
@@ -71,6 +71,16 @@ export default {
     account() {
       return this.$store.getters["accounts/getAccountByPk"](
         this.$route.params.pk
+      );
+    },
+    accountExpenses() {
+      return this.$store.getters["transactions/getExpensesFromAccount"](
+        this.account.pk
+      );
+    },
+    accountIncome() {
+      return this.$store.getters["transactions/getIncomeFromAccount"](
+        this.account.pk
       );
     },
   },
