@@ -14,29 +14,10 @@
       </div>
       <div class="column">
         <transactions-list
+          v-if="!transactionsPending"
           type="all"
-          :transactions="[{
-          pk: 0,
-          type: 'income',
-          name: 'TV',
-          account: 'Account #1',
-          spendOn: '12/09/20',
-          amount: '200'
-        }, {
-          pk: 1,
-          type: 'income',
-          name: 'TV',
-          account: 'Account #1',
-          spendOn: '12/09/20',
-          amount: '200'
-        }, {
-          pk: 2,
-          type: 'expense',
-          name: 'TV',
-          account: 'Account #1',
-          spendOn: '12/09/20',
-          amount: '200'
-        }, ]"
+          :accounts="allAccounts"
+          :transactions="sortedTransactions.slice(0, 11)"
         />
       </div>
     </div>
@@ -49,6 +30,8 @@ import { mapGetters } from "vuex";
 import AccountsBar from "@/components/AccountsBar";
 import TransactionsList from "@/components/TransactionsList";
 
+import { sortTransactionsByDate } from "@/utils/sorting";
+
 export default {
   name: "Dashboard",
   components: {
@@ -59,12 +42,21 @@ export default {
     if (this.allAccounts.length === 0) {
       this.$store.dispatch("accounts/getAllAccounts");
     }
+
+    if (this.allTransactions.length === 0) {
+      this.$store.dispatch("transactions/getAllTransactions");
+    }
   },
   computed: {
     ...mapGetters({
       allAccounts: "accounts/allAccounts",
-      accountsPending: "accounts/isPending"
-    })
+      accountsPending: "accounts/isPending",
+      allTransactions: "transactions/allTransactions",
+      transactionsPending: "transactions/isPending"
+    }),
+    sortedTransactions() {
+      return sortTransactionsByDate(this.allTransactions);
+    }
   }
 };
 </script>

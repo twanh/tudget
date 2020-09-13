@@ -1,36 +1,40 @@
 <template>
   <div>
-    <div v-if="!accountsPending" class="mb-5">
-      <accounts-bar :accounts="allAccounts" />
-    </div>
-    <div v-else>Loading...</div>
-    <div class="columns">
-      <div class="column is-one-third">
-        <div v-if="account" class="account-info-box">
-          <h2 class="has-text-secondary has-text-weight-bold is-size-4">{{account.name}}</h2>
+    <div v-if="!accountsPending">
+      <accounts-bar class="mb-5" :accounts="allAccounts" />
+      <div class="columns">
+        <div class="column is-one-third">
+          <div v-if="account" class="account-info-box">
+            <h2 class="has-text-secondary has-text-weight-bold is-size-4">{{account.name}}</h2>
 
-          <div class="small-info">
-            <span
-              class="has-text-left"
-              :class="account.balance > 0 ? 'has-text-success' : 'has-text-danger' "
-            >&euro;{{account.balance}}</span> |
-            <span class="has-text-grey-lighter has-text-left">{{account.description}}</span>
-            <!-- TODO: Add link to account edit page  (perhaps replace with router-link -->
-            <a href="#" class="has-text-right is-size-7">Edit Account</a>
+            <div class="small-info">
+              <span
+                class="has-text-left"
+                :class="account.balance > 0 ? 'has-text-success' : 'has-text-danger' "
+              >&euro;{{account.balance}}</span> |
+              <span class="has-text-grey-lighter has-text-left">{{account.description}}</span>
+              <!-- TODO: Add link to account edit page  (perhaps replace with router-link -->
+              <a href="#" class="has-text-right is-size-7">Edit Account</a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="column is-one-third">
-        <transactions-list type="income" :transactions="account.income_set" :accounts="[account]" />
-      </div>
-      <div class="column is-one-third">
-        <transactions-list
-          type="expense"
-          :transactions="account.expense_set"
-          :accounts="[account]"
-        />
+        <div class="column is-one-third">
+          <transactions-list
+            type="income"
+            :transactions="account.income_set"
+            :accounts="[account]"
+          />
+        </div>
+        <div class="column is-one-third">
+          <transactions-list
+            type="expense"
+            :transactions="account.expense_set"
+            :accounts="[account]"
+          />
+        </div>
       </div>
     </div>
+    <div v-else>Loading...</div>
   </div>
 </template>
 

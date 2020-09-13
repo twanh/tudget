@@ -5,9 +5,9 @@
       <span class="is-size-7">Nothing here yet! Add {{this.title}} to get started!</span>
     </div>
     <div
-      v-for="transaction in transactions"
+      v-for="(transaction, indx) in transactions"
       class="transaction-box mr-5"
-      :key="transaction.pk"
+      :key="indx"
       @click.prevent="handleTransactionClick(transaction.type, transaction.pk)"
     >
       <div class="level mb-0">
@@ -23,7 +23,7 @@
       </div>
 
       <div class="level pb-1">
-        <div class="level-left is-size-7">{{getTransactionAccount.name}}</div>
+        <div class="level-left is-size-7">{{getTransactionAccountName(transaction.account)}}</div>
         <div class="level-right is-size-7">{{transaction.spendOn}}</div>
       </div>
     </div>
@@ -51,6 +51,15 @@ export default {
     handleAddTransaction() {
       //! This route does not exist yet !
       this.$router.history.push("/transactions/add");
+    },
+    getTransactionAccountName(accountPk) {
+      if (this.accounts.length === 1) {
+        return this.accounts[0].name;
+      }
+      const accnt = this.accounts.find(
+        account => account.pk === parseInt(accountPk)
+      );
+      return accnt.name;
     }
   },
   computed: {
@@ -62,13 +71,6 @@ export default {
       } else {
         return "transactions";
       }
-    },
-    getTransactionAccount() {
-      if (this.accounts.length === 1) {
-        return this.accounts[0];
-      }
-      //! Else filter all accounts
-      return { name: "404" };
     }
   }
 };
