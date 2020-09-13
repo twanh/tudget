@@ -8,34 +8,47 @@
         >Nothing here yet! Add {{ this.title }} to get started!</span
       >
     </div>
-    <div
-      v-for="(transaction, indx) in transactions"
-      class="transaction-box mr-5"
-      :key="indx"
-      @click.prevent="handleTransactionClick(transaction.type, transaction.pk)"
-    >
-      <div class="level mb-0">
-        <div class="level-left has-text-secondary">{{ transaction.name }}</div>
-        <div
-          v-if="transaction.type === 'income'"
-          class="level-right has-text-success"
-        >
-          &euro;{{ transaction.amount }}
+    <div v-else>
+      <div
+        v-for="(transaction, indx) in transactions"
+        class="transaction-box mr-5"
+        :key="indx"
+        @click.prevent="
+          handleTransactionClick(transaction.type, transaction.pk)
+        "
+      >
+        <div class="level mb-0">
+          <div class="level-left has-text-secondary">
+            {{ transaction.name }}
+          </div>
+          <div
+            v-if="transaction.type === 'income'"
+            class="level-right has-text-success"
+          >
+            &euro;{{ transaction.amount }}
+          </div>
+          <div
+            v-if="transaction.type === 'expense'"
+            class="level-right has-text-danger"
+          >
+            -&euro;{{ transaction.amount }}
+          </div>
         </div>
-        <div
-          v-if="transaction.type === 'expense'"
-          class="level-right has-text-danger"
-        >
-          -&euro;{{ transaction.amount }}
+
+        <div class="level pb-1">
+          <div class="level-left is-size-7">
+            {{ getTransactionAccountName(transaction.account) }}
+          </div>
+          <div class="level-right is-size-7">{{ transaction.spendOn }}</div>
         </div>
       </div>
 
-      <div class="level pb-1">
-        <div class="level-left is-size-7">
-          {{ getTransactionAccountName(transaction.account) }}
-        </div>
-        <div class="level-right is-size-7">{{ transaction.spendOn }}</div>
-      </div>
+      <transaction-modal
+        :transactionPk="modalTransaction.pk"
+        :transactionType="modalTransaction.type"
+        :open="openModal"
+        :accountName="getTransactionAccountName(modalTransaction.account)"
+      />
     </div>
     <div class="buttons mr-5 mt-3">
       <b-button
@@ -46,12 +59,6 @@
         >Add transaction</b-button
       >
     </div>
-    <transaction-modal
-      :transactionPk="modalTransaction.pk"
-      :transactionType="modalTransaction.type"
-      :open="openModal"
-      :accountName="getTransactionAccountName(modalTransaction.account)"
-    />
   </div>
 </template>
 
