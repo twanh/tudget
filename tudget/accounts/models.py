@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -16,8 +17,8 @@ class Account(models.Model):
     _createdOn = models.DateTimeField(auto_now=True)  # For auto sorting
 
     # The owner of the accunt
-    owner = models.ForeignKey(
-        "auth.User", related_name="accounts", on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              related_name="accounts", on_delete=models.CASCADE)
 
     # Note: Has a ManyToOne relation with transactions, although this is defined in the transaction model.
     #       One account has many transactions.

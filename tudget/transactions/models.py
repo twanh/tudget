@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import post_save
+from django.conf import settings
 
 from accounts.models import Account
 from groupings.models import Category
@@ -17,13 +18,13 @@ class Transaction(models.Model):
     description = models.TextField(blank=True)
     category = models.ForeignKey(
         'groupings.Category', on_delete=models.CASCADE, blank=True,  null=True)
-    tags = models.ManyToManyField('groupings.Tag', blank=True, null=True)
+    tags = models.ManyToManyField('groupings.Tag', blank=True)
     spendOn = models.DateField(auto_now_add=True)
     _createdOn = models.DateTimeField(auto_now=True)
 
     # Owner
     owner = models.ForeignKey(
-        'auth.User', related_name="categories", on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, related_name="%(class)s", on_delete=models.CASCADE)
 
     class Meta:
         abstract = True

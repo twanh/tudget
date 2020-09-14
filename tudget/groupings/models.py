@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -16,7 +17,7 @@ class Category(models.Model):
 
     # Owner
     owner = models.ForeignKey(
-        'auth.User', related_name="categories", on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, related_name="categories", on_delete=models.CASCADE)
 
     # Note: Has a OneToMany relation with a Transactions (this is defined in the Transaction model)
     #       --> One Category has Many Transactions
@@ -54,7 +55,7 @@ class Tag(models.Model):
 
     # Owner
     owner = models.ForeignKey(
-        'auth.User', related_name="tags", on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, related_name="tags", on_delete=models.CASCADE)
 
     # Note: Has a ManyToMany relation w/ transactions (defined in transaction model)
     #       --> A Transaction can have many tags, and a tag can have many transactions.

@@ -19,6 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# TODO CHANGE FOR PROD
 SECRET_KEY = '2sq2*(u+feq+qrad9k1r%0mgokjfn^fz4h23*bo*zl(1*^z@si'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -36,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Custom User
+    'users',
     # Custom Apps
     'accounts',  # To control the accounts the user has
     'budgets',  # Manage the budgets
@@ -60,6 +63,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'tudget.urls'
+
+AUTH_USER_MODEL = 'users.User'
 
 TEMPLATES = [
     {
@@ -126,4 +131,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # CORS settings
+#! SET TO DOMAIN ONCE WE HAVE ON!
 CORS_ORIGIN_ALLOW_ALL = True

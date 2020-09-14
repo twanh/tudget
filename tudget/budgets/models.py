@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 from django.db import models
 
 
@@ -22,7 +23,7 @@ class Budget(models.Model):
 
     # Owner
     owner = models.ForeignKey(
-        'auth.User', related_name="%(class)s", on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, related_name="%(class)s", on_delete=models.CASCADE)
 
     class Meta:
         # This is an abstract class/model, meaning it has sub-classes/models - this class/model is not used on its own!
