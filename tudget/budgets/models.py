@@ -21,7 +21,8 @@ class Budget(models.Model):
     _createdOn = models.DateTimeField(auto_now=True)
 
     # Owner
-    owner = models.ForeignKey('auth.User', related_name="budgets", on_delete)
+    owner = models.ForeignKey(
+        'auth.User', related_name="%(class)s", on_delete=models.CASCADE)
 
     class Meta:
         # This is an abstract class/model, meaning it has sub-classes/models - this class/model is not used on its own!
