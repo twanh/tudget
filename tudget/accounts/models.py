@@ -15,6 +15,10 @@ class Account(models.Model):
     active = models.BooleanField(default=True)
     _createdOn = models.DateTimeField(auto_now=True)  # For auto sorting
 
+    # The owner of the accunt
+    owner = models.ForeignKey(
+        "auth.User", related_name="accounts", on_delete=models.CASCADE)
+
     # Note: Has a ManyToOne relation with transactions, although this is defined in the transaction model.
     #       One account has many transactions.
 
