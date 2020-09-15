@@ -21,9 +21,10 @@ class ListAllExpensesView(generics.ListCreateAPIView):
     def get_queryset(self):
         # We cannot use `self.request.user.savingsaccounts` because
         # the user model does not recoginze savingsaccounts
-        return self.request.user.expense1
+        return self.request.user.expense
 
     def perform_create(self, serializer):
+        #! Make sure that you cannot set an account from an other user
         serializer.save(owner=self.request.user)
 
 
