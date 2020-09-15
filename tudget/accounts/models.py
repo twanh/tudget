@@ -16,6 +16,9 @@ class Account(models.Model):
     active = models.BooleanField(default=True)
     _createdOn = models.DateTimeField(auto_now=True)  # For auto sorting
 
+    # To be able to distingish savings accounts and regular accounts we need this field
+    isSavingsAccount = models.BooleanField(default=False)
+
     # The owner of the accunt
     owner = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name="accounts", on_delete=models.CASCADE)
