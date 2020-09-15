@@ -32,10 +32,10 @@ urlpatterns = [
     path(f"{API_URL_PREFIX}savings/", include('savings.urls')),
     # api/transactions/
     path(f"{API_URL_PREFIX}transactions/", include('transactions.urls')),
+    # api/token/refresh/ --> lets the user refresh it's token
+    path(f"{API_URL_PREFIX}token/refresh/", TokenRefreshView.as_view()),
     # api/token --> lets the user obtain it's token (log in)
     path(f"{API_URL_PREFIX}token/", TokenObtainPairView.as_view()),
-    # api/token/refresh/ --> lets the user refresh it's token
-    path(f"{API_URL_PREFIX}token/refresh", TokenRefreshView.as_view()),
     # api/users
     path(f"{API_URL_PREFIX}users/", include("users.urls"))
 ]
