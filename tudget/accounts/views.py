@@ -22,8 +22,10 @@ class ListAccountsView(generics.ListCreateAPIView):
 
     # Override the queryset so that we only get the users own accounts
     def get_queryset(self):
+
         # When not active the account is 'deleted', so we do not want to show this to the user
-        return self.request.user.accounts.filter(active=True)
+        return Account.objects.filter(owner_id=self.request.user.id, active=True)
+        # return self.request.user.accounts.filter(active=True)
 
     # Override the create method, so we automaticly can assign the user as owner
     def perform_create(self, serializer):
@@ -49,7 +51,8 @@ class UpdateAccountView(generics.UpdateAPIView):
 
     # Override the queryset so that we only get the users own accounts
     def get_queryset(self):
-        return self.request.user.accounts.all()
+        return Account.objects.filter(owner_id=self.request.user.id)
+        # return self.request.user.accounts.all()
 
 
 class DeleteAccountView(generics.RetrieveAPIView):
@@ -64,7 +67,7 @@ class DeleteAccountView(generics.RetrieveAPIView):
 
     # Override the queryset so that we only get the users own accounts
     def get_queryset(self):
-        return self.request.user.accounts.all()
+        return Account.objects.filter(owner_id=self.request.user.id)
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
