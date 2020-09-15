@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.views import Response, status
 
 from .models import User
@@ -32,6 +32,11 @@ class DeleteUserView(generics.DestroyAPIView):
 
 
 class RegisterUserView(generics.CreateAPIView):
+
+    permission_classes = [
+        # Everyone can create a new account
+        permissions.AllowAny
+    ]
 
     queryset = User.objects.all()
     serializer_class = RegisterUserSerializer
