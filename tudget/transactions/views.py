@@ -15,8 +15,17 @@ class ListAllExpensesView(generics.ListCreateAPIView):
         - get: Get all the expenses
         - post: Create new expense
     """
-    queryset = Expense.objects.all()
+    # queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+
+    def get_queryset(self):
+        # We cannot use `self.request.user.savingsaccounts` because
+        # the user model does not recoginze savingsaccounts
+        return self.request.user.expense
+
+    def perform_create(self, serializer):
+        #! Make sure that you cannot set an account from an other user
+        serializer.save(owner=self.request.user)
 
 
 class UpdateExpenseView(generics.UpdateAPIView):
@@ -27,8 +36,11 @@ class UpdateExpenseView(generics.UpdateAPIView):
         - put
         - patch
     """
-    queryset = Expense.objects.all()
+    # queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+
+    def get_queryset(self):
+        return self.request.user.expense
 
 
 class DeleteExpenseView(generics.RetrieveAPIView):
@@ -38,8 +50,11 @@ class DeleteExpenseView(generics.RetrieveAPIView):
     methods:
         - get: Delete expense
         """
-    queryset = Expense.objects.all()
+    # queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+
+    def get_queryset(self):
+        return self.request.user.expense
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -59,8 +74,13 @@ class ListAllIncomeView(generics.ListCreateAPIView):
         - post: Create new income
     """
 
-    queryset = Income.objects.all()
     serializer_class = IncomeSerializer
+
+    def get_queryset(self):
+        return self.request.user.income
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class UpdateIncomeView(generics.UpdateAPIView):
@@ -71,8 +91,11 @@ class UpdateIncomeView(generics.UpdateAPIView):
         - put
         - patch
     """
-    queryset = Income.objects.all()
+
     serializer_class = IncomeSerializer
+
+    def get_queryset(self):
+        return self.request.user.income
 
 
 class DeleteIncomeView(generics.RetrieveAPIView):
@@ -82,8 +105,11 @@ class DeleteIncomeView(generics.RetrieveAPIView):
     methods:
         - get: Delete income
         """
-    queryset = Income.objects.all()
+
     serializer_class = IncomeSerializer
+
+    def get_queryset(self):
+        return self.request.user.income
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()

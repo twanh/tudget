@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -7,10 +8,20 @@ class Account(models.Model):
     Account model, keep track of details of the account
     """
     name = models.CharField(max_length=50)  # The name of the account
-    description = models.TextField(blank=True, default="")  # Description of the account
-    balance = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)  # Current balance, defaults to 0.00
-    active = models.BooleanField(default=True)  # Accounts will be able to deactivated
+    # Description of the account
+    description = models.TextField(blank=True, default="")
+    # Current balance, defaults to 0.00
+    balance = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
+    # Accounts will be able to deactivated
+    active = models.BooleanField(default=True)
     _createdOn = models.DateTimeField(auto_now=True)  # For auto sorting
+
+    # To be able to distingish savings accounts and regular accounts we need this field
+    isSavingAccount = models.BooleanField(default=False)
+
+    # The owner of the accunt
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              related_name="accounts", on_delete=models.CASCADE)
 
     # Note: Has a ManyToOne relation with transactions, although this is defined in the transaction model.
     #       One account has many transactions.
@@ -43,4 +54,5 @@ class Account(models.Model):
             account.save()
         # Catch if the object does not exist, makes it non-fatal.
         except ObjectDoesNotExist:
-            print(f"[ACCOUNT] Account with pk={pk} does not exist! Could not update balance.")
+            print(
+                f"[ACCOUNT] Account with pk={pk} does not exist! Could not update balance.")

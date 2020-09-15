@@ -1,9 +1,11 @@
 from django.db import models
 from django.db.models.signals import post_save
+from django.conf import settings
 
 from accounts.models import Account
 from groupings.models import Category
 from budgets.models import CurrencyBudget, TransactionBudget
+
 
 class Transaction(models.Model):
     """
@@ -14,10 +16,15 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     account = models.ForeignKey('accounts.Account', on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    category = models.ForeignKey('groupings.Category', on_delete=models.CASCADE, blank=True,  null=True)
-    tags = models.ManyToManyField('groupings.Tag', blank=True, null=True)
+    category = models.ForeignKey(
+        'groupings.Category', on_delete=models.CASCADE, blank=True,  null=True)
+    tags = models.ManyToManyField('groupings.Tag', blank=True)
     spendOn = models.DateField(auto_now_add=True)
     _createdOn = models.DateTimeField(auto_now=True)
+
+    # Owner
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="%(class)s", on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
@@ -30,14 +37,16 @@ class Expense(Transaction):
     """
     Type of transactions, an expense is per definition negative.
     """
-    type = models.CharField(default='expense', editable=False, max_length=10)  # Auto add type
+    type = models.CharField(
+        default='expense', editable=False, max_length=10)  # Auto add type
 
 
 class Income(Transaction):
     """
     Type of transaction, an expense is per definition negative.
     """
-    type = models.CharField(default='income', editable=False, max_length=10)  # Auto add type
+    type = models.CharField(
+        default='income', editable=False, max_length=10)  # Auto add type
 
 # SIGNAL handling
 # We use signals to update the balance of the account after an expense or income has been created/updated, aka saved.

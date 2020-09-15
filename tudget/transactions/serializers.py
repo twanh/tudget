@@ -8,8 +8,9 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Expense
-        fields = ['pk', 'name', 'amount', 'account', 'description', 'category', 'tags', 'spendOn', 'type']
-        read_only_fields = ['pk', 'createdOn', 'type']
+        fields = ['pk', 'name', 'amount', 'account',
+                  'description', 'category', 'tags', 'spendOn', 'type']
+        read_only_fields = ['pk', 'createdOn', 'type', 'owner']
 
 
 class IncomeSerializer(serializers.ModelSerializer):
@@ -17,8 +18,9 @@ class IncomeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Income
-        fields = ['pk', 'name', 'amount', 'account', 'description', 'category', 'tags', 'spendOn', 'type']
-        read_only_fields = ['pk', 'createdOn', 'type']
+        fields = ['pk', 'name', 'amount', 'account',
+                  'description', 'category', 'tags', 'spendOn', 'type']
+        read_only_fields = ['pk', 'createdOn', 'type', 'owner']
 
 
 class BasicExpenseSerializer(serializers.ModelSerializer):
@@ -27,7 +29,7 @@ class BasicExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = ['pk', 'name', 'amount', '_createdOn', 'type', "spendOn"]
-        read_only_fields = ['pk', 'createdOn', 'type']
+        read_only_fields = ['pk', 'createdOn', 'type', 'owner']
 
 
 class BasicIncomeSerializer(serializers.ModelSerializer):
@@ -36,6 +38,4 @@ class BasicIncomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
         fields = ['pk', 'name', 'amount', '_createdOn', 'type', 'spendOn']
-        read_only_fields = ['pk', 'createdOn', 'type']
-        
-
+        read_only_fields = ['pk', 'createdOn', 'type', 'owner']

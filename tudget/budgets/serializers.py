@@ -8,18 +8,18 @@ class CurrencyBudgetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CurrencyBudget
-        fields = ['pk', 'name', 'reason', 'filterCategory', 'transactions', 'active', 'maxAmount', 'current']
+        fields = ['pk', 'name', 'reason', 'filterCategory',
+                  'transactions', 'active', 'maxAmount', 'current']
         # _createdOn and current are readonly
         # Current needs to be read only because we do not want the user to be able to 'cheat'
-        read_only_fields = ['pk', '_createdOn', 'current']
+        read_only_fields = ['pk', '_createdOn', 'current', 'owner']
 
 
 class TransactionBudgetSerializer(serializers.ModelSerializer):
     class Meta:
         model = TransactionBudget
-        fields = ['pk', 'pk', 'name', 'reason', 'filterCategory', 'transactions', 'active', 'maxTransactions', 'current']
+        fields = ['pk', 'pk', 'name', 'reason', 'filterCategory',
+                  'transactions', 'active', 'maxTransactions', 'current']
         # _createdOn and current are readonly
         # Current needs to be read only because we do not want the user to be able to 'cheat'
-        read_only_fields = ['pk', '_createdOn', 'current']
-
-
+        read_only_fields = ['pk', '_createdOn', 'current', 'owner']

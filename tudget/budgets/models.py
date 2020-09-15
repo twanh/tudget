@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 from django.db import models
 
 
@@ -8,13 +9,21 @@ class Budget(models.Model):
     """
     name = models.CharField(max_length=50)  # The name of the budget
     reason = models.TextField(blank=True)   # Description of the budget
-    filterCategory = models.ForeignKey('groupings.Category', on_delete=models.CASCADE)  # Link to the category it
+    filterCategory = models.ForeignKey(
+        'groupings.Category', on_delete=models.CASCADE)  # Link to the category it
     # needs to keep track of.
     # Transactions are not really nessesary anymore, because we calculate using the category.
-    transactions = models.ManyToManyField('transactions.Expense', blank=True)  # Link to the transactions that apply to the
+    # Link to the transactions that apply to the
+    transactions = models.ManyToManyField('transactions.Expense', blank=True)
     # budget
-    active = models.BooleanField(default=True)  # If the budget is still in active use
-    _createdOn = models.DateTimeField(auto_now=True)  # Auto created for easy sorting
+    # If the budget is still in active use
+    active = models.BooleanField(default=True)
+    # Auto created for easy sorting
+    _createdOn = models.DateTimeField(auto_now=True)
+
+    # Owner
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="%(class)s", on_delete=models.CASCADE)
 
     class Meta:
         # This is an abstract class/model, meaning it has sub-classes/models - this class/model is not used on its own!
@@ -29,8 +38,10 @@ class CurrencyBudget(Budget):
     """
     A type of budget, this one is based on having a maximum amount to spend.
     """
-    maxAmount = models.DecimalField(max_digits=9, decimal_places=2)  # Based on currency
-    current = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)  # Current amount
+    maxAmount = models.DecimalField(
+        max_digits=9, decimal_places=2)  # Based on currency
+    current = models.DecimalField(
+        max_digits=9, decimal_places=2, default=0.00)  # Current amount
 
     def calc_used_budget(self):
         """
@@ -69,4 +80,3 @@ class TransactionBudget(Budget):
         """
         self.current = self.calc_used_budget()
         self.save()
-

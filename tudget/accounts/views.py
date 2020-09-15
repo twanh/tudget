@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.views import Response, status
 
 from .models import Account
@@ -14,8 +14,22 @@ class ListAccountsView(generics.ListCreateAPIView):
         - post: Create new account (required params: name)
     """
 
-    queryset = Account.objects.filter(active=True)
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
     serializer_class = AccountSerializer
+
+    # Override the queryset so that we only get the users own accounts
+    def get_queryset(self):
+
+        # When not active the account is 'deleted', so we do not want to show this to the user
+        return Account.objects.filter(owner_id=self.request.user.id, active=True, isSavingsAccount=False)
+        # return self.request.user.accounts.filter(active=True)
+
+    # Override the create method, so we automaticly can assign the user as owner
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class UpdateAccountView(generics.UpdateAPIView):
@@ -26,8 +40,19 @@ class UpdateAccountView(generics.UpdateAPIView):
         - patch
         - put
     """
-    queryset = Account.objects.all()
+
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    # queryset = Account.objects.all()
+
     serializer_class = AccountSerializer
+
+    # Override the queryset so that we only get the users own accounts
+    def get_queryset(self):
+        return Account.objects.filter(owner_id=self.request.user.id)
+        # return self.request.user.accounts.all()
 
 
 class DeleteAccountView(generics.RetrieveAPIView):
@@ -37,8 +62,12 @@ class DeleteAccountView(generics.RetrieveAPIView):
     methods: get
     """
 
-    queryset = Account.objects.filter(active=True)
+    # queryset = Account.objects.filter(active=True)
     serializer_class = AccountSerializer
+
+    # Override the queryset so that we only get the users own accounts
+    def get_queryset(self):
+        return Account.objects.filter(owner_id=self.request.user.id)
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -46,4 +75,3 @@ class DeleteAccountView(generics.RetrieveAPIView):
         instance.save()
 
         return Response(status=status.HTTP_200_OK)
-
