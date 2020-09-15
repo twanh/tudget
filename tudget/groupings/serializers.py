@@ -20,8 +20,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     """Serializer for the Tag model."""
 
-    expense_set = ExpenseSerializer(many=True)
-    income_set = IncomeSerializer(many=True)
+    expense_set = ExpenseSerializer(many=True, read_only=True)
+    income_set = IncomeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Tag
