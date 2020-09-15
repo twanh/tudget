@@ -66,6 +66,14 @@ ROOT_URLCONF = 'tudget.urls'
 
 AUTH_USER_MODEL = 'users.User'
 
+REST_FRAMEWORK = {
+    # By default you need to be authenticated to access any endpoint
+    "DEFAULT_PERMISSION_CLASSES": ('rest_framework.permissions.IsAuthenticated',),
+    # Use JWTs
+    "DEFAULT_AUTHENTICATION_CLASSES": ('rest_framework_simplejwt.authentication.JWTAuthentication',)
+}
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

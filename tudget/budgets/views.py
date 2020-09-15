@@ -1,4 +1,4 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.views import Response
 
 from .models import CurrencyBudget, TransactionBudget
@@ -17,9 +17,20 @@ class ListAllCurrencyBudgets(generics.ListCreateAPIView):
         - post: Creates new currency budget
     """
 
-    # Only show the active budgets (we use active=False to delete an budget)
-    queryset = CurrencyBudget.objects.filter(active=True)
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
     serializer_class = CurrencyBudgetSerializer
+
+    # Override the queryset so that we only return the users own budgets
+    def get_queryset(self):
+        return self.request.user.currencybudget.filter(active=True)
+
+    # Override the create method, so we automaticly can assign the user as owner
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class UpdateCurrencyBudget(generics.UpdateAPIView):
@@ -30,8 +41,17 @@ class UpdateCurrencyBudget(generics.UpdateAPIView):
         - put:
         - patch
     """
-    queryset = CurrencyBudget.objects.all()
+
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
     serializer_class = CurrencyBudgetSerializer
+
+    # Override the queryset so that we only return the users own budgets
+    def get_queryset(self):
+        return self.request.user.currencybudget.all()
 
 
 class DeleteCurrencyBudget(generics.RetrieveAPIView):
@@ -43,13 +63,22 @@ class DeleteCurrencyBudget(generics.RetrieveAPIView):
     """
 
     # You can only delete when active=True because otherwise it is already deleted.
-    queryset = CurrencyBudget.objects.filter(active=True)
+    # queryset = CurrencyBudget.objects.filter(active=True)
     serializer_class = CurrencyBudgetSerializer
+
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
+    # Override the queryset so that we only return the users own budgets
+    def get_queryset(self):
+        return self.request.user.currencybudget.filter(active=True)
 
     # Takes over the get method handler so we can delete on request.
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.active = False # Makes it so it is shown deleted
+        instance.active = False  # Makes it so it is shown deleted
         instance.save()
 
         # Return status code: 200 to signal deletion was successful
@@ -67,9 +96,21 @@ class ListAllTransactionBudgetsView(generics.ListCreateAPIView):
         - post: Creates a new budget
     """
 
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
     # Only show active budgets, because otherwise they are deleted
-    queryset = TransactionBudget.objects.filter(active=True)
     serializer_class = TransactionBudgetSerializer
+
+    # Override the queryset so that we only return the users own budgets
+    def get_queryset(self):
+        return self.request.user.transactionbudget.filter(active=True)
+
+    # Override the create method, so we automaticly can assign the user as owner
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class UpdateTransactionBudgetView(generics.UpdateAPIView):
@@ -81,8 +122,16 @@ class UpdateTransactionBudgetView(generics.UpdateAPIView):
         - patch
     """
 
-    queryset = TransactionBudget.objects.all()
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
     serializer_class = TransactionBudgetSerializer
+
+    # Override the queryset so that we only return the users own budgets
+    def get_queryset(self):
+        return self.request.user.transactionbudget.all()
 
 
 class DeleteTransactionBudgetView(generics.RetrieveAPIView):
@@ -92,8 +141,16 @@ class DeleteTransactionBudgetView(generics.RetrieveAPIView):
     methods: - get
     """
 
-    queryset = TransactionBudget.objects.filter(active=False)
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
+    # queryset = TransactionBudget.objects.filter(active=False)
     serializer_class = TransactionBudgetSerializer
+
+    def get_queryset(self):
+        return self.request.user.transactionbudget.filter(active=True)
 
     # Takes over the get method handler so we can delete on request.
     def get(self, request, *args, **kwargs):

@@ -12,8 +12,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['pk', 'name', 'description', 'color', 'icon', 'expense_set', 'income_set']
-        read_only_fields =['pk', 'expense_set', 'income_set']
+        fields = ['pk', 'name', 'description', 'color',
+                  'icon', 'expense_set', 'income_set']
+        read_only_fields = ['pk', 'expense_set', 'income_set', 'owner']
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -25,5 +26,4 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ['pk', 'name', 'color',  'expense_set', 'income_set']
-        read_only_fields = ['pk', 'expense_set', 'income_set']
-
+        read_only_fields = ['pk', 'expense_set', 'income_set', 'owner']

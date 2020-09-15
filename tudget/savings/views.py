@@ -13,8 +13,16 @@ class ListAllSavingAccountsView(generics.ListCreateAPIView):
         - get: Get all the savings accounts
         - post: Create new savings account
     """
-    queryset = SavingsAccount.objects.filter(active=True)
+    # queryset = SavingsAccount.objects.filter(active=True)
     serializer_class = SavingsAccountSerializer
+
+    def get_queryset(self):
+        # We cannot use `self.request.user.savingsaccounts` because
+        # the user model does not recoginze savingsaccounts
+        return SavingsAccount.objects.filter(owener_id=self.request.user.id, active=True)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class UpdateSavingsAccountView(generics.UpdateAPIView):
@@ -26,8 +34,13 @@ class UpdateSavingsAccountView(generics.UpdateAPIView):
         - puts
     """
 
-    queryset = SavingsAccount.objects.filter(active=True)
+    # queryset = SavingsAccount.objects.filter(active=True)
     serializer_class = SavingsAccountSerializer
+
+    def get_queryset(self):
+        # We cannot use `self.request.user.savingsaccounts` because
+        # the user model does not recoginze savingsaccounts
+        return SavingsAccount.objects.filter(owener_id=self.request.user.id, active=True)
 
 
 class DeleteSavingAccountView(generics.RetrieveAPIView):
@@ -38,10 +51,16 @@ class DeleteSavingAccountView(generics.RetrieveAPIView):
         - get
     """
 
-    queryset = SavingsAccount.objects.filter(active=True)
+    # queryset = SavingsAccount.objects.filter(active=True)
     serializer_class = SavingsAccountSerializer
 
+    def get_queryset(self):
+        # We cannot use `self.request.user.savingsaccounts` because
+        # the user model does not recoginze savingsaccounts
+        return SavingsAccount.objects.filter(owener_id=self.request.user.id, active=True)
+
     # Override the get method.
+
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.active = False

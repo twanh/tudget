@@ -1,6 +1,6 @@
-from rest_framework import generics, status
-from rest_framework.response import Response
+from rest_framework import generics, status, permissions
 
+from rest_framework.response import Response
 from .models import Category, Tag
 from .serializers import CategorySerializer, TagSerializer
 
@@ -16,8 +16,19 @@ class ListAllCategoriesView(generics.ListCreateAPIView):
         - post: Create new category
     """
 
-    queryset = Category.objects.all()
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
     serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return self.request.user.categories.all()
+
+    # Override the create method, so we automaticly can assign the user as owner
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class UpdateCategoryView(generics.UpdateAPIView):
@@ -29,8 +40,16 @@ class UpdateCategoryView(generics.UpdateAPIView):
             - patch
         """
 
-    queryset = Category.objects.all()
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
+    # queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return self.request.user.categories.all()
 
 
 class DeleteCategoryView(generics.RetrieveAPIView):
@@ -41,8 +60,16 @@ class DeleteCategoryView(generics.RetrieveAPIView):
             - get: We have always used get to destroy so for consistency we do it here too.
         """
 
-    queryset = Category.objects.all()
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
+    # queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return self.request.user.categories.all()
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -64,8 +91,19 @@ class ListAllTagsView(generics.ListCreateAPIView):
         - post: Create new tag
     """
 
-    queryset = Tag.objects.all()
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
     serializer_class = TagSerializer
+
+    def get_queryset(self):
+        return self.request.user.tags.all()
+
+    # Override the create method, so we automaticly can assign the user as owner
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class UpdateTagView(generics.UpdateAPIView):
@@ -77,8 +115,16 @@ class UpdateTagView(generics.UpdateAPIView):
         - put
     """
 
-    queryset = Tag.objects.all()
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
+    # queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+    def get_queryset(self):
+        return self.request.user.tags.all()
 
 
 class DeleteTagView(generics.RetrieveAPIView):
@@ -88,12 +134,19 @@ class DeleteTagView(generics.RetrieveAPIView):
     methods: - get
     """
 
-    queryset = Tag.objects.all()
+    permission_classes = [
+        # We already set this as default, but this is as backup.
+        permissions.IsAuthenticated
+    ]
+
+    
     serializer_class = TagSerializer
+
+    def get_queryset(self):
+        return self.request.user.tags.all()
 
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
 
         Response(status=status.HTTP_200_OK)
-
