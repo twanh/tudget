@@ -19,3 +19,9 @@
     -> Would make it that it can only be updated w/ income/expense
     
    
+## Auth
+- [x] Auto assign current user to everything on create (should be done in the view)
+- [x] Limit viewing of everything to things that belong to the current user
+- [x] Implement JWT for authorization
+- [x] Smooth out the user creation process
+- [x] Make sure that owner is read_only in every serializer
