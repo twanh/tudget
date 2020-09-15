@@ -19,7 +19,7 @@ class ListAllSavingAccountsView(generics.ListCreateAPIView):
     def get_queryset(self):
         # We cannot use `self.request.user.savingsaccounts` because
         # the user model does not recoginze savingsaccounts
-        return SavingsAccount.objects.filter(owener_id=self.request.user.id, active=True)
+        return SavingsAccount.objects.filter(owner_id=self.request.user.id, active=True)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -40,7 +40,7 @@ class UpdateSavingsAccountView(generics.UpdateAPIView):
     def get_queryset(self):
         # We cannot use `self.request.user.savingsaccounts` because
         # the user model does not recoginze savingsaccounts
-        return SavingsAccount.objects.filter(owener_id=self.request.user.id, active=True)
+        return SavingsAccount.objects.filter(owner_id=self.request.user.id, active=True)
 
 
 class DeleteSavingAccountView(generics.RetrieveAPIView):
@@ -57,7 +57,7 @@ class DeleteSavingAccountView(generics.RetrieveAPIView):
     def get_queryset(self):
         # We cannot use `self.request.user.savingsaccounts` because
         # the user model does not recoginze savingsaccounts
-        return SavingsAccount.objects.filter(owener_id=self.request.user.id, active=True)
+        return SavingsAccount.objects.filter(owner_id=self.request.user.id, active=True)
 
     # Override the get method.
 
