@@ -212,23 +212,8 @@ const actions = {
     }
     if (getBudgetType(budget) === "currency") {
       try {
-        const r = await authRequest.get(`${CURRENCY_BUDGET_URL}${pk}/delete/`);
-        if (r.status === 200) {
-          context.commit("deleteBudget", budget);
-        }
-      } catch (err) {
-        if (err.response && err.response.status === 401) {
-          await context.dispatch("auth/refreshToken", null, { root: true });
-          context.dispatch("deleteBudget", budget);
-        } else {
-          context.dispatch("setBudgetsError", String(error));
-          console.warn("Error in deleteBudget", { error, budget });
-        }
-      }
-    } else if (getBudgetType(budget) === "transaction") {
-      try {
         const r = await authRequest.get(
-          `${TRANSACTION_BUDGET_URL}${pk}/delete/`
+          `${CURRENCY_BUDGET_URL}${budget.pk}/delete/`
         );
         if (r.status === 200) {
           context.commit("deleteBudget", budget);
@@ -238,8 +223,25 @@ const actions = {
           await context.dispatch("auth/refreshToken", null, { root: true });
           context.dispatch("deleteBudget", budget);
         } else {
-          context.dispatch("setBudgetsError", String(error));
-          console.warn("Error in deleteBudget", { error, budget });
+          context.dispatch("setBudgetsError", String(err));
+          console.warn("Error in deleteBudget", { err, budget });
+        }
+      }
+    } else if (getBudgetType(budget) === "transaction") {
+      try {
+        const r = await authRequest.get(
+          `${TRANSACTION_BUDGET_URL}${budget.pk}/delete/`
+        );
+        if (r.status === 200) {
+          context.commit("deleteBudget", budget);
+        }
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          await context.dispatch("auth/refreshToken", null, { root: true });
+          context.dispatch("deleteBudget", budget);
+        } else {
+          context.dispatch("setBudgetsError", String(err));
+          console.warn("Error in deleteBudget", { err, budget });
         }
       }
     } else {
