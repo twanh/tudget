@@ -33,17 +33,17 @@
   - [x] Create a budget
   - [x] Update a budget
   - [x] Delet a budget
-- [ ] Groupings
-  - [ ] Categories'
-    - [ ] Get all categories
+- [x] Groupings
+  - [x] Categories'
+    - [x] Get all categories
     - [ ] Create a category
-    - [ ] Update a category
-    - [ ] Delete a category
-  - [ ] Tags
-    - [ ] Get all tags
-    - [ ] Create a tag
-    - [ ] Update a tag
-    - [ ] Delete a tag
+    - [x] Update a category
+    - [x] Delete a category
+  - [x] Tags
+    - [x] Get all tags
+    - [x] Create a tag
+    - [x] Update a tag
+    - [x] Delete a tag
 - [ ] Savings
   - [ ] Get all saving accounts
   - [ ] Create a saving account
