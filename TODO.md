@@ -21,7 +21,47 @@
   - [x] Pass the bearer token
   - [x] Handle the error correctly
     - If the error message mentions that the access token is expired --> get new access token using the refresh token!
-  
+
+#### Api Interaction
+- [x] Accounts
+  - [x] Get all accounts
+  - [x] Create a new account
+  - [x] Update an account
+  - [x] Delete an account
+- [ ] Budgets
+  - [ ] Get all budgets
+  - [ ] Create a budget
+  - [ ] Update a budget
+  - [ ] Delet a budget
+- [ ] Groupings
+  - [ ] Categories
+    - [ ] Get all categories
+    - [ ] Create a category
+    - [ ] Update a category
+    - [ ] Delete a category
+  - [ ] Tags
+    - [ ] Get all tags
+    - [ ] Create a tag
+    - [ ] Update a tag
+    - [ ] Delete a tag
+- [ ] Savings
+  - [ ] Get all saving accounts
+  - [ ] Create a saving account
+  - [ ] Update a saving account
+  - [ ] Delete a saving account
+- [ ] Token
+  - [x] Login (get token)
+  - [x] Refresh 
+- [ ] Transactions
+  - [x] Get all transactions
+  - [ ] Create a transaction
+  - [x] Update transaction
+  - [x] Delete a transaction
+- [ ] Users
+  - [ ] Get user info
+  - [ ] Register 
+
+
 
 ### General things to think about :)
  - Should account balance be read only?
