@@ -44,17 +44,17 @@
     - [x] Create a tag
     - [x] Update a tag
     - [x] Delete a tag
-- [ ] Savings
-  - [ ] Get all saving accounts
-  - [ ] Create a saving account
-  - [ ] Update a saving account
-  - [ ] Delete a saving account
-- [ ] Token
+- [x] Savings
+  - [x] Get all saving accounts
+  - [x] Create a saving account
+  - [x] Update a saving account
+  - [x] Delete a saving account
+- [x] Token
   - [x] Login (get token)
   - [x] Refresh 
-- [ ] Transactions
+- [x] Transactions
   - [x] Get all transactions
-  - [ ] Create a transaction
+  - [x] Create a transaction
   - [x] Update transaction
   - [x] Delete a transaction
 - [ ] Users
