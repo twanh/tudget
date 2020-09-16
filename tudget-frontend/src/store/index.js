@@ -6,6 +6,7 @@ import transactions from "./transactions";
 import auth from "./auth";
 import budgets from "./budgets";
 import groupings from "./groupings";
+import savings from "./savings";
 
 Vue.use(Vuex);
 
@@ -16,5 +17,6 @@ export default new Vuex.Store({
     transactions,
     budgets,
     groupings,
+    savings,
   },
 });
