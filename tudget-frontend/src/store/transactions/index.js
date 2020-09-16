@@ -56,6 +56,10 @@ const mutations = {
     ];
     state.transactions = newTransactions;
   },
+  addTransaction(state, transaction) {
+    state.error = null;
+    state.transactions.push(transaction);
+  },
 };
 const getters = {
   allTransactions: (state) => {
@@ -190,6 +194,51 @@ const actions = {
       }
     } else {
       console.warn("Transaction type is not correctly set", transaction);
+    }
+  },
+  async createTransaction(context, transaction) {
+    if (!transaction.type || !transaction.name || !transaction.account) {
+      context.commit(
+        "setTransactionsError",
+        "Name, account & type are required!"
+      );
+    }
+    if (transaction.type === "expense") {
+      try {
+        const r = await authRequest.post(EXPENSES_URl, transaction);
+        if (r.status === 200) {
+          context.commit("createTransaction", r.data);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          await context.dispatch("auth/refreshToken", null, { root: true });
+          context.dispatch("createTransaction", transaction);
+        } else {
+          console.warn("Error in createTransaction (expense)", {
+            transaction,
+            error,
+          });
+        }
+      }
+    } else if (transaction.type === "income") {
+      try {
+        const r = await authRequest.post(INCOME_URl, transaction);
+        if (r.status === 200) {
+          context.commit("createTransaction", r.data);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          await context.dispatch("auth/refreshToken", null, { root: true });
+          context.dispatch("createTransaction", transaction);
+        } else {
+          console.warn("Error in createTransaction (income)", {
+            transaction,
+            error,
+          });
+        }
+      }
+    } else {
+      throw "Transaction type is not set correctly!";
     }
   },
 };
