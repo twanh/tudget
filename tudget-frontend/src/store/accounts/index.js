@@ -27,15 +27,28 @@ const getters = {
   },
 };
 const actions = {
-  async getAllAccounts({ commit }) {
+  async getAllAccounts(context) {
     let error;
-    const r = await fetch(ACCOUNTS_URL).catch((err) => (error = err));
+    const headers = new Headers();
+    headers.append(
+      "Authorization",
+      `Bearer ${context.rootState.auth.accessToken}`
+    );
+    const options = {
+      method: "GET",
+      headers,
+    };
+    const r = await fetch(ACCOUNTS_URL, options).catch((err) => (error = err));
     const accounts = await r.json();
     if (r.ok && accounts.length > 0 && !error) {
-      commit("setAccountsSuccess", accounts);
+      context.commit("setAccountsSuccess", accounts);
     } else {
-      console.error("Error when fetching all accounts: ", error);
-      commit("setAccountsError", error);
+      console.error("Error when fetching all accounts: ", {
+        r,
+        accounts,
+        error,
+      });
+      context.commit("setAccountsError", accounts.detail);
     }
   },
 };
