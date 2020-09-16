@@ -28,13 +28,13 @@
   - [x] Create a new account
   - [x] Update an account
   - [x] Delete an account
-- [ ] Budgets
-  - [ ] Get all budgets
-  - [ ] Create a budget
-  - [ ] Update a budget
-  - [ ] Delet a budget
+- [x] Budgets
+  - [x] Get all budgets
+  - [x] Create a budget
+  - [x] Update a budget
+  - [x] Delet a budget
 - [ ] Groupings
-  - [ ] Categories
+  - [ ] Categories'
     - [ ] Get all categories
     - [ ] Create a category
     - [ ] Update a category
