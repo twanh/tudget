@@ -1,6 +1,6 @@
-import { BASE_API_URL } from "../api";
+import { authRequest } from "../../api/requests";
 
-const TRANSACTIONS_URL = BASE_API_URL + "transactions/";
+const TRANSACTIONS_URL = "transactions/";
 const EXPENSES_URl = TRANSACTIONS_URL + "expenses/";
 const INCOME_URl = TRANSACTIONS_URL + "income/";
 
@@ -87,99 +87,107 @@ const getters = {
 };
 const actions = {
   async getAllTransactions({ commit }) {
-    let error;
-    const exp_req = await fetch(EXPENSES_URl).catch((err) => (error = err));
-    const expenses = await exp_req.json();
-    const inc_req = await fetch(INCOME_URl).catch((err) => (error = err));
-    const income = await inc_req.json();
-    const transactions = [...expenses, ...income];
+    try {
+      const exp_r = await authRequest.get(EXPENSES_URl);
+      const inc_r = await authRequest.get(INCOME_URl);
 
-    if (exp_req.ok && inc_req.ok && transactions.length > 0 && !error) {
-      commit("setTransactionsSuccess", transactions);
-    } else {
-      console.error("Error when fetching all transactions: ", error);
-      commit("setTransactionsError", error);
+      if (exp_r.status === 200 && inc_r.status === 200) {
+        // Everything went okay
+        const transactions = [...exp_r.data, ...inc_r.data];
+        commit("setTransactionsSuccess", transactions);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        console.warn("Got an auth problem here!");
+      } else {
+        console.warn("Error in getAllTransactions:", { error });
+        if (error.response.data.detail) {
+          commit("setTransactionsError", error.response.data.detail);
+        } else {
+          commit("setTransactionsError", error);
+        }
+      }
     }
   },
-  async updateTransaction({ commit }, transaction) {
+  async updateTransaction(context, transaction) {
     if (transaction.type === "expense") {
-      let error;
-      const url = `${EXPENSES_URl}${transaction.pk}/`;
-      const rHeaders = new Headers();
-      rHeaders.append("Content-Type", "application/json");
-      const settings = {
-        method: "PATCH",
-        mode: "cors",
-        headers: rHeaders,
-        body: JSON.stringify(transaction),
-        redirect: "follow",
-      };
-      const r = await fetch(url, settings).catch((err) => (error = err));
-      const data = await r.json();
-      if (r.ok && data && !error) {
-        console.log("commiting expense", data);
-        commit("updateExpense", data);
-      } else {
-        console.error(
-          "Something went wrong when trying to update an expense",
-          error
-        );
+      try {
+        const url = `${EXPENSES_URl}${transaction.pk}/`;
+        const r = await authRequest.patch(url, { ...transaction });
+        if (r.status === 200) {
+          context.commit("updateExpense", r.data);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          await context.dispatch("auth/refreshToken", null, { root: true });
+          context.dispatch("updateTransaction", transaction);
+        } else {
+          console.warn("Error in updateTransaction (expense)", {
+            transaction,
+            error,
+          });
+        }
       }
-      console.log(r);
     } else if (transaction.type === "income") {
-      let error;
-      const url = `${INCOME_URl}${transaction.pk}/`;
-      const rHeaders = new Headers();
-      rHeaders.append("Content-Type", "application/json");
-      const settings = {
-        method: "PATCH",
-        mode: "cors",
-        headers: rHeaders,
-        body: JSON.stringify(transaction),
-        redirect: "follow",
-      };
-      const r = await fetch(url, settings);
-      const data = await r.json();
-      if (r.ok && data && !error) {
-        console.log("commiting income", data);
-        commit("updateIncome", data);
-      } else {
-        console.error("Something went wrong when trying to update an income", {
-          error,
-          data,
-          r,
-        });
+      try {
+        const url = `${INCOME_URl}${transaction.pk}/`;
+        const r = await authRequest.patch(url, { ...transaction });
+        if (r.status === 200) {
+          context.commit("updateExpense", r.data);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          //? This might create an infinite loop if the auth acces token keeps timing out?
+          await context.dispatch("auth/refreshToken", null, { root: true });
+          context.dispatch("updateTransaction", transaction);
+        } else {
+          console.warn("Error in updateTransaction", {
+            transaction,
+            error,
+          });
+        }
       }
-      console.log(r);
-    } else {
-      console.error("Transaction type is not correctly set!!!");
     }
-
-    console.log("Updating....");
-    console.log(transaction);
   },
-  async deleteTransaction({ commit }, transaction) {
+  async deleteTransaction(context, transaction) {
     if (transaction.type === "expense") {
-      let error;
-      const url = `${EXPENSES_URl}${transaction.pk}/delete/`;
-      const r = await fetch(url).catch((err) => (error = err));
-      if (r.ok && !error) {
-        commit("deleteTransaction", transaction);
-      } else {
-        console.error(
-          "Something went wrong when trying to delete the transaction",
-          { error, r, transaction }
-        );
+      try {
+        const url = `${EXPENSES_URl}${transaction.pk}/delete`;
+        const r = await authRequest.get(url);
+        if (r.status === 200) {
+          context.commit("deleteTransaction", transaction);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          await context.dispatch("auth/refreshToken", null, { root: true });
+          context.dispatch("deleteTransaction", transaction);
+        } else {
+          console.warn("Error in deleteTransaction (expense)", {
+            transaction,
+            error,
+          });
+        }
       }
     } else if (transaction.type === "income") {
-      let error;
-      const url = `${INCOME_URl}${transaction.pk}/delete/`;
-      const r = await fetch(url).catch((err) => (error = err));
-      if (r.ok && !error) {
-        commit("deleteTransaction", transaction);
+      try {
+        const url = `${INCOME_URl}${transaction.pk}/delete`;
+        const r = await authRequest.get(url);
+        if (r.status === 200) {
+          context.ommit("deleteTransaction", transaction);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          await context.dispatch("auth/refreshToken", null, { root: true });
+          context.dispatch("deleteTransaction", transaction);
+        } else {
+          console.warn("Error in deleteTransaction (income)", {
+            transaction,
+            error,
+          });
+        }
       }
     } else {
-      console.error("Transaction type is not correctly set", transaction);
+      console.warn("Transaction type is not correctly set", transaction);
     }
   },
 };

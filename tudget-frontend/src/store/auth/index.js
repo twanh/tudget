@@ -1,7 +1,8 @@
-import { BASE_API_URL } from "../api";
+import { apiRequest } from "../../api/requests";
 
-const TOKEN_URL = `${BASE_API_URL}token/`;
-const USERS_URL = `${BASE_API_URL}users/`;
+const TOKEN_URL = `token/`;
+const REFRESH_URL = `${TOKEN_URL}refresh/`;
+const USERS_URL = `users/`;
 
 const state = {
   accessToken: null, //TODO: Save to local storage and load it here (prevens singingout when reloading)
@@ -40,71 +41,55 @@ const getters = {
 };
 const actions = {
   async refreshToken({ state, commit }) {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    const body = JSON.stringify({ refresh: state.refreshToken });
-    const options = {
-      method: "POST",
-      headers,
-      body,
-      redirect: "follow",
-    };
-    const r = await fetch(`${TOKEN_URL}refresh/`, options).catch((err) =>
-      commit("updateAccessTokenError", err)
-    );
-    const data = await r.json();
-    commit("updateAccessToken", data.access);
+    console.log("Refreshing token !");
+    let error;
+    const r = await apiRequest
+      .post(REFRESH_URL, {
+        refresh: state.refreshToken,
+      })
+      .catch((err) => (error = err));
+
+    if (r.status === 200) {
+      commit("updateAccessToken", r.data.access);
+      return r.data.access; // Return the access token so that we can access it when catching the error that triggers the refresh
+    } else {
+      // ERROR
+      console.warn("Error in refreshToken:", { error, r });
+      commit("updateAccessTokenError", r.data.detail);
+
+      return Promise.reject(error);
+    }
   },
   async loginUser({ commit }, credentials) {
     let error;
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    const body = JSON.stringify({
-      username: credentials.username,
-      password: credentials.password,
-    });
-    const options = {
-      method: "POST",
-      headers,
-      body,
-      redirect: "follow",
-    };
-    const r = await fetch(`${TOKEN_URL}`, options).catch(
-      (err) => (error = err)
-    );
-    const data = await r.json();
-    if (r.ok && data && !error) {
-      commit("updateAccessToken", data.access);
-      commit("updateRefreshToken", data.refresh);
+    const r = await apiRequest
+      .post(TOKEN_URL, {
+        ...credentials,
+      })
+      .catch((err) => (error = err));
+
+    if (r.status === 200) {
+      commit("updateAccessToken", r.data.access);
+      commit("updateRefreshToken", r.data.refresh);
     } else {
-      console.error("Error when logging in:", { r, data, error });
-      commit("updateAccessTokenError", data.detail);
+      console.warn("Error when logging in:", { r, data: r.data, error });
+      commit("updateAccessTokenError", r.data.detail);
     }
   },
   async registerUser({ commit }, data) {
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
+    // TODO: Rework this
+    let error;
+    const r = await apiRequest
+      .post(`${USERS_URL}create/`, {
+        ...data,
+      })
+      .catch((err) => (error = err));
 
-    const body = JSON.stringify({
-      name: data.name,
-      username: data.username,
-      password: data.password,
-      email: data.email,
-    });
-
-    const options = {
-      method: "POST",
-      headers: headers,
-      body,
-      redirect: "follow",
-    };
-
-    const r = await fetch(`${USERS_URL}create/`, options).catch((error) =>
-      console.log(error)
-    );
-
-    const rData = await r.json();
-    commit("updateUser", rData);
+    if (r.status === 200) {
+      commit("updateUser", r.data);
+    } else {
+      console.warn("Error when registering:", { r, data: r.data, error });
+    }
   },
 };
 

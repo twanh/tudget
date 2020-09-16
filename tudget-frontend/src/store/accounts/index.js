@@ -1,12 +1,13 @@
-import { BASE_API_URL } from "../api";
+import { authRequest } from "../../api/requests";
 
-const ACCOUNTS_URL = BASE_API_URL + "accounts/";
+const ACCOUNTS_URL = "accounts/";
 
 const state = {
   pending: true,
   accounts: [],
   error: null,
 };
+
 const mutations = {
   setAccountsSuccess(state, accounts) {
     state.accounts = accounts;
@@ -26,29 +27,27 @@ const getters = {
     });
   },
 };
+
 const actions = {
   async getAllAccounts(context) {
-    let error;
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      `Bearer ${context.rootState.auth.accessToken}`
-    );
-    const options = {
-      method: "GET",
-      headers,
-    };
-    const r = await fetch(ACCOUNTS_URL, options).catch((err) => (error = err));
-    const accounts = await r.json();
-    if (r.ok && accounts.length > 0 && !error) {
-      context.commit("setAccountsSuccess", accounts);
-    } else {
-      console.error("Error when fetching all accounts: ", {
-        r,
-        accounts,
-        error,
-      });
-      context.commit("setAccountsError", accounts.detail);
+    // let error;
+    try {
+      const r = await authRequest.get(ACCOUNTS_URL);
+      if (r.status === 200) {
+        context.commit("setAccountsSuccess", r.data);
+      }
+    } catch (error) {
+      // if the status code is 401, it means there was an authenticatien error
+      // so then we refresh the token
+      if (error.response && error.response.status === 401) {
+        await context.dispatch("auth/refreshToken", null, { root: true });
+        context.dispatch("getAllAccounts");
+      } else if (error.respose && error.response.data.detail) {
+        context.commit("setAccountsError", error.response.data.detail);
+      } else {
+        console.warn("Error in getAllAccounts", { error });
+        context.commit("setAccountsError", error);
+      }
     }
   },
 };
