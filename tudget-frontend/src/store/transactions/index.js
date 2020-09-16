@@ -14,6 +14,7 @@ const mutations = {
   setTransactionsSuccess(state, transactions) {
     state.transactions = transactions;
     state.pending = false;
+    state.error = null;
   },
   setTransactionsError(state, error) {
     state.pending = false;
