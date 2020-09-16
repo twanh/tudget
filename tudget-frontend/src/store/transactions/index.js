@@ -86,7 +86,7 @@ const getters = {
   },
 };
 const actions = {
-  async getAllTransactions({ commit }) {
+  async getAllTransactions(context) {
     try {
       const exp_r = await authRequest.get(EXPENSES_URl);
       const inc_r = await authRequest.get(INCOME_URl);
@@ -94,17 +94,18 @@ const actions = {
       if (exp_r.status === 200 && inc_r.status === 200) {
         // Everything went okay
         const transactions = [...exp_r.data, ...inc_r.data];
-        commit("setTransactionsSuccess", transactions);
+        context.commit("setTransactionsSuccess", transactions);
       }
     } catch (error) {
       if (error.response.status === 401) {
-        console.warn("Got an auth problem here!");
+        await context.dispatch("auth/refreshToken", null, { root: true });
+        context.dispatch("getAllTransactions");
       } else {
         console.warn("Error in getAllTransactions:", { error });
         if (error.response.data.detail) {
-          commit("setTransactionsError", error.response.data.detail);
+          context.commit("setTransactionsError", error.response.data.detail);
         } else {
-          commit("setTransactionsError", error);
+          context.commit("setTransactionsError", error);
         }
       }
     }
