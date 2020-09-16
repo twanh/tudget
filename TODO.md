@@ -58,7 +58,6 @@
   - [x] Update transaction
   - [x] Delete a transaction
 - [ ] Users
-  - [ ] Get user info
   - [ ] Register 
 
 
