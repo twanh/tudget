@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'rest_framework',
     # CORS
     'corsheaders',
+    # Docs
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
