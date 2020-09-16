@@ -18,8 +18,8 @@
 
 #### Auth
 - On every request:
-  - Pass the bearer token
-  - Handle the error correctly
+  - [x] Pass the bearer token
+  - [x] Handle the error correctly
     - If the error message mentions that the access token is expired --> get new access token using the refresh token!
   
 
