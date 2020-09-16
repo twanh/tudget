@@ -6,21 +6,22 @@ Vue.use(VueRouter);
 
 export const routes = [
   {
-    path: "/",
-    name: "Dashboard",
-    component: Dashboard,
-  },
-  {
     path: "/accounts",
     name: "Accounts",
     component: () =>
       import(/* webpackChunkName: "accounts" */ "../views/Accounts.vue"),
+    meta: {
+      requiresLogin: true,
+    },
   },
   {
     path: "/account/:pk",
     name: "Account",
     component: () =>
       import(/* webpackChunkName: "account" */ "../views/Account.vue"),
+    meta: {
+      requiresLogin: true,
+    },
   },
   {
     path: "/budgets",
@@ -30,6 +31,9 @@ export const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "budgets" */ "../views/Budgets.vue"),
+    meta: {
+      requiresLogin: true,
+    },
   },
   {
     path: "/savings",
@@ -39,6 +43,26 @@ export const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "savings" */ "../views/Savings.vue"),
+    meta: {
+      requiresLogin: true,
+    },
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () =>
+      import(/* webpackChunkName: "savings" */ "../views/Login.vue"),
+    meta: {
+      shouldNotBeLoggedIn: true,
+    },
+  },
+  {
+    path: "/",
+    name: "Dashboard",
+    component: Dashboard,
+    meta: {
+      requiresLogin: true,
+    },
   },
 ];
 

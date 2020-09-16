@@ -24,7 +24,7 @@ class ListAccountsView(generics.ListCreateAPIView):
     def get_queryset(self):
 
         # When not active the account is 'deleted', so we do not want to show this to the user
-        return Account.objects.filter(owner_id=self.request.user.id, active=True, isSavingsAccount=False)
+        return Account.objects.filter(owner_id=self.request.user.id, active=True, isSavingAccount=False)
         # return self.request.user.accounts.filter(active=True)
 
     # Override the create method, so we automaticly can assign the user as owner

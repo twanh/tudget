@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'rest_framework',
     # CORS
     'corsheaders',
+    # Docs
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +121,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
