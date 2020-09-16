@@ -52,6 +52,9 @@ export const routes = [
     name: "Login",
     component: () =>
       import(/* webpackChunkName: "savings" */ "../views/Login.vue"),
+    meta: {
+      shouldNotBeLoggedIn: true,
+    },
   },
   {
     path: "/",
