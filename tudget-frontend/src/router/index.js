@@ -40,6 +40,12 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "savings" */ "../views/Savings.vue"),
   },
+  {
+    path: "/login",
+    name: "Login",
+    component: () =>
+      import(/* webpackChunkName: "savings" */ "../views/Login.vue"),
+  },
 ];
 
 const router = new VueRouter({
