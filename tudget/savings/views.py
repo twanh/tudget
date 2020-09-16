@@ -23,7 +23,7 @@ class ListAllSavingAccountsView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         # Set the owner and make sure that this account is categorized as a savings account
-        serializer.save(owner=self.request.user, isSavingsAccount=True)
+        serializer.save(owner=self.request.user, isSavingAccount=True)
 
 
 class UpdateSavingsAccountView(generics.UpdateAPIView):
