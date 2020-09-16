@@ -16,6 +16,12 @@
 
 ### Frontend
 
+#### Auth
+- On every request:
+  - Pass the bearer token
+  - Handle the error correctly
+    - If the error message mentions that the access token is expired --> get new access token using the refresh token!
+  
 
 ### General things to think about :)
  - Should account balance be read only?
