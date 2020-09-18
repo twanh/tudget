@@ -152,4 +152,7 @@ STATIC_URL = '/static/'
 
 # CORS settings
 #! SET TO DOMAIN ONCE WE HAVE ON!
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8080',
+)
