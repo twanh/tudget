@@ -153,7 +153,7 @@ class AccountViewTest(APITestCase):
         """
         Test the updating of an account
 
-        - Should only be able to update own accounts (should return 404, if accessing other users account)
+        - Should only be able to update own accounts (should return 404, if accessing other users account & the account should not be modified)
         - Should return the new account (with all the fields)
         - Should return with status code 200
         """
