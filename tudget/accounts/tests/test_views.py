@@ -213,4 +213,63 @@ class AccountViewTest(APITestCase):
         self.assertNotEqual(user_2_account.name, new_data['name'])
 
     def test_delete(self):
-        pass
+        """
+        Test the deletion of accounts
+
+        - Should be able to delete an account
+            - 'Deleting' an account should set the active property of the account to false
+            - Should return with status 200 on successfull delete
+        - Should not be able to delete an account from another user
+        - Should only allow authorized requests
+        """
+
+        # Auth headers
+        headers = {
+            "HTTP_AUTHORIZATION": f"Bearer {self.access_token}"
+        }
+
+        # Test if the user can delete it's own accounts
+
+        # The account to delete
+        pk = self.user1_accounts[0].pk
+
+        # Make the request
+        req = self.client.get(
+            reverse('delete-account', kwargs={'pk': pk}), **headers)
+
+        # Expect status code 200
+        self.assertEqual(req.status_code, status.HTTP_200_OK)
+
+        # Check if the the active field is set to false
+        updated_account = Account.objects.filter(pk=pk)[0]
+        self.assertEqual(
+            updated_account.active, False, f'Expected the account\'s activie field to be False but got {updated_account.active} instead.')
+
+        # Test if the user can delete an account of an other user (should not be able to)
+        # The account to delete
+        u2_pk = self.user2_account.pk
+
+        # Make the request
+        u2_req = self.client.get(
+            reverse('delete-account', kwargs={'pk': u2_pk}), **headers)
+
+        # Expect status code 404 (not found)
+        self.assertEqual(u2_req.status_code, status.HTTP_404_NOT_FOUND)
+        # Check if the the active field is set to true (not changed)
+        u2_updated_account = Account.objects.filter(pk=u2_pk)[0]
+        self.assertEqual(
+            u2_updated_account.active, True, f'Expected the account\'s activie field to be True but got {u2_updated_account.active} instead.')
+
+        # Test if an Unauthorized user can delete an account (should not be able to)
+        unauth_pk = self.user2_account.pk
+
+        # Make the request
+        unauth_req = self.client.get(
+            reverse('delete-account', kwargs={'pk': unauth_pk}))
+
+        # Expect status code 401
+        self.assertEqual(unauth_req.status_code, status.HTTP_401_UNAUTHORIZED)
+        # Check if the the active field is set to true (not changed)
+        unauth_updated_account = Account.objects.filter(pk=unauth_pk)[0]
+        self.assertEqual(
+            unauth_updated_account.active, True, f'Expected the account\'s activie field to be True but got {unauth_updated_account.active} instead.')
