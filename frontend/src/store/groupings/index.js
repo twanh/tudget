@@ -62,12 +62,10 @@ const actions = {
     try {
       const tags_r = await authRequest.get(TAGS_URL);
       const cats_r = await authRequest.get(CATEGORY_URL);
-      if (tags_r.status === 200 && cats_r.status === 200) {
-        context.commit("setGroupingsSuccess", {
-          tags: tags_r.data,
-          categories: cats_r.data,
-        });
-      }
+      context.commit("setGroupingsSuccess", {
+        tags: tags_r.data,
+        categories: cats_r.data,
+      });
     } catch (error) {
       if (error.response.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -92,9 +90,7 @@ const actions = {
     }
     try {
       const r = await authRequest.post(TAGS_URL, tag);
-      if (r.status === 200) {
-        context.dispatch("addTag", r.data);
-      }
+      context.dispatch("addTag", r.data);
     } catch (error) {
       if (error.response.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -119,9 +115,7 @@ const actions = {
     }
     try {
       const r = await authRequest.post(TAGS_URL, category);
-      if (r.status === 200) {
-        context.dispatch("addCategory", r.data);
-      }
+      context.dispatch("addCategory", r.data);
     } catch (error) {
       if (error.response.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -146,9 +140,7 @@ const actions = {
     }
     try {
       const r = await authRequest.patch(`${TAGS_URL}${tag.pk}/`, tag);
-      if (r.status === 200) {
-        context.dispatch("updateTag", r.data);
-      }
+      context.dispatch("updateTag", r.data);
     } catch (error) {
       if (error.response.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -176,9 +168,7 @@ const actions = {
         `${CATEGORY_URL}${category.pk}/`,
         category
       );
-      if (r.status === 200) {
-        context.dispatch("updateCategory", r.data);
-      }
+      context.dispatch("updateCategory", r.data);
     } catch (error) {
       if (error.response.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -198,10 +188,8 @@ const actions = {
       throw "A pk is required to delete a tag";
     }
     try {
-      const r = await authRequest.get(`${TAGS_URL}${tag.pk}/delete/`);
-      if (r.status === 200) {
-        context.dispatch("deleteTag", tag);
-      }
+      await authRequest.get(`${TAGS_URL}${tag.pk}/delete/`);
+      context.dispatch("deleteTag", tag);
     } catch (error) {
       if (error.response.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -221,10 +209,8 @@ const actions = {
       throw "A pk is required to delete a category";
     }
     try {
-      const r = await authRequest.get(`${CATEGORY_URL}${category.pk}/delete/`);
-      if (r.status === 200) {
-        context.dispatch("deleteCategory", category);
-      }
+      await authRequest.get(`${CATEGORY_URL}${category.pk}/delete/`);
+      context.dispatch("deleteCategory", category);
     } catch (error) {
       if (error.response.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });

@@ -95,12 +95,8 @@ const actions = {
     try {
       const exp_r = await authRequest.get(EXPENSES_URl);
       const inc_r = await authRequest.get(INCOME_URl);
-
-      if (exp_r.status === 200 && inc_r.status === 200) {
-        // Everything went okay
-        const transactions = [...exp_r.data, ...inc_r.data];
-        context.commit("setTransactionsSuccess", transactions);
-      }
+      const transactions = [...exp_r.data, ...inc_r.data];
+      context.commit("setTransactionsSuccess", transactions);
     } catch (error) {
       if (error.response.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -120,9 +116,7 @@ const actions = {
       try {
         const url = `${EXPENSES_URl}${transaction.pk}/`;
         const r = await authRequest.patch(url, { ...transaction });
-        if (r.status === 200) {
-          context.commit("updateExpense", r.data);
-        }
+        context.commit("updateExpense", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -138,9 +132,7 @@ const actions = {
       try {
         const url = `${INCOME_URl}${transaction.pk}/`;
         const r = await authRequest.patch(url, { ...transaction });
-        if (r.status === 200) {
-          context.commit("updateExpense", r.data);
-        }
+        context.commit("updateExpense", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           //? This might create an infinite loop if the auth acces token keeps timing out?
@@ -159,10 +151,8 @@ const actions = {
     if (transaction.type === "expense") {
       try {
         const url = `${EXPENSES_URl}${transaction.pk}/delete`;
-        const r = await authRequest.get(url);
-        if (r.status === 200) {
-          context.commit("deleteTransaction", transaction);
-        }
+        await authRequest.get(url);
+        context.commit("deleteTransaction", transaction);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -177,10 +167,8 @@ const actions = {
     } else if (transaction.type === "income") {
       try {
         const url = `${INCOME_URl}${transaction.pk}/delete`;
-        const r = await authRequest.get(url);
-        if (r.status === 200) {
-          context.ommit("deleteTransaction", transaction);
-        }
+        await authRequest.get(url);
+        context.ommit("deleteTransaction", transaction);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -206,9 +194,7 @@ const actions = {
     if (transaction.type === "expense") {
       try {
         const r = await authRequest.post(EXPENSES_URl, transaction);
-        if (r.status === 200) {
-          context.commit("createTransaction", r.data);
-        }
+        context.commit("createTransaction", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -223,9 +209,7 @@ const actions = {
     } else if (transaction.type === "income") {
       try {
         const r = await authRequest.post(INCOME_URl, transaction);
-        if (r.status === 200) {
-          context.commit("createTransaction", r.data);
-        }
+        context.commit("createTransaction", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
