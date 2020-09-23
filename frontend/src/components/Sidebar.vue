@@ -36,6 +36,21 @@
                 :active="isActive('Savings')"
               ></b-menu-item>
             </b-menu-list>
+            <b-menu-list label="Account">
+              <div v-if="loggedIn">
+                <b-menu-item icon="logout" label="Logout"></b-menu-item>
+              </div>
+              <div v-else>
+                <b-menu-item
+                  icon="login"
+                  label="Login"
+                  :active="isActive('Login')"
+                  @click.prevent="$.preventrouter.push({name: 'Login'})"
+                ></b-menu-item>
+                <!-- TODO: Update the click event handler to redirect to the register page -->
+                <b-menu-item icon="account-plus-outline" label="Register"></b-menu-item>
+              </div>
+            </b-menu-list>
           </b-menu>
         </div>
       </b-sidebar>
@@ -52,6 +67,11 @@ export default {
         return true;
       }
       return false;
+    }
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.getters["auth/loggedIn"];
     }
   }
 };
