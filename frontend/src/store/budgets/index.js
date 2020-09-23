@@ -91,9 +91,7 @@ const actions = {
       }
       try {
         const r = await authRequest.post(CURRENCY_BUDGET_URL, budget);
-        if (r.status === 200) {
-          context.commit("addBudget", r.data);
-        }
+        context.commit("addBudget", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -116,9 +114,7 @@ const actions = {
       }
       try {
         const r = await authRequest.post(TRANSACTION_BUDGET_URL, budget);
-        if (r.status === 200) {
-          context.commit("addBudget", r.data);
-        }
+        context.commit("addBudget", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -154,9 +150,7 @@ const actions = {
           `${CURRENCY_BUDGET_URL}${budget.pk}/`,
           budget
         );
-        if (r.status === 200) {
-          context.commit("updateBudget", r.data);
-        }
+        context.commit("updateBudget", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -187,9 +181,7 @@ const actions = {
           `${TRANSACTION_BUDGET_URL}${budget.pk}/`,
           budget
         );
-        if (r.status === 200) {
-          context.commit("updateBudget", r.data);
-        }
+        context.commit("updateBudget", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -212,12 +204,8 @@ const actions = {
     }
     if (getBudgetType(budget) === "currency") {
       try {
-        const r = await authRequest.get(
-          `${CURRENCY_BUDGET_URL}${budget.pk}/delete/`
-        );
-        if (r.status === 200) {
-          context.commit("deleteBudget", budget);
-        }
+        await authRequest.get(`${CURRENCY_BUDGET_URL}${budget.pk}/delete/`);
+        context.commit("deleteBudget", budget);
       } catch (err) {
         if (err.response && err.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
@@ -229,12 +217,8 @@ const actions = {
       }
     } else if (getBudgetType(budget) === "transaction") {
       try {
-        const r = await authRequest.get(
-          `${TRANSACTION_BUDGET_URL}${budget.pk}/delete/`
-        );
-        if (r.status === 200) {
-          context.commit("deleteBudget", budget);
-        }
+        await authRequest.get(`${TRANSACTION_BUDGET_URL}${budget.pk}/delete/`);
+        context.commit("deleteBudget", budget);
       } catch (err) {
         if (err.response && err.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });

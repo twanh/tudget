@@ -59,9 +59,7 @@ const actions = {
     // let error;
     try {
       const r = await authRequest.get(ACCOUNTS_URL);
-      if (r.status === 200) {
-        context.commit("setAccountsSuccess", r.data);
-      }
+      context.commit("setAccountsSuccess", r.data);
     } catch (error) {
       // if the status code is 401, it means there was an authenticatien error
       // so then we refresh the token
@@ -84,9 +82,7 @@ const actions = {
     }
     try {
       const r = await authRequest.post(`${ACCOUNTS_URL}`, account);
-      if (r.status === 200) {
-        context.commit("addAccount", r.data);
-      }
+      context.commit("addAccount", r.data);
     } catch (error) {
       if (error.response && error.respone.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -104,9 +100,7 @@ const actions = {
     try {
       const url = `${ACCOUNTS_URL}${account.pk}/`;
       const r = await authRequest.patch(url, account);
-      if (r.status === 200) {
-        context.commit("updateAccount", r.data);
-      }
+      context.commit("updateAccount", r.data);
     } catch (error) {
       if (error.response && error.respone.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
@@ -123,10 +117,8 @@ const actions = {
     }
     try {
       const url = `${ACCOUNTS_URL}${account.pk}/delete/`;
-      const r = authRequest.get(url);
-      if (r.status === 200) {
-        context.commit("deleteAccount", account);
-      }
+      await authRequest.get(url);
+      context.commit("deleteAccount", account);
     } catch (error) {
       if (error.response && error.respone.status === 401) {
         await context.dispatch("auth/refreshToken", null, { root: true });
