@@ -7,7 +7,7 @@
             <h3 class="title">Tudget</h3>
           </div>
           <b-menu class="is-custom-mobile">
-            <b-menu-list label="Navigation">
+            <b-menu-list label="Navigation" v-if="loggedIn">
               <b-menu-item
                 icon="alpha-d-box"
                 label="Dashboard"
