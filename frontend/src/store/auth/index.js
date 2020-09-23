@@ -5,8 +5,8 @@ const REFRESH_URL = `${TOKEN_URL}refresh/`;
 const USERS_URL = `users/`;
 
 const state = {
-  accessToken: null, //TODO: Save to local storage and load it here (prevens singingout when reloading)
-  refreshToken: null,
+  accessToken: localStorage.getItem("access_token") || null,
+  refreshToken: localStorage.getItem("refresh_token") || null,
   user: {},
   error: null,
 };
@@ -14,6 +14,8 @@ const state = {
 const mutations = {
   updateAccessToken(state, token) {
     state.accessToken = token;
+    // TODO: Use a safer way to automatticly log the user in
+    localStorage.setItem("access_token", token);
     state.error = null;
   },
   updateAccessTokenError(state, error) {
@@ -21,6 +23,8 @@ const mutations = {
   },
   updateRefreshToken(state, token) {
     state.refreshToken = token;
+    localStorage.setItem("refresh_token", token);
+    state.error = null;
   },
   destroyToken(state) {
     state.accesToken = null;
