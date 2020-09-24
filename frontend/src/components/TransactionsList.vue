@@ -3,7 +3,7 @@
     <h5 class="subtitle has-text-weight-light is-size-6 has-text-weight-bold">
       Recent {{ this.title }}:
     </h5>
-    <div v-if="transactions.length < 1">
+    <div v-if="transcations && transactions.length < 1">
       <span class="is-size-7"
         >Nothing here yet! Add {{ this.title }} to get started!</span
       >
@@ -96,6 +96,10 @@ export default {
       this.$router.history.push("/transactions/add");
     },
     getTransactionAccountName(accountPk) {
+      if (!this.accounts) {
+        // TODO: Find a good error
+        return "404";
+      }
       if (this.accounts.length === 1) {
         return this.accounts[0].name;
       }
