@@ -1,5 +1,4 @@
 import { mount, createLocalVue } from "@vue/test-utils";
-import sinon from 'sinon';
 
 import SideBar from "@/components/Sidebar.vue";
 import Buefy from 'buefy'
