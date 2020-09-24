@@ -69,14 +69,14 @@ import TransactionModal from "@/components/TransactionModal/TransactionModal";
 export default {
   name: "TransactionsList",
   components: {
-    TransactionModal,
+    TransactionModal
   },
   // Type: income/exenese/all
   props: ["type", "transactions", "accounts"],
   data() {
     return {
       openModal: false,
-      modalTransaction: {},
+      modalTransaction: {}
     };
   },
   methods: {
@@ -86,7 +86,7 @@ export default {
     handleTransactionClick(type, pk) {
       //! This route does not exist yet !
       this.modalTransaction = this.transactions.find(
-        (trans) => trans.pk === pk && trans.type === type
+        trans => trans.pk === pk && trans.type === type
       );
       this.openModal = true;
       // this.$router.history.push(`/transactions/${type}/${pk}`);
@@ -100,14 +100,14 @@ export default {
         return this.accounts[0].name;
       }
       const accnt = this.accounts.find(
-        (account) => account.pk === parseInt(accountPk)
+        account => account.pk === parseInt(accountPk)
       );
 
       //! FIXME!
       if (!accnt) return "404";
 
       return accnt.name;
-    },
+    }
   },
   computed: {
     title() {
@@ -118,8 +118,8 @@ export default {
       } else {
         return "transactions";
       }
-    },
-  },
+    }
+  }
 };
 
 // transsaction

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h2 class="subtitle has-text-weight-light is-size-4 is-family-secondary">All accounts:</h2>
+    <h2 class="subtitle has-text-weight-light is-size-4 is-family-secondary">
+      All accounts:
+    </h2>
     <div v-if="!accountsPending">
       <accounts-bar :accounts="allAccounts" />
     </div>

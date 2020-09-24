@@ -11,8 +11,8 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "accounts" */ "../views/Accounts.vue"),
     meta: {
-      requiresLogin: true,
-    },
+      requiresLogin: true
+    }
   },
   {
     path: "/account/:pk",
@@ -20,8 +20,8 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "account" */ "../views/Account.vue"),
     meta: {
-      requiresLogin: true,
-    },
+      requiresLogin: true
+    }
   },
   {
     path: "/budgets",
@@ -32,8 +32,8 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "budgets" */ "../views/Budgets.vue"),
     meta: {
-      requiresLogin: true,
-    },
+      requiresLogin: true
+    }
   },
   {
     path: "/savings",
@@ -44,8 +44,8 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "savings" */ "../views/Savings.vue"),
     meta: {
-      requiresLogin: true,
-    },
+      requiresLogin: true
+    }
   },
   {
     path: "/login",
@@ -53,23 +53,23 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "savings" */ "../views/Login.vue"),
     meta: {
-      shouldNotBeLoggedIn: true,
-    },
+      shouldNotBeLoggedIn: true
+    }
   },
   {
     path: "/",
     name: "Dashboard",
     component: Dashboard,
     meta: {
-      requiresLogin: true,
-    },
-  },
+      requiresLogin: true
+    }
+  }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 export default router;

@@ -5,14 +5,19 @@
       v-if="$store.getters['auth/hasError']"
       type="is-danger"
       size="is-small"
-    >The credentials you entered are incorrect!</b-message>
+      >The credentials you entered are incorrect!</b-message
+    >
     <form @submit.prevent="handleSubmit">
       <b-field
         label="Username"
         label-position="on-border"
         message="The username you used to sign up"
       >
-        <b-input v-model="username" icon="account-circle" placeholder="Username"></b-input>
+        <b-input
+          v-model="username"
+          icon="account-circle"
+          placeholder="Username"
+        ></b-input>
       </b-field>
       <b-field
         label="Password"

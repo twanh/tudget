@@ -7,7 +7,7 @@ const INCOME_URl = TRANSACTIONS_URL + "income/";
 const state = {
   pending: true,
   transactions: [],
-  error: null,
+  error: null
 };
 
 const mutations = {
@@ -22,7 +22,7 @@ const mutations = {
   },
   deleteTransaction(state, transaction) {
     const indx = state.transactions.findIndex(
-      (item) => item.pk === transaction.pk && item.type === transaction.type
+      item => item.pk === transaction.pk && item.type === transaction.type
     );
     state.transactions.splice(indx, 1);
   },
@@ -31,13 +31,13 @@ const mutations = {
     // We need to check for the same primary key (pk) and the expense type, becuase the transactions array
     // can contain items with the same pk becuase it contains expenses & income
     const toUpdateInx = state.transactions.findIndex(
-      (item) => item.pk === expense.pk && item.type === "expense"
+      item => item.pk === expense.pk && item.type === "expense"
     );
     console.log("updating expense in the mutations!");
     const newTransactions = [
       ...state.transactions.slice(0, toUpdateInx),
       expense,
-      ...state.transactions.slice(toUpdateInx + 1),
+      ...state.transactions.slice(toUpdateInx + 1)
     ];
     state.transactions = newTransactions;
   },
@@ -47,48 +47,46 @@ const mutations = {
     // can contain items with the same pk becuase it contains expenses & income
     console.log("updating income in the mutations!");
     const toUpdateInx = state.transactions.findIndex(
-      (item) => item.pk === income.pk && item.type === "income"
+      item => item.pk === income.pk && item.type === "income"
     );
     const newTransactions = [
       ...state.transactions.slice(0, toUpdateInx),
       income,
-      ...state.transactions.slice(toUpdateInx + 1),
+      ...state.transactions.slice(toUpdateInx + 1)
     ];
     state.transactions = newTransactions;
   },
   addTransaction(state, transaction) {
     state.error = null;
     state.transactions.push(transaction);
-  },
+  }
 };
 const getters = {
-  allTransactions: (state) => {
+  allTransactions: state => {
     return state.transactions;
   },
-  isPending: (state) => state.pending,
-  getTransaction: (state) => (pk, type) => {
+  isPending: state => state.pending,
+  getTransaction: state => (pk, type) => {
     return state.transactions.find(
-      (transaction) =>
+      transaction =>
         transaction.pk === parseInt(pk) && transaction.type === type
     );
   },
-  getTransactionsFromAccount: (state) => (accountPk) => {
+  getTransactionsFromAccount: state => accountPk => {
     return state.transactions.filter(
-      (trans) => trans.account === parseInt(accountPk)
+      trans => trans.account === parseInt(accountPk)
     );
   },
-  getExpensesFromAccount: (state) => (accountPk) => {
+  getExpensesFromAccount: state => accountPk => {
     return state.transactions.filter(
-      (trans) =>
-        trans.account === parseInt(accountPk) && trans.type === "expense"
+      trans => trans.account === parseInt(accountPk) && trans.type === "expense"
     );
   },
-  getIncomeFromAccount: (state) => (accountPk) => {
+  getIncomeFromAccount: state => accountPk => {
     return state.transactions.filter(
-      (trans) =>
-        trans.account === parseInt(accountPk) && trans.type === "income"
+      trans => trans.account === parseInt(accountPk) && trans.type === "income"
     );
-  },
+  }
 };
 const actions = {
   async getAllTransactions(context) {
@@ -124,7 +122,7 @@ const actions = {
         } else {
           console.warn("Error in updateTransaction (expense)", {
             transaction,
-            error,
+            error
           });
         }
       }
@@ -141,7 +139,7 @@ const actions = {
         } else {
           console.warn("Error in updateTransaction", {
             transaction,
-            error,
+            error
           });
         }
       }
@@ -160,7 +158,7 @@ const actions = {
         } else {
           console.warn("Error in deleteTransaction (expense)", {
             transaction,
-            error,
+            error
           });
         }
       }
@@ -176,7 +174,7 @@ const actions = {
         } else {
           console.warn("Error in deleteTransaction (income)", {
             transaction,
-            error,
+            error
           });
         }
       }
@@ -202,7 +200,7 @@ const actions = {
         } else {
           console.warn("Error in createTransaction (expense)", {
             transaction,
-            error,
+            error
           });
         }
       }
@@ -217,14 +215,14 @@ const actions = {
         } else {
           console.warn("Error in createTransaction (income)", {
             transaction,
-            error,
+            error
           });
         }
       }
     } else {
       throw "Transaction type is not set correctly!";
     }
-  },
+  }
 };
 
 export default {
@@ -232,5 +230,5 @@ export default {
   state,
   mutations,
   getters,
-  actions,
+  actions
 };

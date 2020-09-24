@@ -17,7 +17,7 @@ function getBudgetType(budget) {
 const state = {
   pending: true,
   budgets: [],
-  error: null,
+  error: null
 };
 
 const mutations = {
@@ -36,23 +36,23 @@ const mutations = {
   },
   updateBudget(state, budget) {
     const updateIndx = state.budgets.findIndex(
-      (item) =>
+      item =>
         item.pk === budget.pk && getBudgetType(item) === getBudgetType(budget)
     );
     const newBudgets = [
       ...state.budgets.slice(0, updateIndx),
       budget,
-      ...state.budgets.slice(updateIndx + 1),
+      ...state.budgets.slice(updateIndx + 1)
     ];
     state.budgets = newBudgets;
   },
   deleteBudget(state, budget) {
     const indx = state.budgets.findIndex(
-      (item) =>
+      item =>
         item.pk === budget.pk && getBudgetType(item) === getBudgetType(budget)
     );
     state.budgets.splice(indx, 1);
-  },
+  }
 };
 
 const getters = {};
@@ -100,7 +100,7 @@ const actions = {
           context.dispatch("setBudgetsError", String(error));
           console.warn("Error in createBudget", {
             budget,
-            error,
+            error
           });
         }
       }
@@ -123,7 +123,7 @@ const actions = {
           context.dispatch("setBudgetsError", String(error));
           console.warn("Error in createBudget", {
             budget,
-            error,
+            error
           });
         }
       }
@@ -159,7 +159,7 @@ const actions = {
           context.dispatch("setBudgetsError", String(error));
           console.warn("Error in updateBudget", {
             budget,
-            error,
+            error
           });
         }
       }
@@ -190,7 +190,7 @@ const actions = {
           context.dispatch("setBudgetsError", String(error));
           console.warn("Error in updateBudget", {
             budget,
-            error,
+            error
           });
         }
       }
@@ -231,7 +231,7 @@ const actions = {
     } else {
       throw "Budget type is not valid!"; // Throw this error because the user cannot change this!
     }
-  },
+  }
 };
 
 export default {
@@ -239,5 +239,5 @@ export default {
   state,
   mutations,
   getters,
-  actions,
+  actions
 };

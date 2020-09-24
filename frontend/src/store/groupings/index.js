@@ -8,7 +8,7 @@ const state = {
   tags: [],
   categories: [],
   pending: true,
-  error: null,
+  error: null
 };
 
 const mutations = {
@@ -30,29 +30,29 @@ const mutations = {
     state.categories.push(category);
   },
   deleteTag(state, tag) {
-    const indx = state.tags.findIndex((item) => item.pk === tag.pk);
+    const indx = state.tags.findIndex(item => item.pk === tag.pk);
     state.tags.splice(indx, 1);
   },
   deleteCategory(state, category) {
-    const indx = state.tags.findIndex((item) => item.pk === category.pk);
+    const indx = state.tags.findIndex(item => item.pk === category.pk);
     state.categories.splice(indx, 1);
   },
   updateTag(state, tag) {
-    const indx = state.tags.findIndex((item) => item.pk === tag.pk);
+    const indx = state.tags.findIndex(item => item.pk === tag.pk);
     state.tags = [
       ...state.tags.slice(0, indx),
       tag,
-      ...state.tags.slice(indx + 1),
+      ...state.tags.slice(indx + 1)
     ];
   },
   updateCategory(state, category) {
-    const indx = state.tags.findIndex((item) => item.pk === category.pk);
+    const indx = state.tags.findIndex(item => item.pk === category.pk);
     state.categories = [
       ...state.categories.slice(0, indx),
       category,
-      ...state.categories.slice(indx + 1),
+      ...state.categories.slice(indx + 1)
     ];
-  },
+  }
 };
 
 const getters = {};
@@ -64,7 +64,7 @@ const actions = {
       const cats_r = await authRequest.get(CATEGORY_URL);
       context.commit("setGroupingsSuccess", {
         tags: tags_r.data,
-        categories: cats_r.data,
+        categories: cats_r.data
       });
     } catch (error) {
       if (error.response.status === 401) {
@@ -224,7 +224,7 @@ const actions = {
         }
       }
     }
-  },
+  }
 };
 
 export default {
@@ -232,5 +232,5 @@ export default {
   state,
   mutations,
   getters,
-  actions,
+  actions
 };

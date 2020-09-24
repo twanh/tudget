@@ -125,7 +125,7 @@ export default {
   props: ["transaction", "saveClicked"],
   data() {
     return {
-      transactionData: {},
+      transactionData: {}
     };
   },
   mounted() {
@@ -143,8 +143,8 @@ export default {
         "transactions/updateTransaction",
         this.transactionData
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

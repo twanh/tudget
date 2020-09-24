@@ -13,7 +13,7 @@ Vue.use(Buefy);
 router.beforeEach((to, _, nextFn) => {
   // if the route the user is trying to access has the meta tag `requiredLogin` on it
   // then check if the user is logged in before we let the user go to the route
-  if (to.matched.some((record) => record.meta.requiresLogin)) {
+  if (to.matched.some(record => record.meta.requiresLogin)) {
     if (store.getters["auth/loggedIn"]) {
       // Allow the user to visit the route
       nextFn();
@@ -21,7 +21,7 @@ router.beforeEach((to, _, nextFn) => {
       // Route the user to the login page
       nextFn({ name: "Login" });
     }
-  } else if (to.matched.some((record) => record.meta.shouldNotBeLoggedIn)) {
+  } else if (to.matched.some(record => record.meta.shouldNotBeLoggedIn)) {
     // some routes (like: login/register) should not be accesible when to user is logged in
     // if the user tries to acces any of these routes (denoted by the meta tag: `shouldNotBeLoggedIn`)
     // then redirect them to the dashboard page
@@ -41,5 +41,5 @@ router.beforeEach((to, _, nextFn) => {
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");

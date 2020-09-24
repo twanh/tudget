@@ -8,7 +8,7 @@ const state = {
   accessToken: localStorage.getItem("access_token") || null,
   refreshToken: localStorage.getItem("refresh_token") || null,
   user: {},
-  error: null,
+  error: null
 };
 
 const mutations = {
@@ -32,7 +32,7 @@ const mutations = {
   },
   updateUser(state, user) {
     state.user = user;
-  },
+  }
 };
 const getters = {
   loggedIn(state) {
@@ -41,7 +41,7 @@ const getters = {
   },
   hasError(state) {
     return state.error != null;
-  },
+  }
 };
 const actions = {
   async refreshToken({ state, commit }) {
@@ -49,9 +49,9 @@ const actions = {
     let error;
     const r = await apiRequest
       .post(REFRESH_URL, {
-        refresh: state.refreshToken,
+        refresh: state.refreshToken
       })
-      .catch((err) => (error = err));
+      .catch(err => (error = err));
 
     if (r.status === 200) {
       commit("updateAccessToken", r.data.access);
@@ -68,9 +68,9 @@ const actions = {
     let error;
     const r = await apiRequest
       .post(TOKEN_URL, {
-        ...credentials,
+        ...credentials
       })
-      .catch((err) => (error = err));
+      .catch(err => (error = err));
 
     if (r.status === 200) {
       commit("updateAccessToken", r.data.access);
@@ -85,16 +85,16 @@ const actions = {
     let error;
     const r = await apiRequest
       .post(`${USERS_URL}create/`, {
-        ...data,
+        ...data
       })
-      .catch((err) => (error = err));
+      .catch(err => (error = err));
 
     if (r.status === 200) {
       commit("updateUser", r.data);
     } else {
       console.warn("Error when registering:", { r, data: r.data, error });
     }
-  },
+  }
 };
 
 export default {
@@ -102,5 +102,5 @@ export default {
   state,
   mutations,
   getters,
-  actions,
+  actions
 };

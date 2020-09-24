@@ -10,13 +10,13 @@ const BASE_API_URL = "http://localhost:8000/api/";
 const authRequest = axios.create({
   baseURL: BASE_API_URL,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
     // "Access-Control-Allow-Origin": "*",
-  },
+  }
 });
 
 // Before each request add the accessToken
-authRequest.interceptors.request.use((config) => {
+authRequest.interceptors.request.use(config => {
   const token =
     store.state.auth.accessToken != null ? store.state.auth.accessToken : " ";
   config.headers.Authorization = "Bearer " + token;
@@ -52,7 +52,7 @@ authRequest.interceptors.request.use((config) => {
 // access token is expired
 const apiRequest = axios.create({
   baseURL: BASE_API_URL,
-  headers: { "Content-Type": "application/json" },
+  headers: { "Content-Type": "application/json" }
 });
 
 export { authRequest, apiRequest };

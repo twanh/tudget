@@ -79,7 +79,7 @@ export default {
   props: ["transactionPk", "transactionType", "open", "close", "accountName"],
   components: {
     ModalInfo,
-    ModalEdit,
+    ModalEdit
   },
   mounted() {
     if (!this.$store.state.transactions.transactions.length > 0) {
@@ -92,14 +92,14 @@ export default {
         this.transactionPk,
         this.transactionType
       );
-    },
+    }
   },
   data() {
     return {
       isEditing: false,
       isDeleting: false,
       saveClicked: false,
-      modalOpen: this.open,
+      modalOpen: this.open
     };
   },
   watch: {
@@ -109,7 +109,7 @@ export default {
       } else {
         this.modalOpen = false;
       }
-    },
+    }
   },
   methods: {
     deleteTransaction() {
@@ -123,7 +123,7 @@ export default {
         duration: 5000,
         message: "Transaction deleted",
         type: "is-danger",
-        actionText: "OK",
+        actionText: "OK"
       });
     },
     cancelDelete() {
@@ -143,8 +143,8 @@ export default {
       }
       this.isEditing = !this.isEditing;
       // // this.saveClicked = true;
-    },
-  },
+    }
+  }
 };
 </script>
 

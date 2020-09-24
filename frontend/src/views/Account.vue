@@ -81,12 +81,12 @@ export default {
   components: {
     "accounts-bar": AccountsBar,
     "transactions-list": TransactionsList,
-    "cash-flow-chart": CashFlowChart,
+    "cash-flow-chart": CashFlowChart
   },
   data() {
     return {
       cashFlowData: {},
-      cashFlowOpen: false,
+      cashFlowOpen: false
     };
   },
   methods: {
@@ -95,7 +95,7 @@ export default {
       const allTransactions = sortTransactionsByDate(
         this.$store.getters["transactions/getTransactionsFromAccount"](pk)
       ).reverse();
-      let labels = allTransactions.map((exp) => {
+      let labels = allTransactions.map(exp => {
         return exp.spendOn;
       });
 
@@ -112,21 +112,21 @@ export default {
       let incomeData = [];
       let expenseData = [];
 
-      labels.forEach((label) => {
+      labels.forEach(label => {
         // Get the income frrom the current label
-        const income = rawIncomeData.filter((inc) => inc.spendOn === label);
+        const income = rawIncomeData.filter(inc => inc.spendOn === label);
         if (income.length < 1) {
           incomeData.push(0);
         } else {
-          const amounts = income.map((i) => i.amount);
+          const amounts = income.map(i => i.amount);
           incomeData.push(amounts.reduce((a, b) => a + b));
         }
 
-        const expense = rawExpenseData.filter((exp) => exp.spendOn === label);
+        const expense = rawExpenseData.filter(exp => exp.spendOn === label);
         if (expense.length < 1) {
           expenseData.push(0);
         } else {
-          const amounts = expense.map((e) => -e.amount);
+          const amounts = expense.map(e => -e.amount);
           const sum = amounts.reduce((a, b) => a + b);
           console.log({ sum });
           expenseData.push(sum);
@@ -140,18 +140,18 @@ export default {
             label: "Income",
             backgroundColor: "rgba(39,174,96, 0.3)",
 
-            data: incomeData,
+            data: incomeData
           },
           {
             label: "Expenses",
             backgroundColor: "#e74c3c4d",
-            data: expenseData,
-          },
-        ],
+            data: expenseData
+          }
+        ]
       };
       console.log(data);
       this.cashFlowData = data;
-    },
+    }
   },
 
   mounted() {
@@ -166,7 +166,7 @@ export default {
   computed: {
     ...mapGetters({
       allAccounts: "accounts/allAccounts",
-      accountsPending: "accounts/isPending",
+      accountsPending: "accounts/isPending"
     }),
     account() {
       return this.$store.getters["accounts/getAccountByPk"](
@@ -183,8 +183,8 @@ export default {
       return this.$store.getters["transactions/getIncomeFromAccount"](
         this.account.pk
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

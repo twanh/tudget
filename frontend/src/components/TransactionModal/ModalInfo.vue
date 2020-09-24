@@ -141,7 +141,7 @@
 <script>
 export default {
   name: "ModalInfo",
-  props: ["transaction", "accountName"],
+  props: ["transaction", "accountName"]
   // computed: {
   //   transaction() {
   //     return this.$store.getters["transactions/getTransaction"](

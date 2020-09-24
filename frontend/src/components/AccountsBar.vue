@@ -8,12 +8,15 @@
         :key="account.pk"
         @click.prevent="handleClick(account.pk)"
       >
-        <span class="title is-6 has-text-white">{{account.name | truncate}}</span>
+        <span class="title is-6 has-text-white">{{
+          account.name | truncate
+        }}</span>
         <br />
         <span
           class="subtitle is-6"
           :class="account.balance < 0 ? 'has-text-danger' : 'has-text-success'"
-        >&euro;{{account.balance}}</span>
+          >&euro;{{ account.balance }}</span
+        >
       </div>
     </div>
   </div>

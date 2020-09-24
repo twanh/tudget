@@ -17,6 +17,6 @@ export default new Vuex.Store({
     transactions,
     budgets,
     groupings,
-    savings,
-  },
+    savings
+  }
 });

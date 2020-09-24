@@ -5,7 +5,7 @@ const ACCOUNTS_URL = "savings/";
 const state = {
   pending: true,
   accounts: [],
-  error: null,
+  error: null
 };
 
 const mutations = {
@@ -29,29 +29,29 @@ const mutations = {
   updateAccount(state, account) {
     state.error = null;
     const toUpdateInx = state.accounts.findIndex(
-      (item) => item.pk === account.pk
+      item => item.pk === account.pk
     );
     const newAccounts = [
       ...state.accounts.slice(0, toUpdateInx),
       account,
-      ...state.accounts.slice(toUpdateInx + 1),
+      ...state.accounts.slice(toUpdateInx + 1)
     ];
     state.accounts = newAccounts;
   },
   deleteAccount(state, account) {
     state.error = null;
-    const indx = state.accounts.findIndex((item) => item.pk === account.pk);
+    const indx = state.accounts.findIndex(item => item.pk === account.pk);
     state.accounts.splice(indx, 1);
-  },
+  }
 };
 const getters = {
-  allAccounts: (state) => state.accounts,
-  isPending: (state) => state.pending,
-  getAccountByPk: (state) => (pk) => {
-    return state.accounts.find((account) => {
+  allAccounts: state => state.accounts,
+  isPending: state => state.pending,
+  getAccountByPk: state => pk => {
+    return state.accounts.find(account => {
       return account.pk === parseInt(pk);
     });
-  },
+  }
 };
 
 const actions = {
@@ -128,7 +128,7 @@ const actions = {
         console.warn("Error in deleteAccount", { error, account });
       }
     }
-  },
+  }
 };
 
 export default {
@@ -136,5 +136,5 @@ export default {
   state,
   mutations,
   getters,
-  actions,
+  actions
 };
