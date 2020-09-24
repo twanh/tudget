@@ -80,6 +80,10 @@ const actions = {
       commit("updateAccessTokenError", r.data.detail);
     }
   },
+  logoutUser({commit}) {
+    //TODO: Call the logout apu 
+    commit('destroyToken')
+  },
   async registerUser({ commit }, data) {
     // TODO: Rework this
     let error;

@@ -57,6 +57,15 @@ export const routes = [
     },
   },
   {
+    path: "/logout",
+    name: "Logout",
+    component: () =>
+      import(/* webpackChunkName: "savings" */ "../views/Logout.vue"),
+    meta: {
+      requiresLogin: true,
+    },
+  },
+  {
     path: "/",
     name: "Dashboard",
     component: Dashboard,
