@@ -28,7 +28,10 @@
                 <span>
                   <edit-account-modal :accountData="account" />
                   /
-                  <a href="#" class="has-text-right is-size-7"
+                  <a
+                    href="#"
+                    class="has-text-right is-size-7"
+                    @click.prevent="confirmDeleteAccount()"
                     >Delete Account</a
                   >
                 </span>
@@ -106,6 +109,26 @@ export default {
     };
   },
   methods: {
+    deleteAccount() {
+      this.$store.dispatch("accounts/deleteAccount", this.account);
+      this.$buefy.toast.open({
+        message: "Deleted account...",
+        position: "is-bottom",
+        type: "is-danger",
+      });
+    },
+    confirmDeleteAccount() {
+      this.$buefy.dialog.confirm({
+        title: "Deleting account!",
+        message:
+          "Are you sure you want to <b>delete</b> this account? This action cannot be undone!",
+        confirmText: "Delete Account",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: () => this.deleteAccount(),
+      });
+    },
+
     fillData() {
       const pk = this.$route.params.pk;
       const allTransactions = sortTransactionsByDate(
