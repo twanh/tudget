@@ -10,20 +10,33 @@
             </h2>
 
             <div class="small-info">
-              <span
-                class="has-text-left"
-                :class="
-                  account.balance > 0 ? 'has-text-success' : 'has-text-danger'
-                "
-                >&euro;{{ account.balance }}</span
-              >
-              |
-              <span class="has-text-grey-lighter has-text-left">{{
-                account.description
-              }}</span>
+              <div class="small-info-left">
+                <span
+                  class="has-text-left"
+                  :class="
+                    account.balance > 0 ? 'has-text-success' : 'has-text-danger'
+                  "
+                  >&euro;{{ account.balance }}</span
+                >
+                |
+                <span class="has-text-grey-lighter has-text-left">{{
+                  account.description
+                }}</span>
+              </div>
+
+              <div class="small-info-right">
+                <span>
+                  <edit-account-modal :accountData="account" />
+                  /
+                  <a href="#" class="has-text-right is-size-7"
+                    >Delete Account</a
+                  >
+                </span>
+              </div>
+
               <!-- TODO: Add link to account edit page  (perhaps replace with router-link -->
               <!-- <a href="#" class="has-text-right is-size-7">Edit Account</a> -->
-              <edit-account-modal :accountData="account" />
+              <!-- -->
             </div>
           </div>
           <b-collapse
@@ -204,16 +217,11 @@ export default {
   }
 
   .small-info {
-    position: relative;
-    a {
-      display: inline-block;
-      right: 0px;
-      bottom: 0px;
-
-      position: absolute;
-      &:hover {
-        text-decoration: underline;
-      }
+    display: flex;
+    // justify-content: space-evenly;
+    .small-info-right {
+      display: inline;
+      margin-left: auto;
     }
   }
 }

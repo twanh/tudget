@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display:inline">
     <a
       href="#"
       class="has-text-right is-size-7"
