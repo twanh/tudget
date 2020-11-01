@@ -75,7 +75,7 @@ const actions = {
     }
   },
   async createAccount(context, account) {
-    if (!account.name) {
+    if (!account.name || account.name === "") {
       //? How do we handle errors like this?
       context.dispatch("setAccountError", "Account name is required!");
       return;
