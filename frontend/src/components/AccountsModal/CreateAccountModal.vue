@@ -32,7 +32,7 @@
           </a>
         </header>
         <div class="card-content">
-          <form action="" @submit.prevent="">
+          <form action="" @submit.prevent="save()">
             <!-- Name -->
             <b-field
               message="Short name to describe this account."
@@ -60,10 +60,18 @@
           </form>
         </div>
         <footer class="card-footer">
-          <a href="#" class="card-footer-item" @click.prevent="save()">
+          <a
+            href="#"
+            class="card-footer-item text-center"
+            @click.prevent="save()"
+          >
             <span>Save</span>
           </a>
-          <a href="#" class="card-footer-item" @click.prevent="cancel()">
+          <a
+            href="#"
+            class="card-footer-item text-center"
+            @click.prevent="cancel()"
+          >
             <span>Cancel</span>
           </a>
         </footer>
