@@ -13,7 +13,7 @@ $success: #27ae60;
 $danger: #e74c3c;
 $danger-dark: #e74c3c;
 $danger-light: #f58f84;
-$danger-invert: #e74c3c;
+$danger-invert: $white;
 
 $background: #19202c;
 $backgroundHighlight: #5e35b17a;
@@ -122,3 +122,9 @@ $label-color: $white;
 $message-background-color: $background;
 $message-body-pre-background-color: $background;
 $message-body-color: $black;
+
+// MOdal card
+$modal-card-head-background-color: $backgroundAccent;
+$modal-card-body-background-color: $backgroundAccent;
+$modal-card-head-border-bottom: none;
+$modal-card-foot-border-top: none;
