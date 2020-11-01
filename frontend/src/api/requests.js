@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../store";
 
-const BASE_API_URL = "http://localhost:8000/api/";
+const BASE_API_URL = "http://localhost:8001/api/";
 
 // Use this for requests that require the user to be logged in.
 // This axios instance will check every request if the
