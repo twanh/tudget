@@ -22,7 +22,8 @@
                 account.description
               }}</span>
               <!-- TODO: Add link to account edit page  (perhaps replace with router-link -->
-              <a href="#" class="has-text-right is-size-7">Edit Account</a>
+              <!-- <a href="#" class="has-text-right is-size-7">Edit Account</a> -->
+              <edit-account-modal :accountData="account" />
             </div>
           </div>
           <b-collapse
@@ -70,6 +71,7 @@
 <script>
 import { mapGetters } from "vuex";
 
+import EditAccountModal from "@/components/AccountsModal/EditAccountModal";
 import AccountsBar from "@/components/AccountsBar";
 import TransactionsList from "@/components/TransactionsList";
 import CashFlowChart from "@/components/CashFlowChart";
@@ -79,6 +81,7 @@ import { sortTransactionsByDate } from "@/utils/sorting";
 export default {
   name: "Account",
   components: {
+    "edit-account-modal": EditAccountModal,
     "accounts-bar": AccountsBar,
     "transactions-list": TransactionsList,
     "cash-flow-chart": CashFlowChart,
