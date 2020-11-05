@@ -55,7 +55,11 @@ const mutations = {
   },
 };
 
-const getters = {};
+const getters = {
+  pending: (state) => state.pending,
+  allCategories: (state) => state.categories,
+  allTags: (state) => state.tags,
+};
 
 const actions = {
   async getGroupings(context) {

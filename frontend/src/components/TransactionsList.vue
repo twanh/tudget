@@ -48,31 +48,33 @@
         :transactionType="modalTransaction.type"
         :open="openModal"
         :close="handleModalClose"
+        :accounts="accounts"
+        :categories="categories"
         :accountName="getTransactionAccountName(modalTransaction.account)"
       />
     </div>
-    <div class="buttons mr-5 mt-3">
-      <b-button
-        @click="handleAddTransaction()"
-        type="is-background-hightlight"
-        class="has-text-white"
-        expanded
-        >Add transaction</b-button
-      >
-    </div>
+    <add-transaction-modal
+      :type="type"
+      :accounts="accounts"
+      :categories="categories"
+      :currentAccount="currentAccount"
+      :tags="tags"
+    />
   </div>
 </template>
 
 <script>
 import TransactionModal from "@/components/TransactionModal/TransactionModal";
+import AddTransactionModal from "@/components/TransactionModal/AddTransactionModal";
 
 export default {
   name: "TransactionsList",
   components: {
     TransactionModal,
+    AddTransactionModal,
   },
   // Type: income/exenese/all
-  props: ["type", "transactions", "accounts"],
+  props: ["type", "transactions", "currentAccount"],
   data() {
     return {
       openModal: false,
@@ -110,6 +112,29 @@ export default {
     },
   },
   computed: {
+    categories() {
+      // TODO: Find a cleaner way to check if the groupings are loaded in yet.
+      const isPending = this.$store.getters["groupings/pending"];
+      if (isPending) {
+        this.$store.dispatch("groupings/getGroupings");
+      }
+      return this.$store.getters["groupings/allCategories"];
+    },
+    tags() {
+      // TODO: Find a cleaner way to check if the groupings are loaded in yet.
+      const isPending = this.$store.getters["groupings/pending"];
+      if (isPending) {
+        this.$store.dispatch("groupings/getGroupings");
+      }
+      return this.$store.getters["groupings/allTags"];
+    },
+    accounts() {
+      const isPending = this.$store.getters["accounts/isPending"];
+      if (isPending) {
+        this.$store.dispatch("accounts/getAllAccounts");
+      }
+      return this.$store.getters["accounts/allAccounts"];
+    },
     title() {
       if (this.type === "income") {
         return "income";

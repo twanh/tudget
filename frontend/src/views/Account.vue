@@ -68,14 +68,16 @@
           <transactions-list
             type="income"
             :transactions="accountIncome"
-            :accounts="[account]"
+            :accounts="accounts"
+            :currentAccount="account"
           />
         </div>
         <div class="column is-one-third">
           <transactions-list
             type="expense"
             :transactions="accountExpenses"
-            :accounts="[account]"
+            :accounts="allAccounts"
+            :currentAccount="account"
           />
         </div>
       </div>
