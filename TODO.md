@@ -66,7 +66,7 @@
 
 - [ ] Commonly used (input) elements
   - [ ] Modals
-    - [ ] Create unified input component
+    - [x] Create unified input component
       - Combination of b-input & b-field
         - This allows to standardize the label, tooltip position etc
     - [ ] Tag input
