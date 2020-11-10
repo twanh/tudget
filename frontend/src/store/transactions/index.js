@@ -194,11 +194,11 @@ const actions = {
     if (transaction.type === "expense") {
       try {
         const r = await authRequest.post(EXPENSES_URl, transaction);
-        context.commit("createTransaction", r.data);
+        context.commit("addTransaction", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
-          context.dispatch("createTransaction", transaction);
+          context.dispatch("transactions/createTransaction", transaction);
         } else {
           console.warn("Error in createTransaction (expense)", {
             transaction,
@@ -209,11 +209,11 @@ const actions = {
     } else if (transaction.type === "income") {
       try {
         const r = await authRequest.post(INCOME_URl, transaction);
-        context.commit("createTransaction", r.data);
+        context.commit("addTransaction", r.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           await context.dispatch("auth/refreshToken", null, { root: true });
-          context.dispatch("createTransaction", transaction);
+          context.dispatch("transactions/createTransaction", transaction);
         } else {
           console.warn("Error in createTransaction (income)", {
             transaction,
