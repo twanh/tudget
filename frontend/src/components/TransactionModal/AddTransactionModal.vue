@@ -75,25 +75,11 @@
               v-model="transactionData.description"
             ></input-field>
             <!-- Account -->
-            <b-field
-              message="From what account did you make the transaction?"
-              label="Account"
-              label-position="on-border"
-            >
-              <b-select
-                placeholder="Select an account"
-                icon="account"
-                :disabled="currentAccount && true"
-                v-model="transactionData.account"
-              >
-                <option
-                  v-for="account in accounts"
-                  :value="account.pk"
-                  :key="account.pk"
-                  >{{ account.name }}</option
-                >
-              </b-select>
-            </b-field>
+            <account-select
+              v-model="transactionData.account"
+              :accounts="accounts"
+              :disabled="currentAccount && true"
+            ></account-select>
             <!-- Category -->
             <b-field
               message="In what categorie does this transaction fit best?"
@@ -158,12 +144,14 @@
 
 <script>
 import InputField from "@/components/input/InputField.vue";
+import AccountSelect from "@/components/input/AccountSelect.vue";
 
 export default {
   name: "AddTransactionModal",
   props: ["type", "currentAccount", "accounts", "categories", "tags"],
   components: {
     "input-field": InputField,
+    "account-select": AccountSelect,
   },
   data() {
     return {
