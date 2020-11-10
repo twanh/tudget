@@ -17,6 +17,7 @@
           <p class="card-header-title">
             Add transaction
           </p>
+          <!-- FIXME: close is not working correctly -->
           <a
             @click.prevent="close"
             class="card-header-icon"
@@ -28,32 +29,23 @@
         <div class="card-content">
           <form action="" @submit.prevent="handleSubmit()">
             <!-- Name -->
-            <b-field
-              message="Short name to descripte the transaction"
+            <input-field
+              type="text"
               label="Name"
-              label-position="on-border"
-            >
-              <b-input
-                v-model="transactionData.name"
-                placeholder="Groceries"
-                icon="format-title"
-              >
-              </b-input>
-            </b-field>
+              v-model="transactionData.name"
+              message="Short name for the transaction"
+              placeholder="Groceries"
+              icon="format-title"
+            ></input-field>
             <!-- Amount -->
-            <b-field
-              message="The amount you spend"
+            <input-field
+              type="number"
               label="Amount"
-              label-position="on-border"
-            >
-              <b-input
-                v-model="transactionData.amount"
-                placeholder="10.00"
-                type="number"
-                icon="cash"
-              >
-              </b-input>
-            </b-field>
+              message="The amount you spend"
+              placeholder="10.00"
+              icon="cash"
+              v-model="transactionData.amount"
+            ></input-field>
             <!-- Type -->
             <b-field message="Was the it an expense or income?" label="Type">
               <b-tooltip
@@ -77,17 +69,12 @@
               </b-tooltip>
             </b-field>
             <!-- Description -->
-            <b-field
-              message="A short description of the transaction"
+            <input-field
               label="Description"
-              label-position="on-border"
-            >
-              <b-input
-                v-model="transactionData.description"
-                maxlength="200"
-                type="textarea"
-              ></b-input>
-            </b-field>
+              message="A (short) description of the transaction"
+              type="textarea"
+              v-model="transactionData.description"
+            ></input-field>
             <!-- Account -->
             <b-field
               message="From what account did you make the transaction?"
@@ -169,9 +156,14 @@
 </template>
 
 <script>
+import InputField from "@/components/input/InputField.vue";
+
 export default {
   name: "AddTransactionModal",
   props: ["type", "currentAccount", "accounts", "categories", "tags"],
+  components: {
+    "input-field": InputField,
+  },
   data() {
     return {
       isModalOpen: false,
