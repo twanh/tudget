@@ -17,7 +17,6 @@
           <p class="card-header-title">
             Add transaction
           </p>
-          <!-- FIXME: close is not working correctly -->
           <a
             @click.prevent="close"
             class="card-header-icon"
@@ -147,7 +146,9 @@
             <span>Add</span>
           </a>
           <div class="card-footer-item ">
-            <span class="transaction-modal-delete-btn">Cancel</span>
+            <span class="transaction-modal-delete-btn" @click="close()"
+              >Cancel</span
+            >
           </div>
         </footer>
       </div>
@@ -205,6 +206,21 @@ export default {
     this.transactionData.spendOn = now.toLocaleString();
   },
   methods: {
+    close() {
+      // Close the modal
+      this.isModalOpen = false;
+      // Reset the transaction data, for the next time opening
+      // Note: not resetting account here, because the account is linked to props
+      // and is set on created()
+      this.transactionData = {
+        name: "",
+        description: "",
+        amount: 0,
+        category: "",
+        tags: [],
+        spendOn: "",
+      };
+    },
     async save() {
       // TODO: Check if all required data is provided & valid
 
