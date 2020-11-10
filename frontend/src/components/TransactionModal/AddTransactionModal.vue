@@ -205,6 +205,14 @@ export default {
     const now = new Date();
     this.transactionData.spendOn = now.toLocaleString();
   },
+  updated() {
+    // Make sure that when the user navigates around the page/site the account gets updated
+    // with the current on (on that page for example)
+    // --> Basicly reloading the prop
+    if (this.currentAccount) {
+      this.transactionData.account = this.currentAccount.pk;
+    }
+  },
   methods: {
     close() {
       // Close the modal
