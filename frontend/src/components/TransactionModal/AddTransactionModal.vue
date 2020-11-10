@@ -191,11 +191,11 @@ export default {
     // If there is a currentAccount given
     // then set the accouont of the data the the given account
     if (this.currentAccount) {
-      this.transactionData.accountPk = this.currentAccount.pk;
-      this.transactionData.accouont = this.currentAccount.name;
+      this.transactionData.account = this.currentAccount.pk;
+      // this.transactionData.accouont = this.currentAccount.name;
     }
     // Assign the possibleTags (for the tag autocomplete) all the tag names
-    // TODO: Convert the names back on submit
+    // Note: This needs to be converted back when in save()
     if (this.tags) {
       this.possibleTags = this.tags.map((tag) => tag.name);
     }
@@ -217,7 +217,11 @@ export default {
 
       // Change out the tags to be primary keys
       const data = { ...this.transactionData };
-      data.tags = tagPks;
+      if (data.tags.length < 1) {
+        data.tags = [];
+      } else {
+        data.tags = tagPks;
+      }
 
       await this.$store.dispatch("transactions/createTransaction", data);
     },
