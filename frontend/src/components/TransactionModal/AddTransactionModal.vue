@@ -81,24 +81,10 @@
               :disabled="currentAccount && true"
             ></account-select>
             <!-- Category -->
-            <b-field
-              message="In what categorie does this transaction fit best?"
-              label="Category"
-              label-position="on-border"
-            >
-              <b-select
-                v-model="transactionData.category"
-                placeholder="Select a category"
-                icon="alpha-c-box"
-              >
-                <option
-                  v-for="cat in categories"
-                  :key="cat.pk"
-                  :value="cat.pk"
-                  >{{ cat.name }}</option
-                >
-              </b-select>
-            </b-field>
+            <category-select
+              :categories="categories"
+              v-model="transactionData.category"
+            ></category-select>
             <!-- Date -->
             <b-field
               label="Spend On:"
@@ -145,6 +131,7 @@
 <script>
 import InputField from "@/components/input/InputField.vue";
 import AccountSelect from "@/components/input/AccountSelect.vue";
+import CategorySelect from "@/components/input/CategorySelect.vue";
 
 export default {
   name: "AddTransactionModal",
@@ -152,6 +139,7 @@ export default {
   components: {
     "input-field": InputField,
     "account-select": AccountSelect,
+    "category-select": CategorySelect,
   },
   data() {
     return {
@@ -163,7 +151,7 @@ export default {
         account: 0,
         description: "",
         amount: 0,
-        category: "",
+        category: 0,
         tags: [],
         spendOn: "",
       },
