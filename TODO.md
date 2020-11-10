@@ -1,11 +1,12 @@
 # TODO
 
-### Backend server
+## Backend server
+
 - [x] Create api
 - [x] Budget calculation (also transaction budget)
 - [ ] Warning system when exceeding budget?
 - [ ] Savings updater / add money to saving --> subtract from main accnt
-    - May need to implement a new type of transaction for this (perhaps transfer).
+  - May need to implement a new type of transaction for this (perhaps transfer).
 - [ ] Finish testing
 - [ ] Have endpoints for having the data sorted
   - sort by date (asc/desc)
@@ -13,16 +14,17 @@
   - filter (sort by) tags
   - etc
 
+## Frontend
 
-### Frontend
+### Auth
 
-#### Auth
 - On every request:
   - [x] Pass the bearer token
   - [x] Handle the error correctly
     - If the error message mentions that the access token is expired --> get new access token using the refresh token!
 
-#### Api Interaction
+### Api Interaction
+
 - [x] Accounts
   - [x] Get all accounts
   - [x] Create a new account
@@ -51,23 +53,35 @@
   - [x] Delete a saving account
 - [x] Token
   - [x] Login (get token)
-  - [x] Refresh 
+  - [x] Refresh
 - [x] Transactions
   - [x] Get all transactions
   - [x] Create a transaction
   - [x] Update transaction
   - [x] Delete a transaction
 - [ ] Users
-  - [ ] Register 
+  - [ ] Register
 
+### Refactoring
 
+- [ ] Commonly used (input) elements
+  - [ ] Modals
+    - [ ] Create unified input component
+      - Combination of b-input & b-field
+        - This allows to standardize the label, tooltip position etc
+    - [ ] Tag input
+    - [ ] Type input (radio buttons)
+    - [ ] Account Input (select)
+    - [ ] Category input (select)
+    - [ ] Date input
 
-### General things to think about :)
- - Should account balance be read only?
-    -> Would make it that it can only be updated w/ income/expense
-    
-   
+## General things to think about :)
+
+- Should account balance be read only?
+  -> Would make it that it can only be updated w/ income/expense
+
 ## Auth
+
 - [x] Auto assign current user to everything on create (should be done in the view)
 - [x] Limit viewing of everything to things that belong to the current user
 - [x] Implement JWT for authorization
