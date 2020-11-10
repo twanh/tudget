@@ -21,7 +21,7 @@ export default {
     prop: "value",
   },
   props: {
-    value: String,
+    value: [String, Number],
     // The label to display
     label: {
       type: String,
