@@ -1,6 +1,7 @@
 import {
   Collection,
   Entity,
+  Enum,
   ManyToMany,
   ManyToOne,
   Property,
@@ -12,8 +13,13 @@ import { Category } from "../groupings/Category";
 import { Tag } from "../groupings/Tag";
 import { User } from "../User";
 
+export enum TransactionType {
+  EXPENSE,
+  INCOME,
+}
+
 @Entity()
-export class Income extends BaseEntity {
+export class Transaction extends BaseEntity {
   @Property()
   name!: string;
 
@@ -23,11 +29,14 @@ export class Income extends BaseEntity {
   @Property()
   amount: number;
 
-  @ManyToOne(() => Account, { nullable: false })
-  account!: Account;
-
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { nullable: false })
   owner!: User;
+
+  @ManyToOne(() => Account, { nullable: false })
+  account: Account;
+
+  @Enum()
+  type!: TransactionType;
 
   @Property()
   spendOn: Date;

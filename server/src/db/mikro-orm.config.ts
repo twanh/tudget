@@ -5,6 +5,7 @@ import { Expense } from "./enities/transactions/Expense";
 import { Income } from "./enities/transactions/Income";
 import { MikroORM } from "@mikro-orm/core";
 import { Tag } from "./enities/groupings/Tag";
+import { Transaction } from "./enities/transactions/Transaction";
 import { User } from "./enities/User";
 import dotenv from "dotenv-safe";
 import path from "path";
@@ -18,7 +19,7 @@ export default {
   user: process.env.PG_USERNAME,
   password: process.env.PG_PASSWORD,
   debug: true, // Turn of in prod
-  entities: [BaseEntity, User, Account, Income, Expense, Tag, Category],
+  entities: [BaseEntity, User, Transaction, Account, Tag, Category],
   migrations: {
     path: path.join(__dirname, "./migrations"),
     pattern: /^[\w-]+\d+\.ts$/,

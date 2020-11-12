@@ -7,8 +7,7 @@ import {
 } from "@mikro-orm/core";
 
 import { BaseEntity } from "../BaseEnitity";
-import { Expense } from "../transactions/Expense";
-import { Income } from "../transactions/Income";
+import { Transaction } from "../transactions/Transaction";
 import { User } from "../User";
 
 @Entity()
@@ -29,10 +28,6 @@ export class Account extends BaseEntity {
   balance!: number;
 
   // Transactions
-  // Expenses
-  @OneToMany(() => Expense, (expense) => expense.account, { nullable: true })
-  expenses? = new Collection<Expense>(this);
-  // Income
-  @OneToMany(() => Income, (income) => income.account, { nullable: true })
-  income? = new Collection<Income>(this);
+  @OneToMany(() => Transaction, (transaction) => transaction.account)
+  transactions = new Collection<Transaction>(this);
 }
