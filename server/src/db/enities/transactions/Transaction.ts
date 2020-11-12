@@ -22,7 +22,7 @@ export enum TransactionType {
 
 // Makes sure that type-graphql can access the enum correctly
 registerEnumType(TransactionType, {
-  name: "Transaction type",
+  name: "TransactionType",
   description:
     "Defines wether a transactions is an expense or an income transaction",
 });

@@ -1,8 +1,6 @@
 import { Account } from "./enities/accounts/Account";
 import { BaseEntity } from "./enities/BaseEnitity";
 import { Category } from "./enities/groupings/Category";
-import { Expense } from "./enities/transactions/Expense";
-import { Income } from "./enities/transactions/Income";
 import { MikroORM } from "@mikro-orm/core";
 import { Tag } from "./enities/groupings/Tag";
 import { Transaction } from "./enities/transactions/Transaction";

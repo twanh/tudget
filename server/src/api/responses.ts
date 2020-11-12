@@ -1,5 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
 
+import { Account } from "../db/enities/accounts/Account";
 import { User } from "../db/enities/User";
 
 @ObjectType()
@@ -29,4 +30,18 @@ export class DefaultResponse {
 export class UserResponse extends DefaultResponse {
   @Field(() => User, { nullable: true })
   data?: User | null;
+}
+
+// *Single* account response
+@ObjectType()
+export class AccountResponse extends DefaultResponse {
+  @Field(() => Account, { nullable: true })
+  data?: Account | null;
+}
+
+// *Multiple* accounts response
+@ObjectType()
+export class AccountsResponse extends DefaultResponse {
+  @Field(() => [Account], { nullable: true })
+  data?: Account[] | null;
 }

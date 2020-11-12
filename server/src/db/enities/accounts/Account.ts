@@ -35,6 +35,7 @@ export class Account extends BaseEntity {
   balance!: number;
 
   @Field(() => [Transaction], {
+    name: "transactions",
     description: "All the transactions of the account",
     nullable: true,
   })
