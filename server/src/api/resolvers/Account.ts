@@ -105,7 +105,7 @@ export class AccountResolver {
       errors.push({
         field: "unknown",
         message: "An unknown error occured",
-        error: __prod__ ? error : "unkown error occurred",
+        error: __prod__ ? error.toString() : "unkown error occurred",
       });
       console.error("Error when creating account:", error);
     }
@@ -190,12 +190,12 @@ export class AccountResolver {
       em.persistAndFlush(account);
       data = account;
     } catch (e) {
-      console.log("Caught an error");
       errors.push({
         field: "id",
         message: "The account was not found",
         error: __prod__ ? "account was not found (404)" : e.toString(),
       });
+      console.error("Error, when updating account (prob: 404), see:", e);
       return {
         ok: false,
         errors,
