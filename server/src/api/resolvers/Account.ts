@@ -10,7 +10,12 @@ import {
 } from "type-graphql";
 
 import { Account } from "../../db/enities/accounts/Account";
-import { AccountResponse, AccountsResponse, ErrorInfo } from "../responses";
+import {
+  AccountResponse,
+  AccountsResponse,
+  DeleteAccountResponse,
+  ErrorInfo,
+} from "../responses";
 import { MyContext } from "../../types/types";
 import { __prod__ } from "../../constants";
 
@@ -48,6 +53,14 @@ class UpdateAccountInput {
 
   @Field({ nullable: true, description: "The new balance for the account." })
   balance?: number;
+}
+@InputType()
+class DeleteAccountInput {
+  @Field({
+    nullable: false,
+    description: "The id of the account to delete. (required)",
+  })
+  id!: number;
 }
 @Resolver(() => Account)
 export class AccountResolver {
@@ -125,7 +138,10 @@ export class AccountResolver {
     const ok = true;
     let data: Account[] | null = null;
 
-    data = await em.find<Account>(Account, { owner: req.session!.userId });
+    data = await em.find<Account>(Account, {
+      owner: req.session!.userId,
+      active: true, // active should be true, otherwise the account is 'deleted'
+    });
 
     return {
       errors,
@@ -142,7 +158,7 @@ export class AccountResolver {
   ): Promise<AccountResponse> {
     // Setup the return variables
     const errors: ErrorInfo[] = [];
-    const ok = true;
+    let ok = true;
     let data: Account | null = null;
 
     // Check if the id is given, if not: return with error
@@ -196,11 +212,7 @@ export class AccountResolver {
         error: __prod__ ? "account was not found (404)" : e.toString(),
       });
       console.error("Error, when updating account (prob: 404), see:", e);
-      return {
-        ok: false,
-        errors,
-        data,
-      };
+      ok = false;
     }
 
     return {
@@ -210,6 +222,55 @@ export class AccountResolver {
     };
   }
   // D: delete account mutation
+  @Mutation(() => DeleteAccountResponse)
+  @Authorized()
+  async deleteAccount(
+    @Ctx() { req, em }: MyContext,
+    @Arg("options", () => DeleteAccountInput) options: DeleteAccountInput
+  ): Promise<DeleteAccountResponse> {
+    // Setup the return variables
+    const errors: ErrorInfo[] = [];
+    let ok = true;
+    let success = false;
+
+    if (!options.id) {
+      errors.push({
+        field: "id",
+        message: "The id field is required!",
+        error: "id is required",
+      });
+      return {
+        ok: false,
+        data: success,
+        errors,
+      };
+    }
+
+    try {
+      const account = await em.findOneOrFail(Account, {
+        id: options.id,
+        owner: req.session!.userId,
+      });
+      account.active = false; // Accounts are not actually deleted (for now) --> active is set to false
+      em.persistAndFlush(account);
+      success = true;
+    } catch (error) {
+      // Handle error
+      errors.push({
+        field: "id",
+        message: "The account was not found",
+        error: __prod__ ? "account was not found (404)" : error.toString(),
+      });
+      console.error("Error, when updating account (prob: 404), see:", error);
+      ok = false;
+    }
+
+    return {
+      errors,
+      ok,
+      data: success,
+    };
+  }
   // Field resolvers
   // owner
   // balance --> calculate the balance based on the transactions linked to the account.

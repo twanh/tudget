@@ -45,3 +45,11 @@ export class AccountsResponse extends DefaultResponse {
   @Field(() => [Account], { nullable: true })
   data?: Account[] | null;
 }
+
+// *Delete* account response
+// returns boolean indicating if the account was correctly deleted
+@ObjectType()
+export class DeleteAccountResponse extends DefaultResponse {
+  @Field(() => Boolean)
+  data: boolean;
+}
