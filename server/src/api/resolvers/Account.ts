@@ -3,10 +3,12 @@ import {
   Authorized,
   Ctx,
   Field,
+  FieldResolver,
   InputType,
   Mutation,
   Query,
   Resolver,
+  Root,
 } from "type-graphql";
 
 import { Account } from "../../db/enities/accounts/Account";
@@ -18,6 +20,10 @@ import {
 } from "../responses";
 import { MyContext } from "../../types/types";
 import { __prod__ } from "../../constants";
+import {
+  Transaction,
+  TransactionType,
+} from "../../db/enities/transactions/Transaction";
 
 @InputType()
 class CreateAccountInput {
@@ -271,11 +277,66 @@ export class AccountResolver {
       data: success,
     };
   }
+
   // Field resolvers
-  // owner
-  // balance --> calculate the balance based on the transactions linked to the account.
-  // transactions --> return all the transactions
-  // Perhaps? -- would need to add extra fields on the entitiy? (exclude from the database)
-  // expenses
   // transactions
+  @FieldResolver(() => [Transaction], {
+    nullable: true,
+    description: "Retrieve all the transactions, both expenses and income",
+  })
+  async transactions(@Root() account: Account): Promise<Transaction[] | null> {
+    // TODO: Implement pagination
+    let transactions: Transaction[] | null = null;
+    if (!account.transactions?.isInitialized()) {
+      const transactionsCollection = await account.transactions?.init();
+      transactions = await transactionsCollection!.loadItems();
+    } else {
+      const transactionsCollection = account.transactions;
+      transactions = await transactionsCollection!.loadItems();
+    }
+    return transactions;
+  }
+
+  @FieldResolver(() => [Transaction], {
+    nullable: true,
+    description: "Retrieve all the income.",
+  })
+  async income(@Root() account: Account): Promise<Transaction[] | null> {
+    // TODO: Implement pagination
+    let income: Transaction[] | null = null;
+    if (!account.transactions?.isInitialized()) {
+      const transactionsCollection = await account.transactions?.init({
+        where: { type: TransactionType.INCOME },
+      });
+      income = await transactionsCollection!.loadItems();
+    } else {
+      const transactionsCollection = account.transactions;
+      const allTransactions = await transactionsCollection!.loadItems();
+      income = allTransactions.filter((t) => t.type === TransactionType.INCOME);
+    }
+    return income;
+  }
+
+  @FieldResolver(() => [Transaction], {
+    nullable: true,
+    description: "Retrieve all the income.",
+  })
+  async expense(@Root() account: Account): Promise<Transaction[] | null> {
+    // TODO: Implement pagination
+    let expense: Transaction[] | null = null;
+    if (!account.transactions?.isInitialized()) {
+      const transactionsCollection = await account.transactions?.init({
+        where: { type: TransactionType.EXPENSE },
+      });
+      expense = await transactionsCollection!.loadItems();
+    } else {
+      const transactionsCollection = account.transactions;
+      const allTransactions = await transactionsCollection!.loadItems();
+      expense = allTransactions.filter(
+        (t) => t.type === TransactionType.EXPENSE
+      );
+    }
+    return expense;
+  }
+  // balance --> calculate the balance based on the transactions linked to the account.
 }
