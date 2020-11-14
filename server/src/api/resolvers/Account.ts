@@ -29,6 +29,26 @@ class CreateAccountInput {
   initalBalance?: number;
 }
 
+@InputType()
+class UpdateAccountInput {
+  @Field({
+    nullable: false,
+    description: "The id of the account to update. (required)",
+  })
+  id!: number;
+
+  @Field({ nullable: true, description: "The new name for the account." })
+  name?: string;
+
+  @Field({
+    nullable: true,
+    description: "The new description for the account.",
+  })
+  description?: string;
+
+  @Field({ nullable: true, description: "The new balance for the account." })
+  balance?: number;
+}
 @Resolver(() => Account)
 export class AccountResolver {
   // C: Create account mutation
@@ -114,6 +134,81 @@ export class AccountResolver {
     };
   }
   // U: update account mutation
+  @Mutation(() => AccountResponse)
+  @Authorized()
+  async updateAccount(
+    @Ctx() { req, em }: MyContext,
+    @Arg("options", () => UpdateAccountInput) options: UpdateAccountInput
+  ): Promise<AccountResponse> {
+    // Setup the return variables
+    const errors: ErrorInfo[] = [];
+    const ok = true;
+    let data: Account | null = null;
+
+    // Check if the id is given, if not: return with error
+    if (!options.id) {
+      errors.push({
+        error: "id is required",
+        field: "id",
+        message: "The id is needed for this request!",
+      });
+      return {
+        errors,
+        ok: false,
+        data,
+      };
+    }
+
+    // Check if the current user matches the owner of the account.
+    try {
+      const account = await em.findOneOrFail(Account, {
+        id: options.id,
+        owner: req.session!.userId,
+      });
+
+      // Check if name is provided
+      if (options.name) {
+        // Validate name
+        if (options.name.length < 3) {
+          errors.push({
+            field: "name",
+            message: "The account name should be atleast 3 characters long.",
+            error: "name to short, name not updating",
+          });
+        } else {
+          // Set the accounts name
+          account.name = options.name;
+        }
+      }
+      if (options.description) {
+        account.description = options.description;
+      }
+      if (options.balance) {
+        account.balance = options.balance;
+      }
+
+      em.persistAndFlush(account);
+      data = account;
+    } catch (e) {
+      console.log("Caught an error");
+      errors.push({
+        field: "id",
+        message: "The account was not found",
+        error: __prod__ ? "account was not found (404)" : e.toString(),
+      });
+      return {
+        ok: false,
+        errors,
+        data,
+      };
+    }
+
+    return {
+      errors,
+      ok,
+      data,
+    };
+  }
   // D: delete account mutation
   // Field resolvers
   // owner
