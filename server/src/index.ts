@@ -21,6 +21,7 @@ async function main() {
     const RedisStore = connectRedis(session);
     const redisClient = redis.createClient({
       // tslint:disable-next-line: radix
+      host: process.env.REDIS_HOST,
       port: parseInt(process.env.REDIS_PORT),
     });
 

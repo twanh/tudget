@@ -14,6 +14,7 @@ dotenv.config();
 export default {
   type: "postgresql",
   dbName: process.env.PG_DATABASE,
+  host:  process.env.PG_HOST,
   user: process.env.PG_USERNAME,
   password: process.env.PG_PASSWORD,
   debug: true, // Turn of in prod
