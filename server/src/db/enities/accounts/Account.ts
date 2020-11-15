@@ -30,9 +30,15 @@ export class Account extends BaseEntity {
   @Property()
   active: boolean = true;
 
-  @Field({ description: "The balance of the account" })
+  // NOTE: Moved to field resolver
+  // @Field({ description: "The current balance of the account" })
+  // @Property()
+  // balance!: number;
+
+
+  @Field({ description: "The balance the user set when creating the account" })
   @Property()
-  balance!: number;
+  initalBalance!: number;
 
   @Field(() => [Transaction], {
     name: "transactions",

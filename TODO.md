@@ -61,11 +61,11 @@
   - [ ] Register 
 
 
-
-### General things to think about :)
- - Should account balance be read only?
-    -> Would make it that it can only be updated w/ income/expense
-    
+### Balance
+- Balance will be read only
+  - The user will be able to set an inital balance when creating a new account
+- The balance will be calcualted based on the initial balance and the current transactions associated with the account
+  - Simple formula: `currentBalance=intialBalance+income-expenses`
    
 ## Auth
 - [x] Auto assign current user to everything on create (should be done in the view)
