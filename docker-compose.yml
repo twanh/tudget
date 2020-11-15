@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  redis:
+    image: redis:latest
+    networks:
+      - tudget
+  postgres:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres # Note: Change in prod
+    networks:
+       - tudget
+    volumes:
+       - /var/postgresql/data:/var/lib/postgresql/data
+  server:
+      image: node:14.15.0
+      # env_file: ./server/.env # Note: Make sure you create your own .env file!
+      command: "yarn dev"
+      ports:
+        - "4000:4000" # Change the port in the container to the port specified `.env` file
+      volumes:
+        - ./server:/app
+      working_dir: /app
+      depends_on:
+        - redis
+        - postgres
+      networks:
+        - tudget
+      links:
+        - postgres:db
+        - redis:redis
+
+
+networks:
+  tudget:
+    driver: bridge
