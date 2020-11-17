@@ -1,3 +1,4 @@
+import { Transaction } from "src/db/enities/transactions/Transaction";
 import { Field, ObjectType } from "type-graphql";
 
 import { Account } from "../db/enities/accounts/Account";
@@ -52,4 +53,18 @@ export class AccountsResponse extends DefaultResponse {
 export class DeleteAccountResponse extends DefaultResponse {
   @Field(() => Boolean)
   data: boolean;
+}
+
+// *Single* transaction response
+@ObjectType()
+export class TransactionResponse extends DefaultResponse {
+  @Field(() => Transaction, { nullable: true })
+  data?: Transaction | null;
+}
+
+// *Multiple* transaction response
+@ObjectType()
+export class TransactionsResponse extends DefaultResponse {
+  @Field(() => Transaction, { nullable: true })
+  data?: Transaction[] | null;
 }
