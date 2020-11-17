@@ -1,3 +1,4 @@
+import "class-validator";
 import connectRedis from "connect-redis";
 import cors from "cors";
 import dotenv from "dotenv-safe";
