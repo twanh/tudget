@@ -56,7 +56,6 @@ class UpdateAccountInput {
     description: "The new description for the account.",
   })
   description?: string;
-
 }
 @InputType()
 class DeleteAccountInput {
@@ -203,7 +202,7 @@ export class AccountResolver {
       if (options.description) {
         account.description = options.description;
       }
-      
+
       em.persistAndFlush(account);
       data = account;
     } catch (e) {
@@ -334,9 +333,9 @@ export class AccountResolver {
     return expense;
   }
   // balance --> calculate the balance based on the transactions linked to the account.
-  @FieldResolver(() => Number, {description: "The current income"})
+  @FieldResolver(() => Number, { description: "The current income" })
   async balance(
-    @Root() account: Account,
+    @Root() account: Account
     // @Ctx() {req, em}: MyContext
   ): Promise<Number> {
     // TODO: Create a more performant way -- perhaps keep track of the lasted update, and calc from then?
@@ -344,22 +343,21 @@ export class AccountResolver {
     // Keep track of the calculated balance
     let balance = 0;
     // Get intial balance
-    balance = account.initalBalance
+    balance = account.initalBalance;
     // Get all transactions
-    const transactionsCollection = await account.transactions?.init()
-    const transactions = await transactionsCollection?.loadItems()
-    // Loop over all the transactions 
+    const transactionsCollection = await account.transactions?.init();
+    const transactions = await transactionsCollection?.loadItems();
+    // Loop over all the transactions
     if (transactions!.length > 0) {
-      transactions?.forEach(transaction => {
+      transactions?.forEach((transaction) => {
         if (transaction.type === TransactionType.EXPENSE) {
-          balance -= transaction.amount
+          balance -= transaction.amount;
         } else {
-          balance += transaction.amount
+          balance += transaction.amount;
         }
-      })
+      });
     }
 
-    return balance 
+    return balance;
   }
-
 }
