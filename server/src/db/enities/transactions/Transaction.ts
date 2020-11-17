@@ -16,8 +16,8 @@ import { User } from "../User";
 
 // Defines wether an transactions is an expense or an income
 export enum TransactionType {
-  EXPENSE,
-  INCOME,
+  EXPENSE = "EXPENSE",
+  INCOME = "INCOME",
 }
 
 // Makes sure that type-graphql can access the enum correctly
