@@ -7,6 +7,7 @@ import { UserResolver } from "./resolvers/User";
 import { __prod__ } from "../constants";
 import { authChecker } from "./authChecker";
 import { buildSchema } from "type-graphql";
+import { TransactionsResolver } from "./resolvers/Transactions";
 
 /**
  * Create the apollo server and attaches it to the express app
@@ -20,7 +21,7 @@ export async function setupServer(
 ): Promise<ApolloServer> {
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, AccountResolver],
+      resolvers: [UserResolver, AccountResolver, TransactionsResolver],
       validate: true,
       authChecker, // Use a custom function to check if an user is loggedin
     }),
