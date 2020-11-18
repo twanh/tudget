@@ -1,5 +1,5 @@
 import { AuthChecker } from "type-graphql";
-import { MyContext } from "src/types/types";
+import { MyContext } from "../types/types";
 /**
  * Check if the user is logged in
  * @returns boolean
