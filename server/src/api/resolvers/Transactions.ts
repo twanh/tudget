@@ -18,10 +18,10 @@ import {
   TransactionsResponse,
 } from "../responses";
 import { Account } from "../../db/enities/accounts/Account";
-import { Category } from "src/db/enities/groupings/Category";
-import { Tag } from "src/db/enities/groupings/Tag";
-import { MyContext } from "src/types/types";
-import { __prod__ } from "src/constants";
+import { Category } from "../../db/enities/groupings/Category";
+import { Tag } from "../../db/enities/groupings/Tag";
+import { MyContext } from "../../types/types";
+import { __prod__ } from "../../constants";
 
 @InputType()
 class CreateTransactionInput {
@@ -90,6 +90,12 @@ class TransactionsInput {
     nullable: true,
   })
   type?: TransactionType;
+}
+
+@InputType()
+class TransactionInput {
+  @Field(() => Number)
+  id!: number;
 }
 
 @Resolver(() => Transaction)
@@ -216,35 +222,31 @@ export class TransactionsResolver {
   // TODO: Get by account, category or tags
   // Transactions, expenses and income query should all be able to do this
   @Query(() => TransactionsResponse)
+  @Authorized()
   async transactions(
     @Ctx() { req, em }: MyContext,
-    @Arg("options", () => TransactionsInput) options: TransactionsInput
+    @Arg("options", () => TransactionsInput, { nullable: true })
+    options: TransactionsInput
   ): Promise<TransactionsResponse> {
     const errors: ErrorInfo[] = [];
     let ok = true;
     let data: Transaction[] = [];
 
-    // NOTE: Perhaps use MikroOrm filters for entities?
-
-    data = await em.find(Transaction, { owner: req.session!.userId });
-
-    if (options.accountId) {
-      // TODO: Make sure that the accounts are actually loaded.
-      data = data.filter(
-        (transaction) => transaction.account.id === options.accountId
-      );
+    if (!options) {
+      data = await em.find(Transaction, {
+        owner: req.session!.userId,
+      });
+    } else {
+      const dbOptions = {
+        ...(options.accountId && { account: options.accountId }),
+        ...(options.categoryId && { category: options.categoryId }),
+        ...(options.type && { type: options.type }),
+      };
+      data = await em.find(Transaction, {
+        owner: req.session!.userId,
+        ...dbOptions,
+      });
     }
-
-    if (options.categoryId) {
-      data = data.filter(
-        (transaction) => transaction.category?.id === options.categoryId
-      );
-    }
-
-    if (options.type) {
-      data = data.filter((transaction) => transaction.type == options.type);
-    }
-
     // Return
     return {
       errors,
@@ -252,44 +254,37 @@ export class TransactionsResolver {
       data,
     };
   }
-  // Get all expenses
-  // @Query(() => TransactionsResponse)
-  // async expenses(
-  //   @Ctx() {req, em}: MyContext,
-  // ): Promise<TransactionsResponse> {
 
-  //   const errors: ErrorInfo[] = [];
-  //   let ok = true;
-  //   let data: Transaction[] = [];
+  @Query(() => TransactionResponse)
+  @Authorized()
+  async transaction(
+    @Ctx() { req, em }: MyContext,
+    @Arg("options", () => TransactionInput) options: TransactionInput
+  ): Promise<TransactionResponse> {
+    const errors: ErrorInfo[] = [];
+    let ok = true;
+    let data: Transaction | null = null;
 
-  //   data = await em.find(Transaction, {owner: req.session!.userId, type: TransactionType.EXPENSE})
+    data = await em.findOne(Transaction, {
+      id: options.id,
+      owner: req.session!.userId,
+    });
 
-  //   // Return
-  //   return {
-  //     errors,
-  //     ok,
-  //     data
-  //   }
-  // }
-  // // Get all the income
-  // @Query(() => TransactionsResponse)
-  // async income(
-  //   @Ctx() {req, em}: MyContext,
-  // ): Promise<TransactionsResponse> {
+    if (!data) {
+      ok = false;
+      errors.push({
+        field: "id",
+        message: `Transaction with id ${options.id} not found.`,
+        error: "not found",
+      });
+    }
 
-  //   const errors: ErrorInfo[] = [];
-  //   let ok = true;
-  //   let data: Transaction[] = [];
-
-  //   data = await em.find(Transaction, {owner: req.session!.userId, type: TransactionType.INCOME})
-
-  //   // Return
-  //   return {
-  //     errors,
-  //     ok,
-  //     data
-  //   }
-  // }
+    return {
+      errors,
+      ok,
+      data,
+    };
+  }
 
   // U: Update a transaction
   // D: Delete a transaction

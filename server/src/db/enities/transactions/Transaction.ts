@@ -2,6 +2,7 @@ import {
   Collection,
   Entity,
   Enum,
+  Filter,
   ManyToMany,
   ManyToOne,
   Property,
@@ -16,8 +17,8 @@ import { User } from "../User";
 
 // Defines wether an transactions is an expense or an income
 export enum TransactionType {
-  EXPENSE = "EXPENSE",
-  INCOME = "INCOME",
+  EXPENSE,
+  INCOME,
 }
 
 // Makes sure that type-graphql can access the enum correctly
@@ -29,6 +30,26 @@ registerEnumType(TransactionType, {
 
 @ObjectType({ description: "The transaction model" })
 @Entity()
+@Filter<Transaction>({
+  name: "isExpense",
+  cond: { type: TransactionType.EXPENSE },
+  default: false,
+})
+@Filter<Transaction>({
+  name: "isIncome",
+  cond: { type: TransactionType.INCOME },
+  default: false,
+})
+@Filter<Transaction>({
+  name: "hasAccount",
+  cond: (args) => ({ account: { id: args.id } }),
+  default: false,
+})
+@Filter<Transaction>({
+  name: "hasCategory",
+  cond: (args) => ({ category: { id: args.id } }),
+  default: false,
+})
 export class Transaction extends BaseEntity {
   @Field({ description: "The name of the transaction" })
   @Property()
