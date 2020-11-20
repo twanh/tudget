@@ -93,7 +93,7 @@ class TransactionsInput {
 }
 
 @InputType()
-class TransactionInput {
+class TransactionIdInput {
   @Field(() => Number)
   id!: number;
 }
@@ -259,7 +259,7 @@ export class TransactionsResolver {
   @Authorized()
   async transaction(
     @Ctx() { req, em }: MyContext,
-    @Arg("options", () => TransactionInput) options: TransactionInput
+    @Arg("options", () => TransactionIdInput) options: TransactionIdInput
   ): Promise<TransactionResponse> {
     const errors: ErrorInfo[] = [];
     let ok = true;
